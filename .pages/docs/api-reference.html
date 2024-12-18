@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>API Reference - UUID Documentation</title>
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
 </head>
+
 <body class="dark-mode">
     <button class="menu-toggle">
         <i class="fas fa-bars"></i>
@@ -39,7 +41,7 @@
 
     <main class="content">
         <h1>API Reference</h1>
-        
+
         <section id="uuid-struct">
             <h2>UUID Struct</h2>
             <p>The core struct representing a UUID value.</p>
@@ -100,15 +102,37 @@ public static bool TryParse(ReadOnlySpan&lt;char&gt; input, out UUID result)</co
                 <pre><code class="language-csharp">// Convert to standard string format
 public override string ToString()
 
-// Convert to Base32 string
+// Convert to Base32 format
 public string ToBase32()
 
-// Convert to Base64 string
+// Convert to Base64 format
 public string ToBase64()
 
-// Get bytes
+// Convert from Base64 format
+public static UUID FromBase64(string base64)
+public static bool TryFromBase64(string base64, out UUID result)</code></pre>
+            </div>
+
+            <h3>Byte Array Operations</h3>
+            <div class="code-block">
+                <pre><code class="language-csharp">// Convert to byte array
 public byte[] ToByteArray()
-public bool TryWriteBytes(Span&lt;byte&gt; destination)</code></pre>
+public bool TryWriteBytes(byte[] destination)
+
+// Convert from byte array
+public static UUID FromByteArray(byte[] bytes)
+public static bool TryFromByteArray(byte[] bytes, out UUID result)</code></pre>
+            </div>
+
+            <h3>Guid Operations</h3>
+            <div class="code-block">
+                <pre><code class="language-csharp">// Convert to/from Guid (implicit operators)
+public static implicit operator Guid(UUID uuid)
+public static implicit operator UUID(Guid guid)
+
+// Explicit conversion methods
+public Guid ToGuid()
+public static UUID FromGuid(Guid guid)</code></pre>
             </div>
 
             <h3>Comparison Methods</h3>
@@ -208,7 +232,7 @@ public static class ArrayExtension
     <!-- Google tag (gtag.js) -->
 
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
+    <script type="text/javascript">
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();
         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
@@ -229,4 +253,5 @@ public static class ArrayExtension
     </noscript>
     <!-- Yandex.Metrika counter -->
 </body>
+
 </html>

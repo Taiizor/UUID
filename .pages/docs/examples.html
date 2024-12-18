@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Examples - UUID Documentation</title>
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
 </head>
+
 <body class="dark-mode">
     <button class="menu-toggle">
         <i class="fas fa-bars"></i>
@@ -39,7 +41,7 @@
 
     <main class="content">
         <h1>Examples</h1>
-        
+
         <section id="basic-examples">
             <h2>Basic Examples</h2>
 
@@ -117,6 +119,89 @@ sb.Append("-END");
 string prefixed = $"ID_{uuid}";</code></pre>
                 </div>
                 <p>Examples of custom UUID string formatting.</p>
+            </div>
+        </section>
+
+        <section id="string-format-examples">
+            <h2>String Format Examples</h2>
+
+            <div class="example-card">
+                <h3>String Format Conversions</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Create a new UUID
+var id = new UUID();
+
+// Convert to different formats
+string standard = id.ToString();
+string base32 = id.ToBase32();
+string base64 = id.ToBase64();
+
+Console.WriteLine($"Standard: {standard}");
+Console.WriteLine($"Base32: {base32}");
+Console.WriteLine($"Base64: {base64}");
+
+// Convert back from Base64
+UUID fromBase64 = UUID.FromBase64(base64);
+Console.WriteLine($"Restored from Base64: {fromBase64}");
+
+// Safe parsing from Base64
+if (UUID.TryFromBase64(base64, out UUID parsed))
+{
+    Console.WriteLine($"Successfully parsed from Base64: {parsed}");
+}</code></pre>
+                </div>
+                <p>Examples of converting UUIDs to and from different string formats.</p>
+            </div>
+
+            <div class="example-card">
+                <h3>Byte Array Operations</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Create a new UUID
+var id = new UUID();
+
+// Convert to byte array
+byte[] bytes = id.ToByteArray();
+Console.WriteLine($"As bytes: {BitConverter.ToString(bytes)}");
+
+// Convert back from bytes
+UUID fromBytes = UUID.FromByteArray(bytes);
+Console.WriteLine($"Restored from bytes: {fromBytes}");
+
+// Safe conversion with TryFromByteArray
+if (UUID.TryFromByteArray(bytes, out UUID parsed))
+{
+    Console.WriteLine($"Successfully parsed from bytes: {parsed}");
+}
+
+// Write directly to a byte array
+byte[] destination = new byte[16];
+if (id.TryWriteBytes(destination))
+{
+    Console.WriteLine($"Successfully wrote to byte array: {BitConverter.ToString(destination)}");
+}</code></pre>
+                </div>
+                <p>Examples of working with byte array representations of UUIDs.</p>
+            </div>
+
+            <div class="example-card">
+                <h3>Guid Conversions</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Create a new UUID
+var uuid = new UUID();
+
+// Implicit conversion to Guid
+Guid guid = uuid;
+Console.WriteLine($"As Guid: {guid}");
+
+// Implicit conversion from Guid
+UUID fromGuid = guid;
+Console.WriteLine($"Back to UUID: {fromGuid}");
+
+// Using explicit methods
+Guid guidExplicit = uuid.ToGuid();
+UUID uuidExplicit = UUID.FromGuid(guidExplicit);</code></pre>
+                </div>
+                <p>Examples of converting between UUID and Guid types.</p>
             </div>
         </section>
 
@@ -233,7 +318,7 @@ public class AppDbContext : DbContext
     <!-- Google tag (gtag.js) -->
 
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
+    <script type="text/javascript">
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();
         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
@@ -254,4 +339,5 @@ public class AppDbContext : DbContext
     </noscript>
     <!-- Yandex.Metrika counter -->
 </body>
+
 </html>

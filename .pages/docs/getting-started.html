@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../favicon.ico" />
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
 </head>
+
 <body class="dark-mode">
     <button class="menu-toggle">
         <i class="fas fa-bars"></i>
@@ -39,11 +41,11 @@
 
     <main class="content">
         <h1>Getting Started</h1>
-        
+
         <section id="installation">
             <h2>Installation</h2>
             <p>Install the UUID package via NuGet using one of the following methods:</p>
-            
+
             <div class="code-block">
                 <pre><code class="language-bash"># .NET CLI
 dotnet add package UUID
@@ -100,12 +102,12 @@ if (UUID.TryFromBase64(base64, out UUID parsedFromBase64))
             </div>
         </section>
 
-<section id="byte-operations">
-    <h2>Byte Array Operations</h2>
-    <p>UUID provides methods for converting to and from byte arrays:</p>
+        <section id="byte-operations">
+            <h2>Byte Array Operations</h2>
+            <p>UUID provides methods for converting to and from byte arrays:</p>
 
-    <div class="code-block">
-        <pre><code class="language-csharp">// Convert UUID to byte array
+            <div class="code-block">
+                <pre><code class="language-csharp">// Convert UUID to byte array
 UUID id = UUID.New();
 byte[] bytes = id.ToByteArray();
 Console.WriteLine($"UUID -> Bytes: {BitConverter.ToString(bytes)}");
@@ -126,12 +128,12 @@ if (id.TryWriteBytes(destination))
 {
     Console.WriteLine($"Successfully wrote to byte array: {BitConverter.ToString(destination)}");
 }</code></pre>
-    </div>
-</section>
+            </div>
+        </section>
 
         <section id="performance-tips">
             <h2>Performance Tips</h2>
-            
+
             <div class="tip-card">
                 <h3><i class="fas fa-lightbulb"></i> String Formatting</h3>
                 <ul>
@@ -217,7 +219,7 @@ if (id.TryWriteBytes(destination))
     <!-- Google tag (gtag.js) -->
 
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
+    <script type="text/javascript">
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();
         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
@@ -238,4 +240,5 @@ if (id.TryWriteBytes(destination))
     </noscript>
     <!-- Yandex.Metrika counter -->
 </body>
+
 </html>

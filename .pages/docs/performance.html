@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../favicon.ico" />
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
 </head>
+
 <body class="dark-mode">
     <button class="menu-toggle">
         <i class="fas fa-bars"></i>
@@ -39,10 +41,10 @@
 
     <main class="content">
         <h1>Performance Guide</h1>
-        
+
         <section id="benchmarks">
             <h2>Benchmarks</h2>
-            
+
             <div class="benchmark-grid">
                 <div class="benchmark-card">
                     <h3>Generation</h3>
@@ -101,11 +103,63 @@ Parallel.ForEach(uuids, uuid =>
 });</code></pre>
                 </div>
             </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-exchange-alt"></i> String Conversions</h3>
+                <p>Choose the right string format for your use case:</p>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Base32 is URL-safe and compact
+string base32 = uuid.ToBase32(); // Most efficient for URLs
+
+// Base64 is compact but may need URL encoding
+string base64 = uuid.ToBase64(); // Most space-efficient
+
+// Standard format is human-readable
+string standard = uuid.ToString(); // Most readable</code></pre>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-microchip"></i> Byte Array Operations</h3>
+                <p>Use the most efficient byte array methods:</p>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Pre-allocate buffer for multiple writes
+byte[] buffer = new byte[16];
+if (uuid.TryWriteBytes(buffer))
+{
+    // Use buffer directly without allocation
+    ProcessBytes(buffer);
+}
+
+// For single use, ToByteArray is simpler
+byte[] bytes = uuid.ToByteArray();</code></pre>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-random"></i> Guid Conversions</h3>
+                <p>Take advantage of implicit conversions:</p>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Implicit conversion is most efficient
+UUID uuid = new UUID();
+Guid guid = uuid; // No explicit conversion needed
+
+// Avoid unnecessary conversions
+void ProcessId(UUID uuid)
+{
+    // Don't convert if UUID is accepted
+    ProcessUUID(uuid);
+    
+    // Convert only when Guid is required
+    ProcessGuid(uuid); // Implicit conversion
+}</code></pre>
+                </div>
+            </div>
         </section>
 
         <section id="comparison">
             <h2>Performance Comparison</h2>
-            
+
             <div class="comparison-table">
                 <table>
                     <tr>
@@ -223,7 +277,7 @@ Parallel.ForEach(uuids, uuid =>
     <!-- Google tag (gtag.js) -->
 
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
+    <script type="text/javascript">
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();
         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
@@ -244,4 +298,5 @@ Parallel.ForEach(uuids, uuid =>
     </noscript>
     <!-- Yandex.Metrika counter -->
 </body>
+
 </html>

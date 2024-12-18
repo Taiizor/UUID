@@ -255,9 +255,9 @@ body {
     padding: 1em;
     overflow: auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    white-space: pre-wrap !important;       /* Satır sonlarını wrap et */
-    word-wrap: break-word !important;       /* Uzun kelimeleri böl */
-    word-break: break-all !important;       /* Gerektiğinde kelimeleri böl */
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    word-break: break-all !important;
 }
 
 .code-block code {
@@ -267,9 +267,9 @@ body {
     font-size: 14px;
     line-height: 1.5;
     tab-size: 4;
-    white-space: pre-wrap !important;       /* Satır sonlarını wrap et */
-    word-wrap: break-word !important;       /* Uzun kelimeleri böl */
-    word-break: break-all !important;       /* Gerektiğinde kelimeleri böl */
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    word-break: break-all !important;
 }
 
 .token.comment {
