@@ -22,7 +22,7 @@
         <ul class="nav-links">
             <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
-            <li><a href="api.html"><i class="fas fa-book"></i> API Reference</a></li>
+            <li><a href="api-reference.html"><i class="fas fa-book"></i> API Reference</a></li>
             <li><a href="examples.html"><i class="fas fa-code"></i> Examples</a></li>
             <li><a href="performance.html"><i class="fas fa-tachometer-alt"></i> Performance</a></li>
             <li><a href="security.html"><i class="fas fa-shield-alt"></i> Security</a></li>
@@ -74,7 +74,7 @@ var uuid = new UUID();
 
 // Generate multiple
 UUID[] uuids = new UUID[1000];
-UUIDArrayExtensions.Fill(uuids);</code></pre>
+ArrayExtension.Fill(uuids);</code></pre>
                 </div>
             </div>
 
@@ -85,15 +85,15 @@ UUIDArrayExtensions.Fill(uuids);</code></pre>
 
 // Standard format (default)
 Console.WriteLine(uuid.ToString());
-// "123e4567-e89b-12d3-a456-426614174000"
+// "0123456789abcdef0123456789abcdef"
 
 // Base32 (URL-safe)
-Console.WriteLine(uuid.ToBase32String());
-// "6QR8H1RZWM8VDPJ38WSKDD5GR0"
+Console.WriteLine(uuid.ToBase32());
+// "028T5CY4TQKFF028T5CY4TQKFF"
 
 // Base64
-Console.WriteLine(uuid.ToBase64String());
-// "Ej5FZ+ibEtOkVkJmFBdAAA=="</code></pre>
+Console.WriteLine(uuid.ToBase64());
+// "782riWdFIwHvzauJZ0UjAQ=="</code></pre>
                 </div>
             </div>
 

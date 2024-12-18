@@ -22,7 +22,7 @@
         <ul class="nav-links">
             <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
-            <li><a href="api.html" class="active"><i class="fas fa-book"></i> API Reference</a></li>
+            <li><a href="api-reference.html" class="active"><i class="fas fa-book"></i> API Reference</a></li>
             <li><a href="examples.html"><i class="fas fa-code"></i> Examples</a></li>
             <li><a href="performance.html"><i class="fas fa-tachometer-alt"></i> Performance</a></li>
             <li><a href="security.html"><i class="fas fa-shield-alt"></i> Security</a></li>
@@ -130,10 +130,13 @@ public static bool operator &gt;=(UUID left, UUID right)</code></pre>
             <h2>Extension Methods</h2>
             <div class="code-block">
                 <pre><code class="language-csharp">// Array extensions
-public static class UUIDArrayExtensions
+public static class ArrayExtension
 {
-    // Create array of UUIDs
-    public static UUID[] CreateArray(int count)
+    // Generate array of UUIDs
+    public static UUID[] Generate(int count)
+    
+    // Try generate array of UUIDs
+    public static bool TryGenerate(int count, out UUID[]? result)
     
     // Fill array with UUIDs
     public static void Fill(UUID[] array)

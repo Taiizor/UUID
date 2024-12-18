@@ -1,3 +1,5 @@
+using System.Extensions;
+
 namespace UUIDDemo
 {
     class Program
@@ -147,6 +149,10 @@ namespace UUIDDemo
             Console.WriteLine($"Second Guid: {newGuid2}");
             Console.WriteLine($"Are they equal? {newGuid1 == newGuid2}");
             Console.WriteLine($"Is first empty? {newGuid1 == default}");
+
+
+
+            
         }
     }
 }
