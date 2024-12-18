@@ -1,0 +1,70 @@
+name: Documentation Improvement
+description: Suggest improvements to UUID library documentation
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us improve the UUID documentation!
+        Your suggestions help make the library more accessible to everyone.
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation needs improvement?
+      options:
+        - "API Reference"
+        - "Code Examples"
+        - "Getting Started Guide"
+        - "README"
+        - "Installation Instructions"
+        - "Performance Guidelines"
+        - "Other (specify below)"
+    validations:
+      required: true
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current Documentation State
+      description: Describe what's currently in the documentation
+      placeholder: The current documentation shows/explains...
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-changes
+    attributes:
+      label: Suggested Changes
+      description: |
+        Describe what you think should be added, removed, or modified.
+        Be specific and provide examples if possible.
+      placeholder: The documentation should be updated to...
+    validations:
+      required: true
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Benefits
+      description: How will these changes help users of UUID?
+      placeholder: These changes will help users by...
+    validations:
+      required: true
+  - type: textarea
+    id: example-content
+    attributes:
+      label: Example Content
+      description: |
+        If you're suggesting new content, provide an example of what you'd like to see.
+        This could be code examples, explanatory text, or both.
+      render: markdown
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Final Checks
+      description: Before submitting, please confirm
+      options:
+        - label: I have checked the existing documentation thoroughly
+          required: true
+        - label: These changes would benefit multiple users
+          required: true
+        - label: I am willing to help implement these changes
+          required: false

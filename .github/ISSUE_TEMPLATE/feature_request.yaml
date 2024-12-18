@@ -1,0 +1,62 @@
+name: Feature Request
+description: Suggest an idea or enhancement for UUID library
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new feature!
+        Please fill out the form below to help us understand your suggestion better.
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: Problem Description
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: I'm always frustrated when trying to [...]
+    validations:
+      required: true
+  - type: textarea
+    id: solution-description
+    attributes:
+      label: Proposed Solution
+      description: |
+        Describe the solution you'd like to see implemented.
+        Be specific about the functionality you want.
+      placeholder: I would like UUID to [...]
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Describe a concrete use case for this feature
+      placeholder: This feature would be useful when [...]
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact Level
+      description: How would you categorize the impact of this feature?
+      options:
+        - "High: Critical functionality or performance improvement"
+        - "Medium: Significant usability enhancement"
+        - "Low: Nice to have"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Describe any alternative solutions or features you've considered
+      placeholder: I've also thought about [...]
+  - type: checkboxes
+    id: considerations
+    attributes:
+      label: Additional Considerations
+      description: Please confirm the following
+      options:
+        - label: This feature would be useful for multiple users/scenarios
+          required: true
+        - label: I have checked that this feature request doesn't already exist
+          required: true

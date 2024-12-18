@@ -1,5 +1,11 @@
 blank_issues_enabled: false
 contact_links:
-  - name: GitHub discussion tab
+  - name: UUID Discussions
     url: https://github.com/Taiizor/UUID/discussions
-    about: Please ask and answer questions here
+    about: Ask questions and share ideas about UUID library
+  - name: UUID Documentation
+    url: https://github.com/Taiizor/UUID/wiki
+    about: Check our documentation for guides and API reference
+  - name: Stack Overflow
+    url: https://stackoverflow.com/questions/tagged/uuid
+    about: Ask technical questions about UUID implementation
