@@ -82,7 +82,7 @@ if (UUID.TryParse("0123456789abcdef0123456789abcdef", out var id2))
                 <div class="code-block">
                     <pre><code class="language-csharp">// Generate multiple UUIDs efficiently
 UUID[] uuids = new UUID[1000];
-UUIDArrayExtensions.Fill(uuids);
+ArrayExtension.Fill(uuids);
 
 // Process in parallel
 Parallel.ForEach(uuids, uuid =>
