@@ -195,13 +195,16 @@ bool equals = id == parsed;
 bool lessThan = id < parsed;
 ```
 
-## Documentation and Support
+## Documentation and FAQ
 
-To learn more about UUID, check out our [documentation](https://github.com/Taiizor/UUID/wiki). You can get help via:
+To learn more about UUID, check out the [documentation](https://github.com/Taiizor/UUID/wiki) - you'll find information there on the most common scenarios. If UUID isn't working the way you expect, you may find the [troubleshooting guide](https://github.com/Taiizor/UUID/wiki/Debugging-and-Diagnostics) useful.
 
-* [Stack Overflow](https://stackoverflow.com/questions/tagged/uuid)
-* [Discord](https://discord.gg/nxG977byXb)
-* [Issue Tracker](https://github.com/Taiizor/UUID/issues)
+UUID has an active and helpful community who are happy to help point you in the right direction or work through any issues you might encounter. You can get in touch via:
+
+ * [Stack Overflow](http://stackoverflow.com/questions/tagged/UUID)
+ * [Discord](https://discord.gg/nxG977byXb) &mdash; this is the best place to start if you have a question
+
+We welcome bug reports and suggestions through our [issue tracker](https://github.com/Taiizor/UUID/issues) here on GitHub.
 
 ## Contributing
 
