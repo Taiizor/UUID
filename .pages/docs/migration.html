@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Migration Guide - UUID Documentation</title>
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <style>
+        .migration-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .step-card {
+            flex: 1;
+            min-width: 300px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-card h3 i {
+            font-size: 1.2em;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .checklist li i {
+            color: var(--success-color);
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .step-card {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../assets/img/Logo.svg" alt="UUID Logo" class="logo">
+                <h1>UUID</h1>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+            <li><a href="api-reference.html"><i class="fas fa-book"></i> API Reference</a></li>
+            <li><a href="examples.html"><i class="fas fa-code"></i> Examples</a></li>
+            <li><a href="performance.html"><i class="fas fa-tachometer-alt"></i> Performance</a></li>
+            <li><a href="security.html"><i class="fas fa-shield-alt"></i> Security</a></li>
+            <li><a href="migration.html" class="active"><i class="fas fa-exchange-alt"></i> Migration</a></li>
+            <li><a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        </ul>
+        <div class="social-links fixed">
+            <a href="https://github.com/Taiizor/UUID" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://discord.gg/nxG977byXb" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://stackoverflow.com/questions/tagged/uuid" target="_blank"><i class="fab fa-stack-overflow"></i></a>
+        </div>
+    </nav>
+
+    <main class="content">
+        <h1>Migration Guide</h1>
+
+        <section id="migrating-from-guid">
+            <h2>Migrating from Guid</h2>
+
+            <div class="example-card">
+                <h3>Basic Migration</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Before (Guid)
+Guid guid = Guid.NewGuid();
+string guidString = guid.ToString();
+
+// After (UUID)
+UUID uuid = new UUID();
+string uuidString = uuid.ToString();</code></pre>
+                </div>
+                <p>The UUID library provides a modern, high-performance alternative to System.Guid with additional features and better performance.</p>
+            </div>
+
+            <div class="example-card">
+                <h3>Converting Existing Guids</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Convert from Guid to UUID
+Guid existingGuid = Guid.NewGuid();
+UUID uuid = UUID.FromGuid(existingGuid);
+
+// Convert back to Guid if needed
+Guid convertedBack = uuid.ToGuid();
+
+// Using implicit operators
+UUID fromGuid = existingGuid;  // Implicit conversion
+Guid toGuid = uuid;           // Implicit conversion</code></pre>
+                </div>
+                <p>UUID provides both explicit conversion methods and implicit operators for seamless integration with existing Guid-based code.</p>
+            </div>
+
+            <div class="example-card">
+                <h3>Database Migration</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Entity Framework Configuration
+public class MyDbContext : DbContext
+{
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity&lt;MyEntity&gt;()
+            .Property(e => e.Id)
+            .HasConversion(
+                uuid => uuid.ToString(),
+                str => UUID.Parse(str)
+            );
+    }
+}
+
+// Dapper Type Handler
+public class UUIDTypeHandler : SqlMapper.TypeHandler&lt;UUID&gt;
+{
+    public override UUID Parse(object value)
+    {
+        return UUID.Parse((string)value);
+    }
+
+    public override void SetValue(IDbDataParameter parameter, UUID value)
+    {
+        parameter.Value = value.ToString();
+    }
+}
+
+// Register the Dapper handler
+SqlMapper.AddTypeHandler(new UUIDTypeHandler());</code></pre>
+                </div>
+                <p>The UUID library integrates seamlessly with popular ORMs and data access libraries.</p>
+            </div>
+        </section>
+
+        <section id="migrating-from-others">
+            <h2>Migrating from Other UUID Libraries</h2>
+
+            <div class="example-card">
+                <h3>String Format Conversion</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Common string formats supported
+UUID uuid = new UUID();
+
+// Standard format
+string standard = uuid.ToString();  // "0123456789abcdef0123456789abcdef"
+
+// URL-safe format
+string urlSafe = uuid.ToBase32();   // "028T5CY4TQKFF028T5CY4TQKFF"
+
+// Base64 format
+string base64 = uuid.ToBase64();    // "782riWdFIwHvzauJZ0UjAQ=="</code></pre>
+                </div>
+                <p>UUID supports multiple string formats for different use cases, making it easy to migrate from other UUID implementations.</p>
+            </div>
+
+            <div class="example-card">
+                <h3>Performance Optimization</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Reusable buffers for high-performance scenarios
+public class UUIDConverter
+{
+    private readonly char[] _buffer = new char[32];
+    
+    public string FastConvert(UUID uuid)
+    {
+        if (uuid.TryWriteStringify(_buffer))
+        {
+            return new string(_buffer);
+        }
+        return uuid.ToString();
+    }
+}
+
+// Using Span<byte> for better performance
+public class UUIDByteConverter
+{
+    public byte[] ToBytes(UUID uuid)
+    {
+        Span<byte> buffer = stackalloc byte[16];
+        if (uuid.TryWriteBytes(buffer))
+        {
+            return buffer.ToArray();
+        }
+        return uuid.ToByteArray();
+    }
+}</code></pre>
+                </div>
+                <p>UUID provides high-performance methods and modern C# features like Span&lt;T&gt; for optimal performance.</p>
+            </div>
+        </section>
+
+        <section id="migration-checklist">
+            <h2>Migration Checklist</h2>
+
+            <div class="migration-steps">
+                <div class="step-card">
+                    <h3><i class="fas fa-clipboard-check"></i> Before Migration</h3>
+                    <ul class="checklist">
+                        <li><i class="fas fa-check"></i> Identify all Guid/UUID usages in your codebase</li>
+                        <li><i class="fas fa-check"></i> Review string format requirements</li>
+                        <li><i class="fas fa-check"></i> Check database schema compatibility</li>
+                        <li><i class="fas fa-check"></i> Test performance with your typical workload</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h3><i class="fas fa-cogs"></i> During Migration</h3>
+                    <ul class="checklist">
+                        <li><i class="fas fa-check"></i> Update model properties from Guid to UUID</li>
+                        <li><i class="fas fa-check"></i> Configure ORM mappings</li>
+                        <li><i class="fas fa-check"></i> Update API contracts if necessary</li>
+                        <li><i class="fas fa-check"></i> Implement conversion logic for external systems</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h3><i class="fas fa-flag-checkered"></i> After Migration</h3>
+                    <ul class="checklist">
+                        <li><i class="fas fa-check"></i> Verify all UUID operations work as expected</li>
+                        <li><i class="fas fa-check"></i> Confirm database operations are successful</li>
+                        <li><i class="fas fa-check"></i> Run performance tests</li>
+                        <li><i class="fas fa-check"></i> Update documentation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-csharp.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/scroll.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VZ7CHQBKF6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-VZ7CHQBKF6');
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(96591793, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/96591793" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
+    <!-- Yandex.Metrika counter -->
+</body>
+
+</html>
