@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Guide - UUID Documentation</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+</head>
+<body class="dark-mode">
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../assets/img/Logo.svg" alt="UUID Logo" class="logo">
+                <h1>UUID</h1>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+            <li><a href="api.html"><i class="fas fa-book"></i> API Reference</a></li>
+            <li><a href="examples.html"><i class="fas fa-code"></i> Examples</a></li>
+            <li><a href="performance.html"><i class="fas fa-tachometer-alt"></i> Performance</a></li>
+            <li><a href="security.html" class="active"><i class="fas fa-shield-alt"></i> Security</a></li>
+            <li><a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        </ul>
+        <div class="social-links">
+            <a href="https://github.com/Taiizor/UUID" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://discord.gg/nxG977byXb" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://stackoverflow.com/questions/tagged/uuid" target="_blank"><i class="fab fa-stack-overflow"></i></a>
+        </div>
+    </nav>
+
+    <main class="content">
+        <h1>Security Guide</h1>
+        
+        <section id="overview">
+            <h2>Security Overview</h2>
+            <p>UUID library is designed with security in mind, using cryptographically secure random number generation by default.</p>
+
+            <div class="security-card">
+                <h3><i class="fas fa-shield-alt"></i> Key Security Features</h3>
+                <ul>
+                    <li>Cryptographically secure random number generation</li>
+                    <li>Protection against timing attacks</li>
+                    <li>Safe string parsing and validation</li>
+                    <li>Thread-safe operations</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="random-generation">
+            <h2>Random Number Generation</h2>
+
+            <div class="security-card">
+                <h3><i class="fas fa-random"></i> Secure Generation</h3>
+                <p>UUID uses System.Security.Cryptography.RandomNumberGenerator for secure random number generation:</p>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Automatically uses secure RNG
+var uuid = new UUID();
+
+// For bulk operations
+UUID[] uuids = new UUID[1000];
+UUIDArrayExtensions.Fill(uuids); // Still uses secure RNG</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="best-practices">
+            <h2>Security Best Practices</h2>
+
+            <div class="practice-card">
+                <h3><i class="fas fa-check-circle"></i> Recommended Practices</h3>
+                <ul>
+                    <li>Always validate UUID inputs</li>
+                    <li>Use TryParse for untrusted input</li>
+                    <li>Store UUIDs in their binary form when possible</li>
+                    <li>Use URL-safe Base32 encoding for web contexts</li>
+                </ul>
+            </div>
+
+            <div class="practice-card">
+                <h3><i class="fas fa-times-circle"></i> Practices to Avoid</h3>
+                <ul>
+                    <li>Don't use UUIDs for sensitive data encoding</li>
+                    <li>Don't use UUIDs as security tokens</li>
+                    <li>Don't assume sequential UUIDs are secure</li>
+                    <li>Don't expose internal UUID representation</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="input-validation">
+            <h2>Input Validation</h2>
+
+            <div class="security-card">
+                <h3><i class="fas fa-check"></i> Safe Parsing</h3>
+                <p>Always use TryParse for untrusted input:</p>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Safe parsing of untrusted input
+public bool ValidateUserInput(string input)
+{
+    if (UUID.TryParse(input, out var uuid))
+    {
+        // Input is a valid UUID
+        ProcessValidUUID(uuid);
+        return true;
+    }
+    return false;
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="storage">
+            <h2>Secure Storage</h2>
+
+            <div class="security-card">
+                <h3><i class="fas fa-database"></i> Database Storage</h3>
+                <p>Best practices for storing UUIDs in databases:</p>
+                <div class="code-block">
+                    <pre><code class="language-sql">-- SQL Server
+CREATE TABLE Users (
+    Id BINARY(16) PRIMARY KEY,  -- Most efficient
+    -- or
+    Id UNIQUEIDENTIFIER PRIMARY KEY  -- If you need native UUID type
+);</code></pre>
+                </div>
+            </div>
+
+            <div class="security-card">
+                <h3><i class="fas fa-code"></i> Entity Framework</h3>
+                <p>Configure EF Core for secure UUID handling:</p>
+                <div class="code-block">
+                    <pre><code class="language-csharp">protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<User>()
+        .Property(e => e.Id)
+        .HasConversion(
+            v => v.ToByteArray(),  // Store as binary
+            v => new UUID(v));
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="cryptographic-notes">
+            <h2>Cryptographic Notes</h2>
+
+            <div class="security-card warning">
+                <h3><i class="fas fa-exclamation-triangle"></i> Important Security Notes</h3>
+                <ul>
+                    <li>UUIDs are not suitable for cryptographic purposes</li>
+                    <li>Do not use UUIDs to store sensitive information</li>
+                    <li>UUIDs are not guaranteed to be unique across systems</li>
+                    <li>Use proper cryptographic functions for security-critical operations</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-csharp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-sql.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

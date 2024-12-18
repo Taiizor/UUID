@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examples - UUID Documentation</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+</head>
+<body class="dark-mode">
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../assets/img/Logo.svg" alt="UUID Logo" class="logo">
+                <h1>UUID</h1>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+            <li><a href="api.html"><i class="fas fa-book"></i> API Reference</a></li>
+            <li><a href="examples.html" class="active"><i class="fas fa-code"></i> Examples</a></li>
+            <li><a href="performance.html"><i class="fas fa-tachometer-alt"></i> Performance</a></li>
+            <li><a href="security.html"><i class="fas fa-shield-alt"></i> Security</a></li>
+            <li><a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        </ul>
+        <div class="social-links">
+            <a href="https://github.com/Taiizor/UUID" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://discord.gg/nxG977byXb" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://stackoverflow.com/questions/tagged/uuid" target="_blank"><i class="fab fa-stack-overflow"></i></a>
+        </div>
+    </nav>
+
+    <main class="content">
+        <h1>Examples</h1>
+        
+        <section id="basic-examples">
+            <h2>Basic Examples</h2>
+
+            <div class="example-card">
+                <h3>Generate and Format UUIDs</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Generate a new UUID
+var id = new UUID();
+
+// Different string formats
+Console.WriteLine(id.ToString());        // Standard format
+Console.WriteLine(id.ToBase32String());  // Base32 format
+Console.WriteLine(id.ToBase64String());  // Base64 format
+
+// Get raw bytes
+byte[] bytes = id.ToByteArray();</code></pre>
+                </div>
+                <p>This example shows different ways to create and format UUIDs.</p>
+            </div>
+
+            <div class="example-card">
+                <h3>Parse UUIDs</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Parse from string
+var id1 = UUID.Parse("123e4567-e89b-12d3-a456-426614174000");
+
+// Try parse pattern
+if (UUID.TryParse("123e4567-e89b-12d3-a456-426614174000", out var id2))
+{
+    Console.WriteLine("Successfully parsed: " + id2);
+}
+
+// Parse from Base32
+var base32 = "6QR8H1RZWM8VDPJ38WSKDD5GR0";
+var id3 = UUID.ParseBase32(base32);</code></pre>
+                </div>
+                <p>Examples of parsing UUIDs from different string formats.</p>
+            </div>
+        </section>
+
+        <section id="advanced-examples">
+            <h2>Advanced Examples</h2>
+
+            <div class="example-card">
+                <h3>Bulk UUID Generation</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">// Generate multiple UUIDs efficiently
+UUID[] uuids = new UUID[1000];
+UUIDArrayExtensions.Fill(uuids);
+
+// Process in parallel
+Parallel.ForEach(uuids, uuid =>
+{
+    ProcessUUID(uuid);
+});
+
+private void ProcessUUID(UUID uuid)
+{
+    // Your processing logic here
+    var str = uuid.ToString();
+    // ...
+}</code></pre>
+                </div>
+                <p>Example of generating and processing multiple UUIDs efficiently.</p>
+            </div>
+
+            <div class="example-card">
+                <h3>Custom Formatting</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">var uuid = new UUID();
+
+// Custom string builder formatting
+var sb = new StringBuilder();
+sb.Append("UUID-");
+sb.Append(uuid.ToString());
+sb.Append("-END");
+
+// Format with prefix
+string prefixed = $"ID_{uuid}";</code></pre>
+                </div>
+                <p>Examples of custom UUID string formatting.</p>
+            </div>
+        </section>
+
+        <section id="database-examples">
+            <h2>Database Examples</h2>
+
+            <div class="example-card">
+                <h3>Entity Framework Core</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">public class User
+{
+    public UUID Id { get; set; }
+    public string Name { get; set; }
+}
+
+public class AppDbContext : DbContext
+{
+    public DbSet<User> Users { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .Property(e => e.Id)
+            .HasConversion(
+                v => v.ToString(),
+                v => UUID.Parse(v));
+    }
+}</code></pre>
+                </div>
+                <p>Example of using UUIDs with Entity Framework Core.</p>
+            </div>
+
+            <div class="example-card">
+                <h3>Dapper</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">public async Task<User> GetUser(UUID id)
+{
+    using var connection = new SqlConnection(connectionString);
+    return await connection.QuerySingleOrDefaultAsync<User>(
+        "SELECT * FROM Users WHERE Id = @Id",
+        new { Id = id.ToString() }
+    );
+}</code></pre>
+                </div>
+                <p>Example of using UUIDs with Dapper.</p>
+            </div>
+        </section>
+
+        <section id="web-api-examples">
+            <h2>Web API Examples</h2>
+
+            <div class="example-card">
+                <h3>ASP.NET Core Controller</h3>
+                <div class="code-block">
+                    <pre><code class="language-csharp">public class UserController : ControllerBase
+{
+    [HttpGet("{id}")]
+    public async Task<ActionResult<User>> GetUser(UUID id)
+    {
+        var user = await _userService.GetUserAsync(id);
+        if (user == null)
+            return NotFound();
+        return user;
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<User>> CreateUser(User user)
+    {
+        user.Id = new UUID(); // Generate new UUID
+        await _userService.CreateUserAsync(user);
+        return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+    }
+}</code></pre>
+                </div>
+                <p>Example of using UUIDs in ASP.NET Core Web API.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-csharp.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

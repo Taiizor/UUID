@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference - UUID Documentation</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+</head>
+<body class="dark-mode">
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../assets/img/Logo.svg" alt="UUID Logo" class="logo">
+                <h1>UUID</h1>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+            <li><a href="api.html" class="active"><i class="fas fa-book"></i> API Reference</a></li>
+            <li><a href="examples.html"><i class="fas fa-code"></i> Examples</a></li>
+            <li><a href="performance.html"><i class="fas fa-tachometer-alt"></i> Performance</a></li>
+            <li><a href="security.html"><i class="fas fa-shield-alt"></i> Security</a></li>
+            <li><a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        </ul>
+        <div class="social-links">
+            <a href="https://github.com/Taiizor/UUID" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://discord.gg/nxG977byXb" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://stackoverflow.com/questions/tagged/uuid" target="_blank"><i class="fab fa-stack-overflow"></i></a>
+        </div>
+    </nav>
+
+    <main class="content">
+        <h1>API Reference</h1>
+        
+        <section id="uuid-struct">
+            <h2>UUID Struct</h2>
+            <p>The core struct representing a UUID value.</p>
+
+            <div class="code-block">
+                <pre><code class="language-csharp">public readonly struct UUID : IEquatable<UUID>, IComparable<UUID></code></pre>
+            </div>
+
+            <h3>Properties</h3>
+            <div class="api-table">
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Empty</td>
+                        <td>UUID</td>
+                        <td>Gets the empty UUID value (all zeros)</td>
+                    </tr>
+                    <tr>
+                        <td>Version</td>
+                        <td>byte</td>
+                        <td>Gets the UUID version number</td>
+                    </tr>
+                    <tr>
+                        <td>Variant</td>
+                        <td>byte</td>
+                        <td>Gets the UUID variant number</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Constructors</h3>
+            <div class="code-block">
+                <pre><code class="language-csharp">// Create a new random UUID
+public UUID()
+
+// Create from bytes
+public UUID(ReadOnlySpan<byte> bytes)
+
+// Create from string
+public static UUID Parse(string input)
+public static UUID Parse(ReadOnlySpan<char> input)
+
+// Try parse from string
+public static bool TryParse(string input, out UUID result)
+public static bool TryParse(ReadOnlySpan<char> input, out UUID result)</code></pre>
+            </div>
+        </section>
+
+        <section id="methods">
+            <h2>Methods</h2>
+
+            <h3>String Formatting</h3>
+            <div class="code-block">
+                <pre><code class="language-csharp">// Convert to standard string format
+public override string ToString()
+
+// Convert to Base32 string
+public string ToBase32String()
+
+// Convert to Base64 string
+public string ToBase64String()
+
+// Get bytes
+public byte[] ToByteArray()
+public bool TryWriteBytes(Span<byte> destination)</code></pre>
+            </div>
+
+            <h3>Comparison Methods</h3>
+            <div class="code-block">
+                <pre><code class="language-csharp">public bool Equals(UUID other)
+public override bool Equals(object obj)
+public override int GetHashCode()
+public int CompareTo(UUID other)
+
+public static bool operator ==(UUID left, UUID right)
+public static bool operator !=(UUID left, UUID right)
+public static bool operator <(UUID left, UUID right)
+public static bool operator >(UUID left, UUID right)
+public static bool operator <=(UUID left, UUID right)
+public static bool operator >=(UUID left, UUID right)</code></pre>
+            </div>
+        </section>
+
+        <section id="extensions">
+            <h2>Extension Methods</h2>
+            <div class="code-block">
+                <pre><code class="language-csharp">// Array extensions
+public static class UUIDArrayExtensions
+{
+    // Create array of UUIDs
+    public static UUID[] CreateArray(int count)
+    
+    // Fill array with UUIDs
+    public static void Fill(UUID[] array)
+    
+    // Try fill array with UUIDs
+    public static bool TryFill(UUID[] array)
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="exceptions">
+            <h2>Exceptions</h2>
+            <div class="tip-card">
+                <h3><i class="fas fa-exclamation-triangle"></i> FormatException</h3>
+                <p>Thrown when:</p>
+                <ul>
+                    <li>Invalid string format in Parse methods</li>
+                    <li>Invalid byte array length in constructor</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-exclamation-triangle"></i> ArgumentNullException</h3>
+                <p>Thrown when:</p>
+                <ul>
+                    <li>Null input string in Parse methods</li>
+                    <li>Null byte array in constructor</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-csharp.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
