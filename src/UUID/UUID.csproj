@@ -10,7 +10,7 @@
 
     <PropertyGroup>
         <ApplicationIcon>Resources\UUID.ico</ApplicationIcon>
-        <Version>1.0.0.4</Version>
+        <Version>1.0.0.5</Version>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>UUID</Title>

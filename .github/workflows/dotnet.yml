@@ -1,0 +1,40 @@
+name: .NET
+
+on:
+  push:
+    branches: [ develop ]
+
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  Build:
+
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        configuration: [
+            Release
+        ]
+        solution: [
+            UUID.sln
+        ]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 9.0.x
+        dotnet-quality: preview
+
+    - name: Restore the UUID
+      run: dotnet restore ${{ matrix.solution }} -p:Configuration=${{ matrix.configuration }} --configfile ./NuGet.Config
+
+    - name: Build the UUID
+      run: dotnet build ${{ matrix.solution }} -c ${{ matrix.configuration }} --no-restore /nowarn:CS0067,CS0108,CS0109,CS0114,CS0169,CS0414,CS0649,CA1416,NU5104,NETSDK1138,SYSLIB0003
+
+    - name: Test the UUID
+      run: dotnet test ${{ matrix.solution }} -c ${{ matrix.configuration }} --no-build --verbosity normal
