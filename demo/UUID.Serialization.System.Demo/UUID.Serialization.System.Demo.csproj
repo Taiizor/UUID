@@ -3,22 +3,16 @@
     <PropertyGroup>
         <Nullable>enable</Nullable>
         <OutputType>Exe</OutputType>
-        <DebugType>pdbonly</DebugType>
-        <DebugSymbols>true</DebugSymbols>
         <LangVersion>preview</LangVersion>
         <AnalysisLevel>preview</AnalysisLevel>
         <ImplicitUsings>enable</ImplicitUsings>
-        <PlatformTarget>AnyCPU</PlatformTarget>
         <TargetFramework>net9.0</TargetFramework>
-        <RootNamespace>UUIDBenchmarks</RootNamespace>
+        <RootNamespace>UUIDSerializationSystemDemo</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\UUID\UUID.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+        <ProjectReference Include="..\..\src\UUID.Serialization.System\UUID.Serialization.System.csproj" />
     </ItemGroup>
 
 </Project>

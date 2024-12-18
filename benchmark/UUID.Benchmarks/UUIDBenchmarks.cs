@@ -3,8 +3,8 @@ using BenchmarkDotNet.Jobs;
 
 namespace UUIDBenchmarks
 {
-    [SimpleJob(RuntimeMoniker.Net90, launchCount: 1, warmupCount: 3, iterationCount: 5)]
     [MemoryDiagnoser]
+    [SimpleJob(RuntimeMoniker.Net90, launchCount: 1, warmupCount: 3, iterationCount: 5)]
     public class UUIDBenchmarks
     {
         private readonly byte[] _buffer = new byte[16];

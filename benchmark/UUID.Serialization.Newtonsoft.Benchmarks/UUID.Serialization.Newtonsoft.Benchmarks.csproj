@@ -10,15 +10,17 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <TargetFramework>net9.0</TargetFramework>
-        <RootNamespace>UUIDBenchmarks</RootNamespace>
+        <RootNamespace>UUIDSerializationNewtonsoftBenchmarks</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\UUID\UUID.csproj" />
+        <ProjectReference Include="..\..\src\UUID.Serialization.Newtonsoft\UUID.Serialization.Newtonsoft.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
 </Project>

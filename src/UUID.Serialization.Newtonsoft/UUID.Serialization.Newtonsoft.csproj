@@ -11,23 +11,22 @@
 
     <PropertyGroup>
         <ApplicationIcon>Resources\UUID.ico</ApplicationIcon>
-        <Version>1.0.5</Version>
+        <Version>1.0.1</Version>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Title>UUID</Title>
-        <PackageId>UUID</PackageId>
+        <Title>UUID.Serialization.Newtonsoft</Title>
+        <PackageId>UUID.Serialization.Newtonsoft</PackageId>
         <Authors>Taiizor</Authors>
-        <Copyright>Copyright © $([System.DateTime]::Today.ToString(yyyy)) $(Authors)</Copyright>
-        <Summary>A modern and efficient unique identifier generator for .NET ecosystem.</Summary>
-        <Description>UUID is a cutting-edge library meticulously crafted for modern distributed systems, offering unparalleled performance and reliability in unique identifier generation. At its core, the library ensures thread safety while maintaining exceptional performance characteristics, making it ideal for high-throughput applications. It generates time-ordered identifiers that enable natural sorting capabilities, while incorporating cryptographic randomness for enhanced security. The library seamlessly integrates with existing systems through its comprehensive Guid compatibility and intuitive conversion operators. It excels in string handling with efficient parsing and formatting capabilities, supporting versatile encoding formats including Base32 and Base64. The implementation features robust comparison and equality operations, complemented by thread-local secure random generation for optimal performance and security. Built with modern development practices in mind, UUID maintains a compact 16-byte binary format and ensures cross-platform compatibility across the .NET ecosystem. The library is backed by extensive test coverage and performance benchmarks, making it a reliable choice for enterprise-grade applications requiring robust unique identifier generation.</Description>
+        <Copyright>Copyright $([System.DateTime]::Today.ToString(yyyy)) $(Authors)</Copyright>
+        <Summary>Newtonsoft.Json serialization support for UUID library.</Summary>
+        <Description>Provides Newtonsoft.Json serialization support for the UUID library, enabling seamless JSON serialization and deserialization of UUID values. Features include efficient string conversion, comprehensive error handling, and full compatibility with Newtonsoft.Json serialization patterns.</Description>
         <PackageReadmeFile>README.MD</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageLicenseExpression></PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes>All changes are detailed at https://github.com/Taiizor/UUID/wiki/Changelog.</PackageReleaseNotes>
-        <PackageTags>uuid id universally unique identifiers identifier distributed scalable generator</PackageTags>
+        <PackageTags>uuid;json;newtonsoft.json;serialization;converter;dotnet</PackageTags>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <!--<DocumentationFile>..\$(Title)\bin$(OutputPath)\$(Configuration)\$(TargetFramework)\$(Title).xml</DocumentationFile>-->
         <PackageProjectUrl>https://taiizor.github.io/UUID</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/Taiizor/UUID</RepositoryUrl>
@@ -49,20 +48,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\UUID\UUID.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.GitHub">
             <Version>8.0.0</Version>
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
     </ItemGroup>
-    
-    <!--<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-        <PackageReference Include="System.Memory" Version="4.6.0" />
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
-    </ItemGroup>
 
-    <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
-    </ItemGroup>-->
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
 
     <ItemGroup>
         <None Include="README.MD">
