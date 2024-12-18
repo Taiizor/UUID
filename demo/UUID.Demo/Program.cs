@@ -57,7 +57,40 @@ namespace UUIDDemo
             byte[] byteArray = id.ToByteArray();
             Console.WriteLine($"Direct byte array: {BitConverter.ToString(byteArray).Replace("-", "")}");
 
-            Console.WriteLine("\n6. Comparison Operations:");
+            Console.WriteLine("\n6. Base64 Operations:");
+            string base64 = id.ToBase64();
+            Console.WriteLine($"UUID -> Base64: {base64}");
+            UUID fromBase64 = UUID.FromBase64(base64);
+            Console.WriteLine($"Base64 -> UUID: {fromBase64}");
+            Console.WriteLine($"Equals original? {id == fromBase64}");
+
+            // TryFromBase64 example
+            if (UUID.TryFromBase64(base64, out UUID parsedFromBase64))
+            {
+                Console.WriteLine($"Successfully parsed from Base64: {parsedFromBase64}");
+            }
+
+            Console.WriteLine("\n7. Byte Array Operations:");
+            byte[] bytes2 = id.ToByteArray();
+            Console.WriteLine($"UUID -> Bytes: {BitConverter.ToString(bytes2)}");
+            UUID fromBytes = UUID.FromByteArray(bytes2);
+            Console.WriteLine($"Bytes -> UUID: {fromBytes}");
+            Console.WriteLine($"Equals original? {id == fromBytes}");
+
+            // TryFromByteArray example
+            if (UUID.TryFromByteArray(bytes2, out UUID parsedFromBytes))
+            {
+                Console.WriteLine($"Successfully parsed from bytes: {parsedFromBytes}");
+            }
+
+            // TryWriteBytes example
+            byte[] destination = new byte[16];
+            if (id.TryWriteBytes(destination))
+            {
+                Console.WriteLine($"Successfully wrote to byte array: {BitConverter.ToString(destination)}");
+            }
+
+            Console.WriteLine("\n8. Comparison Operations:");
             UUID id1 = new(); // Using parameterless constructor
             await Task.Delay(1); // Wait to ensure different timestamp
             UUID id2 = UUID.New();
@@ -69,7 +102,7 @@ namespace UUIDDemo
             Console.WriteLine($"UUID1 > UUID2: {id1 > id2}");
             Console.WriteLine($"UUID1 >= UUID2: {id1 >= id2}");
 
-            Console.WriteLine("\n7. Array Extension Methods:");
+            Console.WriteLine("\n9. Array Extension Methods:");
             // Generate array of UUIDs
             UUID[] generatedArray = ArrayExtension.Generate(5);
             Console.WriteLine("Generated array of 5 UUIDs:");
@@ -108,7 +141,7 @@ namespace UUIDDemo
                 }
             }
 
-            Console.WriteLine("\n8. Sorting and Thread Safety:");
+            Console.WriteLine("\n10. Sorting and Thread Safety:");
             List<UUID> ids = new();
             for (int i = 0; i < 5; i++)
             {
@@ -129,7 +162,7 @@ namespace UUIDDemo
                 Console.WriteLine($"  {uuid} - Time: {uuid.Time:yyyy-MM-dd HH:mm:ss.fff}");
             }
 
-            Console.WriteLine("\n9. Thread-Safe UUID Generation:");
+            Console.WriteLine("\n11. Thread-Safe UUID Generation:");
             HashSet<UUID> set = new();
             List<Task> tasks = new();
 
@@ -154,7 +187,7 @@ namespace UUIDDemo
             await Task.WhenAll(tasks);
             Console.WriteLine($"Generated {set.Count} unique UUIDs across multiple threads");
 
-            Console.WriteLine("\n10. Comparing UUID and Guid initialization behaviors:\n");
+            Console.WriteLine("\n12. Comparing UUID and Guid initialization behaviors:\n");
 
             // UUID initialization - always creates a unique identifier
             UUID uuid1 = new();

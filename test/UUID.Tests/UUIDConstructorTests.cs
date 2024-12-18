@@ -210,5 +210,72 @@ namespace UUIDTests
 
             await Task.WhenAll(tasks);
         }
+
+        [Fact]
+        public void FromBase64_ShouldBeReversible()
+        {
+            UUID original = UUID.New();
+            string base64 = original.ToBase64();
+            UUID fromBase64 = UUID.FromBase64(base64);
+
+            Assert.Equal(original, fromBase64);
+        }
+
+        [Fact]
+        public void FromBase64_ShouldHandleInvalidInput()
+        {
+            Assert.Throws<ArgumentNullException>(() => UUID.FromBase64(null));
+            Assert.Throws<FormatException>(() => UUID.FromBase64("invalid"));
+            Assert.Throws<FormatException>(() => UUID.FromBase64("aaa=")); // Too short
+            Assert.Throws<FormatException>(() => UUID.FromBase64(new string('A', 32))); // Too long
+        }
+
+        [Fact]
+        public void TryFromBase64_ShouldHandleValidAndInvalidInput()
+        {
+            UUID original = UUID.New();
+            string base64 = original.ToBase64();
+
+            Assert.True(UUID.TryFromBase64(base64, out UUID result));
+            Assert.Equal(original, result);
+
+            Assert.False(UUID.TryFromBase64(null, out _));
+            Assert.False(UUID.TryFromBase64("", out _));
+            Assert.False(UUID.TryFromBase64("invalid", out _));
+            Assert.False(UUID.TryFromBase64("aaa=", out _));
+            Assert.False(UUID.TryFromBase64(new string('A', 32), out _));
+        }
+
+        [Fact]
+        public void FromByteArray_ShouldBeReversible()
+        {
+            UUID original = UUID.New();
+            byte[] bytes = original.ToByteArray();
+            UUID fromBytes = UUID.FromByteArray(bytes);
+
+            Assert.Equal(original, fromBytes);
+        }
+
+        [Fact]
+        public void FromByteArray_ShouldHandleInvalidInput()
+        {
+            Assert.Throws<ArgumentNullException>(() => UUID.FromByteArray(null));
+            Assert.Throws<ArgumentException>(() => UUID.FromByteArray(new byte[15])); // Too short
+            Assert.Throws<ArgumentException>(() => UUID.FromByteArray(new byte[17])); // Too long
+        }
+
+        [Fact]
+        public void TryFromByteArray_ShouldHandleValidAndInvalidInput()
+        {
+            UUID original = UUID.New();
+            byte[] bytes = original.ToByteArray();
+
+            Assert.True(UUID.TryFromByteArray(bytes, out UUID result));
+            Assert.Equal(original, result);
+
+            Assert.False(UUID.TryFromByteArray(null, out _));
+            Assert.False(UUID.TryFromByteArray(new byte[15], out _)); // Too short
+            Assert.False(UUID.TryFromByteArray(new byte[17], out _)); // Too long
+        }
     }
 }

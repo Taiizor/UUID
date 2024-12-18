@@ -190,6 +190,70 @@ namespace System
         }
 
         /// <summary>
+        /// Creates a new UUID from a Base64 string.
+        /// </summary>
+        /// <param name="base64">The Base64 string to parse.</param>
+        /// <returns>A new UUID instance.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when base64 is null.</exception>
+        /// <exception cref="FormatException">Thrown when base64 is not in the correct format.</exception>
+        public static UUID FromBase64(string base64)
+        {
+            if (base64 == null)
+            {
+                throw new ArgumentNullException(nameof(base64));
+            }
+
+            try
+            {
+                byte[] bytes = Convert.FromBase64String(base64);
+
+                if (bytes.Length != SIZE)
+                {
+                    throw new FormatException($"Invalid Base64 string length. Expected {SIZE} bytes after decoding.");
+                }
+
+                return FromByteArray(bytes);
+            }
+            catch (FormatException)
+            {
+                throw new FormatException("Invalid Base64 string format.");
+            }
+        }
+
+        /// <summary>
+        /// Attempts to create a UUID from a Base64 string.
+        /// </summary>
+        /// <param name="base64">The Base64 string to parse.</param>
+        /// <param name="result">When this method returns, contains the UUID value if the conversion succeeded, or default if the conversion failed.</param>
+        /// <returns>true if the conversion was successful; otherwise, false.</returns>
+        public static bool TryFromBase64(string base64, out UUID result)
+        {
+            result = default;
+
+            if (string.IsNullOrEmpty(base64))
+            {
+                return false;
+            }
+
+            try
+            {
+                byte[] bytes = Convert.FromBase64String(base64);
+                if (bytes.Length != SIZE)
+                {
+                    return false;
+                }
+
+                result = FromByteArray(bytes);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Converts the UUID to a byte array.
         /// </summary>
         /// <returns>A byte array representation of the UUID.</returns>
@@ -308,6 +372,57 @@ namespace System
         public static implicit operator Guid(UUID uuid)
         {
             return uuid.ToGuid();
+        }
+
+        /// <summary>
+        /// Creates a new UUID from a byte array.
+        /// </summary>
+        /// <param name="bytes">The byte array containing UUID data.</param>
+        /// <returns>A new UUID instance.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when bytes is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when bytes length is not 16.</exception>
+        public static UUID FromByteArray(byte[] bytes)
+        {
+            if (bytes == null)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+
+            if (bytes.Length != SIZE)
+            {
+                throw new ArgumentException($"Byte array must be exactly {SIZE} bytes long.", nameof(bytes));
+            }
+
+            ulong timestamp = BitConverter.ToUInt64(bytes, 0);
+            ulong random = BitConverter.ToUInt64(bytes, 8);
+
+            return new UUID(timestamp, random);
+        }
+
+        /// <summary>
+        /// Attempts to create a UUID from a byte array.
+        /// </summary>
+        /// <param name="bytes">The byte array containing UUID data.</param>
+        /// <param name="result">When this method returns, contains the UUID value if the conversion succeeded, or default if the conversion failed.</param>
+        /// <returns>true if the conversion was successful; otherwise, false.</returns>
+        public static bool TryFromByteArray(byte[] bytes, out UUID result)
+        {
+            result = default;
+
+            if (bytes == null || bytes.Length != SIZE)
+            {
+                return false;
+            }
+
+            try
+            {
+                result = FromByteArray(bytes);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
