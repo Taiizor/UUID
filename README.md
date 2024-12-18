@@ -164,39 +164,6 @@ dotnet add package UUID
 
 Find more, including a runnable example application, under the [Getting Started](https://github.com/Taiizor/UUID/wiki/Getting-Started) topic in the [documentation](https://github.com/Taiizor/UUID/wiki/).
 
-## Quick Start
-
-```csharp
-using UUID;
-
-// Generate a new UUID
-UUID id = UUID.New();
-
-// Convert to string formats
-string str = id.ToString();        // Standard format
-string base32 = id.ToBase32();     // URL-friendly
-string base64 = id.ToBase64();     // Compact
-
-// Parse from string
-UUID parsed = UUID.Parse(str);
-bool success = UUID.TryParse(str, out UUID result);
-
-// Guid compatibility
-Guid guid = id.ToGuid();
-UUID fromGuid = UUID.FromGuid(guid);
-
-// Implicit/Explicit conversions
-UUID implicitFromGuid = guid;      // Implicit
-Guid explicitToGuid = (Guid)id;    // Explicit
-
-// Time component
-DateTimeOffset timestamp = id.Time;
-
-// Comparison operations
-bool equals = id == parsed;
-bool lessThan = id < parsed;
-```
-
 ## Documentation and FAQ
 
 To learn more about UUID, check out the [documentation](https://github.com/Taiizor/UUID/wiki) - you'll find information there on the most common scenarios. If UUID isn't working the way you expect, you may find the [troubleshooting guide](https://github.com/Taiizor/UUID/wiki/Debugging-and-Diagnostics) useful.
