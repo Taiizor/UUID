@@ -1,20 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Mobile menu toggle
-    const menuButton = document.createElement('button');
-    menuButton.classList.add('menu-toggle');
-    menuButton.innerHTML = '<i class="fas fa-bars"></i>';
-    document.body.appendChild(menuButton);
+    // Create mobile menu button if it doesn't exist
+    if (!document.querySelector('.menu-toggle')) {
+        const menuButton = document.createElement('button');
+        menuButton.className = 'menu-toggle';
+        menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+        document.body.appendChild(menuButton);
+    }
 
-    menuButton.addEventListener('click', () => {
-        document.querySelector('.sidebar').classList.toggle('active');
-    });
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const body = document.body;
+    
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            sidebar.classList.toggle('active');
+            body.classList.toggle('menu-open');
+        });
 
-    // Close sidebar when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.sidebar') && !e.target.closest('.menu-toggle')) {
-            document.querySelector('.sidebar').classList.remove('active');
-        }
-    });
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+                body.classList.remove('menu-open');
+            }
+        });
+
+        // Prevent clicks inside sidebar from closing it
+        sidebar.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
 
     // Add copy button to code blocks
     document.querySelectorAll('pre code').forEach((block) => {
