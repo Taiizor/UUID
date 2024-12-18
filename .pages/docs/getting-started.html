@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../favicon.ico" />
     <title>Getting Started - UUID Documentation</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
 </head>
@@ -84,9 +86,48 @@ string base32 = uuid.ToBase32();
 
 // Base64 format
 string base64 = uuid.ToBase64();
-// "782riWdFIwHvzauJZ0UjAQ=="</code></pre>
+// "782riWdFIwHvzauJZ0UjAQ=="
+
+// Convert Base64 back to UUID
+UUID fromBase64 = UUID.FromBase64(base64);
+Console.WriteLine($"Base64 -> UUID: {fromBase64}");
+
+// Safe parsing with TryFromBase64
+if (UUID.TryFromBase64(base64, out UUID parsedFromBase64))
+{
+    Console.WriteLine($"Successfully parsed from Base64: {parsedFromBase64}");
+}</code></pre>
             </div>
         </section>
+
+<section id="byte-operations">
+    <h2>Byte Array Operations</h2>
+    <p>UUID provides methods for converting to and from byte arrays:</p>
+
+    <div class="code-block">
+        <pre><code class="language-csharp">// Convert UUID to byte array
+UUID id = UUID.New();
+byte[] bytes = id.ToByteArray();
+Console.WriteLine($"UUID -> Bytes: {BitConverter.ToString(bytes)}");
+
+// Convert byte array back to UUID
+UUID fromBytes = UUID.FromByteArray(bytes);
+Console.WriteLine($"Bytes -> UUID: {fromBytes}");
+
+// Safe parsing with TryFromByteArray
+if (UUID.TryFromByteArray(bytes, out UUID parsedFromBytes))
+{
+    Console.WriteLine($"Successfully parsed from bytes: {parsedFromBytes}");
+}
+
+// Writing directly to a byte array
+byte[] destination = new byte[16];
+if (id.TryWriteBytes(destination))
+{
+    Console.WriteLine($"Successfully wrote to byte array: {BitConverter.ToString(destination)}");
+}</code></pre>
+    </div>
+</section>
 
         <section id="performance-tips">
             <h2>Performance Tips</h2>
