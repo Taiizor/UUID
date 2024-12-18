@@ -162,6 +162,8 @@ By .NET CLI:
 dotnet add package UUID
 ```
 
+Find more, including a runnable example application, under the [Getting Started](https://github.com/Taiizor/UUID/wiki/Getting-Started) topic in the [documentation](https://github.com/Taiizor/UUID/wiki/).
+
 ## Quick Start
 
 ```csharp
