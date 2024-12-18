@@ -146,11 +146,11 @@ namespace UUIDTests
             Assert.Equal(uuid, convertedBack);
 
             // Operator tests
-            UUID fromImplicit = guid;
-            Guid toExplicit = (Guid)uuid;
+            UUID fromImplicit = guid;  // Guid -> UUID implicit
+            Guid toImplicit = uuid;    // UUID -> Guid implicit
 
             Assert.Equal(uuid, fromImplicit);
-            Assert.Equal(guid, toExplicit);
+            Assert.Equal(guid, toImplicit);
         }
 
         [Fact]

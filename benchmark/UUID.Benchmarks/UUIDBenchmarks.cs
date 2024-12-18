@@ -86,6 +86,18 @@ namespace UUIDBenchmarks
         }
 
         [Benchmark]
+        public Guid Convert_ToGuid_Implicit()
+        {
+            return _uuid;  // Implicit conversion
+        }
+
+        [Benchmark]
+        public UUID Convert_FromGuid_Implicit()
+        {
+            return _guid;  // Implicit conversion
+        }
+
+        [Benchmark]
         public bool Compare_Equals()
         {
             return _uuid.Equals(_uuid2);

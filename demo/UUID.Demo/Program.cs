@@ -43,10 +43,10 @@ namespace UUIDDemo
             Console.WriteLine($"Guid -> UUID: {fromGuid}");
             Console.WriteLine($"Equals original? {id == fromGuid}");
 
-            // Implicit/Explicit operators
-            UUID implicitFromGuid = guid; // Implicit conversion
-            Guid explicitToGuid = id; // Explicit conversion
-            Console.WriteLine($"Implicit/Explicit conversion successful? {implicitFromGuid == id && explicitToGuid == guid}");
+            // Implicit operators
+            UUID implicitFromGuid = guid; // Implicit conversion from Guid to UUID
+            Guid implicitToGuid = id;     // Implicit conversion from UUID to Guid
+            Console.WriteLine($"Implicit conversions successful? {implicitFromGuid == id && implicitToGuid == guid}");
 
             Console.WriteLine("\n5. Binary Operations:");
             // TryWriteBytes example
