@@ -3,15 +3,15 @@ using System.Security.Cryptography;
 namespace UUID
 {
     /// <summary>
-    /// UUID represents a unique identifier that combines the best features of GUIDv7, ULID and CUID
-    /// while providing enhanced security and performance.
+    /// UUID represents a modern and efficient unique identifier implementation,
+    /// designed for high performance and enhanced security in distributed systems.
     /// </summary>
     /// <remarks>
     /// This implementation provides:
-    /// - Monotonicity: GUIDs are sortable by creation time
+    /// - Monotonicity: Identifiers are sortable by creation time
     /// - Security: Uses cryptographically secure random numbers
     /// - Performance: Optimized for high-performance scenarios
-    /// - Compatibility: Supports conversion to/from System.Guid
+    /// - Compatibility: Full integration with .NET ecosystem
     /// </remarks>
     public readonly struct UUID(ulong timestamp, ulong random) : IEquatable<UUID>, IComparable<UUID>
     {
@@ -54,6 +54,7 @@ namespace UUID
             _rng.Value!.GetBytes(bytes);
 
             long unixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
             return (((ulong)unixMs & 0x0000_FFFF_FFFF_FFFF) << 16)
                    | ((ulong)bytes[0] << 8)
                    | bytes[1];
@@ -67,6 +68,7 @@ namespace UUID
         {
             byte[] bytes = new byte[8];
             _rng.Value!.GetBytes(bytes);
+
             return BitConverter.ToUInt64(bytes, 0);
         }
 
@@ -129,8 +131,7 @@ namespace UUID
         /// <summary>
         /// Gets the timestamp component of the UUID.
         /// </summary>
-        public DateTimeOffset Time =>
-            DateTimeOffset.FromUnixTimeMilliseconds((long)(_timestamp >> 16));
+        public DateTimeOffset Time => DateTimeOffset.FromUnixTimeMilliseconds((long)(_timestamp >> 16));
 
         /// <summary>
         /// Gets the random component of the UUID.
@@ -160,6 +161,7 @@ namespace UUID
             {
                 result[i] = ENCODING_CHARS[(int)(value & 0x1F)];
                 value >>= 5;
+
                 if (i == 13)
                 {
                     value = Random;
@@ -177,6 +179,7 @@ namespace UUID
         {
             byte[] bytes = new byte[SIZE];
             TryWriteBytes(bytes);
+
             return Convert.ToBase64String(bytes);
         }
 
@@ -188,6 +191,7 @@ namespace UUID
         {
             byte[] bytes = new byte[SIZE];
             TryWriteBytes(bytes);
+
             return bytes;
         }
 
@@ -205,6 +209,7 @@ namespace UUID
 
             BitConverter.GetBytes(_timestamp).CopyTo(destination, 0);
             BitConverter.GetBytes(Random).CopyTo(destination, 8);
+
             return true;
         }
 
@@ -222,6 +227,7 @@ namespace UUID
 
             string str = ToString();
             str.CopyTo(0, destination, 0, 32);
+
             return true;
         }
 
@@ -233,6 +239,7 @@ namespace UUID
         {
             byte[] bytes = new byte[SIZE];
             TryWriteBytes(bytes);
+
             return new Guid(bytes);
         }
 
@@ -246,6 +253,7 @@ namespace UUID
             byte[] bytes = guid.ToByteArray();
             ulong timestamp = BitConverter.ToUInt64(bytes, 0);
             ulong random = BitConverter.ToUInt64(bytes, 8);
+
             return new UUID(timestamp, random);
         }
 
@@ -320,6 +328,7 @@ namespace UUID
         public int CompareTo(UUID other)
         {
             int result = _timestamp.CompareTo(other._timestamp);
+
             return result != 0 ? result : Random.CompareTo(other.Random);
         }
 
