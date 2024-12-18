@@ -1,15 +1,5 @@
-A modern and efficient unique identifier generator for .NET ecosystem.
+UUID is a cutting-edge library meticulously crafted for modern distributed systems, offering unparalleled performance and reliability in unique identifier generation. At its core, the library ensures thread safety while maintaining exceptional performance characteristics, making it ideal for high-throughput applications. It generates time-ordered identifiers that enable natural sorting capabilities, while incorporating cryptographic randomness for enhanced security.
 
-A high-performance UUID library designed for modern distributed systems. Features include:
-- Thread-safe and high-performance operations
-- Time-ordered identifiers for natural sorting
-- Enhanced security with cryptographic randomness
-- Implicit/explicit conversion operators
-- Guid compatibility
-- Efficient string parsing and formatting
-- Multiple encoding formats (Base32, Base64)
-- Comparison and equality operations
-- Thread-local secure random generation
-- Compact 16-byte binary format
-- Cross-platform compatibility
-- Comprehensive test coverage and benchmarks
+The library seamlessly integrates with existing systems through its comprehensive Guid compatibility and intuitive conversion operators. It excels in string handling with efficient parsing and formatting capabilities, supporting versatile encoding formats including Base32 and Base64. The implementation features robust comparison and equality operations, complemented by thread-local secure random generation for optimal performance and security.
+
+Built with modern development practices in mind, UUID maintains a compact 16-byte binary format and ensures cross-platform compatibility across the .NET ecosystem. The library is backed by extensive test coverage and performance benchmarks, making it a reliable choice for enterprise-grade applications requiring robust unique identifier generation.

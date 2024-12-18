@@ -11,7 +11,7 @@
 
     <PropertyGroup>
         <ApplicationIcon>Resources\UUID.ico</ApplicationIcon>
-        <Version>1.0.3</Version>
+        <Version>1.0.4</Version>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>UUID</Title>
@@ -19,19 +19,7 @@
         <Authors>Taiizor</Authors>
         <Copyright>Copyright © $([System.DateTime]::Today.ToString(yyyy)) $(Authors)</Copyright>
         <Summary>A modern and efficient unique identifier generator for .NET ecosystem.</Summary>
-        <Description>A high-performance UUID library designed for modern distributed systems. Features include:
-- Thread-safe and high-performance operations
-- Time-ordered identifiers for natural sorting
-- Enhanced security with cryptographic randomness
-- Implicit/explicit conversion operators
-- Guid compatibility
-- Efficient string parsing and formatting
-- Multiple encoding formats (Base32, Base64)
-- Comparison and equality operations
-- Thread-local secure random generation
-- Compact 16-byte binary format
-- Cross-platform compatibility
-- Comprehensive test coverage and benchmarks</Description>
+        <Description>UUID is a cutting-edge library meticulously crafted for modern distributed systems, offering unparalleled performance and reliability in unique identifier generation. At its core, the library ensures thread safety while maintaining exceptional performance characteristics, making it ideal for high-throughput applications. It generates time-ordered identifiers that enable natural sorting capabilities, while incorporating cryptographic randomness for enhanced security. The library seamlessly integrates with existing systems through its comprehensive Guid compatibility and intuitive conversion operators. It excels in string handling with efficient parsing and formatting capabilities, supporting versatile encoding formats including Base32 and Base64. The implementation features robust comparison and equality operations, complemented by thread-local secure random generation for optimal performance and security. Built with modern development practices in mind, UUID maintains a compact 16-byte binary format and ensures cross-platform compatibility across the .NET ecosystem. The library is backed by extensive test coverage and performance benchmarks, making it a reliable choice for enterprise-grade applications requiring robust unique identifier generation.</Description>
         <PackageReadmeFile>README.MD</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageLicenseExpression></PackageLicenseExpression>
@@ -40,7 +28,7 @@
         <PackageTags>uuid id universally unique identifiers identifier distributed scalable generator</PackageTags>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <!--<DocumentationFile>..\$(Title)\bin$(OutputPath)\$(Configuration)\$(TargetFramework)\$(Title).xml</DocumentationFile>-->
-        <PackageProjectUrl>https://github.com/Taiizor/UUID</PackageProjectUrl>
+        <PackageProjectUrl>https://taiizor.github.io/UUID</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/Taiizor/UUID</RepositoryUrl>
         <PackageDescription>$(Description)</PackageDescription>
