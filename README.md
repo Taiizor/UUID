@@ -138,7 +138,7 @@ Binaries for all platforms are built from a single Visual Studio Project. You wi
 - **Multiple Format Support**
   - Base32 encoding for URL-friendly strings
   - Base64 encoding for compact representation
-  - System.Guid compatibility
+  - Guid compatibility
   - Efficient string parsing and formatting
 
 - **Rich API**
@@ -179,7 +179,7 @@ string base64 = id.ToBase64();     // Compact
 UUID parsed = UUID.Parse(str);
 bool success = UUID.TryParse(str, out UUID result);
 
-// System.Guid compatibility
+// Guid compatibility
 Guid guid = id.ToGuid();
 UUID fromGuid = UUID.FromGuid(guid);
 

@@ -5,7 +5,7 @@ A high-performance UUID library designed for modern distributed systems. Feature
 - Time-ordered identifiers for natural sorting
 - Enhanced security with cryptographic randomness
 - Implicit/explicit conversion operators
-- System.Guid compatibility
+- Guid compatibility
 - Efficient string parsing and formatting
 - Multiple encoding formats (Base32, Base64)
 - Comparison and equality operations
