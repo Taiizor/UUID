@@ -15,7 +15,7 @@ namespace System.Extensions
         /// </summary>
         /// <param name="array">The array to fill with new UUIDs.</param>
         /// <exception cref="ArgumentNullException">Thrown when array is null.</exception>
-        public static void Fill(UUID[] array)
+        public static void Fill(this UUID[] array)
         {
             if (!TryFill(array))
             {
@@ -29,7 +29,7 @@ namespace System.Extensions
         /// </summary>
         /// <param name="array">The array to fill with new UUIDs.</param>
         /// <returns>True if the array was successfully filled, false if the array is null.</returns>
-        public static bool TryFill(UUID[] array)
+        public static bool TryFill(this UUID[] array)
         {
             if (array == null)
             {
@@ -81,7 +81,7 @@ namespace System.Extensions
             }
 
             UUID[] array = new UUID[count];
-            Fill(array);
+            array.Fill();
 
             return array;
         }
@@ -105,7 +105,7 @@ namespace System.Extensions
             {
                 UUID[] array = new UUID[count];
 
-                if (TryFill(array))
+                if (array.TryFill())
                 {
                     result = array;
 

@@ -12,7 +12,7 @@ namespace UUIDTests
         public void Fill_ShouldGenerateUniqueValues()
         {
             UUID[] array = new UUID[1000];
-            ArrayExtension.Fill(array);
+            array.Fill();
 
             HashSet<UUID> set = new(array);
             Assert.Equal(array.Length, set.Count);
@@ -22,7 +22,7 @@ namespace UUIDTests
         public void Fill_ShouldThrowOnNullArray()
         {
             UUID[] array = null;
-            Assert.Throws<ArgumentNullException>(() => ArrayExtension.Fill(array));
+            Assert.Throws<ArgumentNullException>(array.Fill);
         }
 
         [Fact]
@@ -30,18 +30,18 @@ namespace UUIDTests
         {
             // Null array
             UUID[] nullArray = null;
-            Assert.False(ArrayExtension.TryFill(nullArray));
+            Assert.False(nullArray.TryFill());
 
             // Empty array
             UUID[] emptyArray = Array.Empty<UUID>();
-            Assert.True(ArrayExtension.TryFill(emptyArray));
+            Assert.True(emptyArray.TryFill());
         }
 
         [Fact]
         public void TryFill_ShouldGenerateUniqueValues()
         {
             UUID[] array = new UUID[1000];
-            Assert.True(ArrayExtension.TryFill(array));
+            Assert.True(array.TryFill());
 
             HashSet<UUID> set = new(array);
             Assert.Equal(array.Length, set.Count);
