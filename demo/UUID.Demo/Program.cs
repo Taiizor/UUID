@@ -114,6 +114,39 @@ namespace UUID.Demo
 
             await Task.WhenAll(tasks);
             Console.WriteLine($"Generated {set.Count} unique UUIDs across multiple threads");
+
+            Console.WriteLine("\n9.Comparing UUID and Guid initialization behaviors:\n");
+
+            // UUID initialization - always creates a unique identifier
+            UUID uuid1 = new();
+            UUID uuid2 = new();
+            Console.WriteLine("UUID with new():");
+            Console.WriteLine($"First  UUID: {uuid1}");
+            Console.WriteLine($"Second UUID: {uuid2}");
+            Console.WriteLine($"Are they equal? {uuid1 == uuid2}");
+            Console.WriteLine($"Is first empty? {uuid1 == default}");
+
+            Console.WriteLine("\n-------------------\n");
+
+            // Guid initialization - creates empty Guids
+            Guid guid1 = new();
+            Guid guid2 = new();
+            Console.WriteLine("Guid with new():");
+            Console.WriteLine($"First  Guid: {guid1}");
+            Console.WriteLine($"Second Guid: {guid2}");
+            Console.WriteLine($"Are they equal? {guid1 == guid2}");
+            Console.WriteLine($"Is first empty? {guid1 == default}");
+
+            Console.WriteLine("\n-------------------\n");
+
+            // Guid proper initialization - requires explicit NewGuid call
+            Guid newGuid1 = Guid.NewGuid();
+            Guid newGuid2 = Guid.NewGuid();
+            Console.WriteLine("Guid with NewGuid():");
+            Console.WriteLine($"First  Guid: {newGuid1}");
+            Console.WriteLine($"Second Guid: {newGuid2}");
+            Console.WriteLine($"Are they equal? {newGuid1 == newGuid2}");
+            Console.WriteLine($"Is first empty? {newGuid1 == default}");
         }
     }
 }
