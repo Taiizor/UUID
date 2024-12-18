@@ -13,7 +13,7 @@ namespace UUID
     /// - Performance: Optimized for high-performance scenarios
     /// - Compatibility: Full integration with .NET ecosystem
     /// </remarks>
-    public readonly struct UUID(ulong timestamp, ulong random) : IEquatable<UUID>, IComparable<UUID>
+    public readonly struct UUID(ulong timestamp, ulong random) : IEquatable<UUID>, IComparable<UUID>, IComparable
     {
         /// <summary>
         /// The size of the UUID in bytes.
@@ -330,6 +330,32 @@ namespace UUID
             int result = _timestamp.CompareTo(other._timestamp);
 
             return result != 0 ? result : Random.CompareTo(other.Random);
+        }
+
+        /// <summary>
+        /// Compares the current UUID with another object.
+        /// </summary>
+        /// <param name="obj">The object to compare with this UUID.</param>
+        /// <returns>
+        /// A value that indicates the relative order of the objects being compared.
+        /// Less than zero: This UUID is less than the other object.
+        /// Zero: This UUID equals the other object.
+        /// Greater than zero: This UUID is greater than the other object or the other object is null.
+        /// </returns>
+        /// <exception cref="ArgumentException">obj is not a UUID.</exception>
+        public int CompareTo(object? obj)
+        {
+            if (obj == null)
+            {
+                return 1;
+            }
+
+            if (obj is UUID other)
+            {
+                return CompareTo(other);
+            }
+
+            throw new ArgumentException("Object must be of type UUID");
         }
 
         /// <summary>
