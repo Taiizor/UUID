@@ -5,6 +5,11 @@ theme: jekyll-theme-cayman
 baseurl: "/UUID"
 url: "https://taiizor.github.io"
 
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
 github:
   is_project_page: true
   repository_url: https://github.com/Taiizor/UUID
@@ -16,6 +21,15 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-github-metadata
+  - jekyll-relative-links
+
+relative_links:
+  enabled: true
+  collections: true
+
+include:
+  - index.html
+  - README.md
 
 exclude:
   - Gemfile
