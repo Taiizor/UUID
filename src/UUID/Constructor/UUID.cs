@@ -21,6 +21,12 @@ namespace System
         private const int SIZE = 16;
 
         /// <summary>
+        /// Characters used in Base32 encoding.
+        /// This set excludes I, L, O to avoid confusion with 1, 1, 0.
+        /// </summary>
+        private const string ENCODING_CHARS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+
+        /// <summary>
         /// The timestamp component of the UUID.
         /// </summary>
         private readonly ulong _timestamp = timestamp;
