@@ -45,7 +45,7 @@ namespace UUIDDemo
 
             // Implicit/Explicit operators
             UUID implicitFromGuid = guid; // Implicit conversion
-            Guid explicitToGuid = (Guid)id; // Explicit conversion
+            Guid explicitToGuid = id; // Explicit conversion
             Console.WriteLine($"Implicit/Explicit conversion successful? {implicitFromGuid == id && explicitToGuid == guid}");
 
             Console.WriteLine("\n5. Binary Operations:");
