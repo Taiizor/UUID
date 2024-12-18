@@ -83,7 +83,7 @@ UUIDArrayExtensions.Fill(uuids);</code></pre>
                 <p>Use the zero-allocation methods when possible:</p>
                 <div class="code-block">
                     <pre><code class="language-csharp">// Avoid allocations
-Span<byte> buffer = stackalloc byte[16];
+Span&lt;byte&gt; buffer = stackalloc byte[16];
 uuid.TryWriteBytes(buffer);</code></pre>
                 </div>
             </div>
@@ -109,7 +109,7 @@ Parallel.ForEach(uuids, uuid =>
                     <tr>
                         <th>Operation</th>
                         <th>UUID</th>
-                        <th>System.Guid</th>
+                        <th>Guid</th>
                         <th>Improvement</th>
                     </tr>
                     <tr>
@@ -141,7 +141,7 @@ Parallel.ForEach(uuids, uuid =>
                 <h3><i class="fas fa-check-circle"></i> Do</h3>
                 <ul>
                     <li>Use array pooling for bulk operations</li>
-                    <li>Take advantage of Span<T> APIs</li>
+                    <li>Take advantage of Span&lt;T&gt; APIs</li>
                     <li>Use TryParse over Parse when possible</li>
                     <li>Cache frequently used UUIDs</li>
                 </ul>
@@ -176,7 +176,7 @@ Parallel.ForEach(uuids, uuid =>
     [Benchmark]
     public void ParseUUID()
     {
-        UUID.Parse("123e4567-e89b-12d3-a456-426614174000");
+        UUID.Parse("0123456789abcdef0123456789abcdef");
     }
 }</code></pre>
                 </div>

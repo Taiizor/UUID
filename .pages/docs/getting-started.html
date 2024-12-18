@@ -56,16 +56,14 @@ Install-Package UUID</code></pre>
             <p>Here's how to get started with basic UUID operations:</p>
 
             <div class="code-block">
-                <pre><code class="language-csharp">using UUID;
-
-// Generate a new UUID
+                <pre><code class="language-csharp">// Generate a new UUID
 var id = new UUID();
 
 // Convert to string
-string str = id.ToString();  // "123e4567-e89b-12d3-a456-426614174000"
+string str = id.ToString();  // "0123456789abcdef0123456789abcdef"
 
 // Parse from string
-UUID parsed = UUID.Parse("123e4567-e89b-12d3-a456-426614174000");</code></pre>
+UUID parsed = UUID.Parse("0123456789abcdef0123456789abcdef");</code></pre>
             </div>
         </section>
 
@@ -81,12 +79,12 @@ string standard = uuid.ToString();
 // "123e4567-e89b-12d3-a456-426614174000"
 
 // Base32 format (URL-safe)
-string base32 = uuid.ToBase32String();
-// "6QR8H1RZWM8VDPJ38WSKDD5GR0"
+string base32 = uuid.ToBase32();
+// "028T5CY4TQKFF028T5CY4TQKFF"
 
 // Base64 format
-string base64 = uuid.ToBase64String();
-// "Ej5FZ+ibEtOkVkJmFBdAAA=="</code></pre>
+string base64 = uuid.ToBase64();
+// "782riWdFIwHvzauJZ0UjAQ=="</code></pre>
             </div>
         </section>
 

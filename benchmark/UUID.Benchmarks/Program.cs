@@ -1,6 +1,6 @@
 using BenchmarkDotNet.Running;
 
-namespace UUID.Benchmarks
+namespace UUIDBenchmarks
 {
     internal class Program
     {

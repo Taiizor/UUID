@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <PlatformTarget>AnyCPU</PlatformTarget>
+        <OutputType>Exe</OutputType>
         <DebugType>pdbonly</DebugType>
         <DebugSymbols>true</DebugSymbols>
         <LangVersion>preview</LangVersion>
         <AnalysisLevel>preview</AnalysisLevel>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <TargetFramework>net9.0</TargetFramework>
+        <RootNamespace>UUIDBenchmarks</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

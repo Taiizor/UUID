@@ -138,7 +138,7 @@ CREATE TABLE Users (
                 <div class="code-block">
                     <pre><code class="language-csharp">protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
-    modelBuilder.Entity<User>()
+    modelBuilder.Entity&lt;User&gt;()
         .Property(e => e.Id)
         .HasConversion(
             v => v.ToByteArray(),  // Store as binary

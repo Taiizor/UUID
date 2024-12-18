@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace UUID.Tests
+namespace UUIDTests
 {
     public class UUIDTests
     {

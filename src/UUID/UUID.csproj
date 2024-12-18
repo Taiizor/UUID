@@ -2,15 +2,16 @@
 
     <PropertyGroup>
         <TargetFrameworks>net48;net6.0;net7.0;net8.0;net9.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
         <DefaultLanguage>en-GB</DefaultLanguage>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>UUID</RootNamespace>
+        <RootNamespace>System</RootNamespace>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <PropertyGroup>
         <ApplicationIcon>Resources\UUID.ico</ApplicationIcon>
-        <Version>1.0.2</Version>
+        <Version>1.0.1.1</Version>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>UUID</Title>
@@ -65,6 +66,15 @@
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
     </ItemGroup>
+    
+    <!--<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+        <PackageReference Include="System.Memory" Version="4.6.0" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
+    </ItemGroup>-->
 
     <ItemGroup>
         <None Include="..\README.MD">

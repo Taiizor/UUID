@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace UUID
+namespace System
 {
     /// <summary>
     /// UUID represents a modern and efficient unique identifier implementation,
@@ -13,7 +13,7 @@ namespace UUID
     /// - Performance: Optimized for high-performance scenarios
     /// - Compatibility: Full integration with .NET ecosystem
     /// </remarks>
-    public readonly struct UUID(ulong timestamp, ulong random) : IEquatable<UUID>, IComparable<UUID>, IComparable
+    public readonly partial struct UUID(ulong timestamp, ulong random) : IEquatable<UUID>, IComparable<UUID>, IComparable
     {
         /// <summary>
         /// The size of the UUID in bytes.
@@ -214,6 +214,24 @@ namespace UUID
         }
 
         /// <summary>
+        /// Attempts to write the UUID to a span of bytes.
+        /// </summary>
+        /// <param name="destination">The destination span to write to.</param>
+        /// <returns>True if the UUID was successfully written, false if the destination is too small.</returns>
+        public bool TryWriteBytes(Span<byte> destination)
+        {
+            if (destination.Length < 16)
+            {
+                return false;
+            }
+
+            BitConverter.TryWriteBytes(destination[..8], _timestamp);
+            BitConverter.TryWriteBytes(destination[8..], Random);
+
+			return true;
+        }
+
+        /// <summary>
         /// Attempts to write the UUID to a string buffer.
         /// </summary>
         /// <param name="destination">The destination string buffer.</param>
@@ -232,9 +250,9 @@ namespace UUID
         }
 
         /// <summary>
-        /// Converts the UUID to a System.Guid.
+        /// Converts the UUID to a Guid.
         /// </summary>
-        /// <returns>A System.Guid representation of the UUID.</returns>
+        /// <returns>A Guid representation of the UUID.</returns>
         public Guid ToGuid()
         {
             byte[] bytes = new byte[SIZE];
@@ -244,9 +262,9 @@ namespace UUID
         }
 
         /// <summary>
-        /// Creates a UUID from a System.Guid.
+        /// Creates a UUID from a Guid.
         /// </summary>
-        /// <param name="guid">The System.Guid to convert.</param>
+        /// <param name="guid">The Guid to convert.</param>
         /// <returns>A UUID instance.</returns>
         public static UUID FromGuid(Guid guid)
         {

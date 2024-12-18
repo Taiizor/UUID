@@ -43,7 +43,7 @@
             <p>The core struct representing a UUID value.</p>
 
             <div class="code-block">
-                <pre><code class="language-csharp">public readonly struct UUID : IEquatable<UUID>, IComparable<UUID></code></pre>
+                <pre><code class="language-csharp">public readonly partial struct UUID : IEquatable&lt;UUID&gt;, IComparable&lt;UUID&gt;, IComparable</code></pre>
             </div>
 
             <h3>Properties</h3>
@@ -78,15 +78,15 @@
 public UUID()
 
 // Create from bytes
-public UUID(ReadOnlySpan<byte> bytes)
+public UUID(ReadOnlySpan&lt;byte&gt; bytes)
 
 // Create from string
 public static UUID Parse(string input)
-public static UUID Parse(ReadOnlySpan<char> input)
+public static UUID Parse(ReadOnlySpan&lt;char&gt; input)
 
 // Try parse from string
 public static bool TryParse(string input, out UUID result)
-public static bool TryParse(ReadOnlySpan<char> input, out UUID result)</code></pre>
+public static bool TryParse(ReadOnlySpan&lt;char&gt; input, out UUID result)</code></pre>
             </div>
         </section>
 
@@ -99,14 +99,14 @@ public static bool TryParse(ReadOnlySpan<char> input, out UUID result)</code></p
 public override string ToString()
 
 // Convert to Base32 string
-public string ToBase32String()
+public string ToBase32()
 
 // Convert to Base64 string
-public string ToBase64String()
+public string ToBase64()
 
 // Get bytes
 public byte[] ToByteArray()
-public bool TryWriteBytes(Span<byte> destination)</code></pre>
+public bool TryWriteBytes(Span&lt;byte&gt; destination)</code></pre>
             </div>
 
             <h3>Comparison Methods</h3>
@@ -115,13 +115,14 @@ public bool TryWriteBytes(Span<byte> destination)</code></pre>
 public override bool Equals(object obj)
 public override int GetHashCode()
 public int CompareTo(UUID other)
+public int CompareTo(object? obj)
 
 public static bool operator ==(UUID left, UUID right)
 public static bool operator !=(UUID left, UUID right)
-public static bool operator <(UUID left, UUID right)
-public static bool operator >(UUID left, UUID right)
-public static bool operator <=(UUID left, UUID right)
-public static bool operator >=(UUID left, UUID right)</code></pre>
+public static bool operator &lt;(UUID left, UUID right)
+public static bool operator &gt;(UUID left, UUID right)
+public static bool operator &lt;=(UUID left, UUID right)
+public static bool operator &gt;=(UUID left, UUID right)</code></pre>
             </div>
         </section>
 

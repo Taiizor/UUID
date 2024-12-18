@@ -5,6 +5,7 @@
         <IsPackable>false</IsPackable>
         <LangVersion>preview</LangVersion>
         <AnalysisLevel>preview</AnalysisLevel>
+        <RootNamespace>UUIDTests</RootNamespace>
         <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
 

@@ -48,9 +48,9 @@
 var id = new UUID();
 
 // Different string formats
-Console.WriteLine(id.ToString());        // Standard format
-Console.WriteLine(id.ToBase32String());  // Base32 format
-Console.WriteLine(id.ToBase64String());  // Base64 format
+Console.WriteLine(id.ToString()); // Standard format
+Console.WriteLine(id.ToBase32()); // Base32 format
+Console.WriteLine(id.ToBase64()); // Base64 format
 
 // Get raw bytes
 byte[] bytes = id.ToByteArray();</code></pre>
@@ -62,17 +62,13 @@ byte[] bytes = id.ToByteArray();</code></pre>
                 <h3>Parse UUIDs</h3>
                 <div class="code-block">
                     <pre><code class="language-csharp">// Parse from string
-var id1 = UUID.Parse("123e4567-e89b-12d3-a456-426614174000");
+var id1 = UUID.Parse("0123456789abcdef0123456789abcdef");
 
 // Try parse pattern
-if (UUID.TryParse("123e4567-e89b-12d3-a456-426614174000", out var id2))
+if (UUID.TryParse("0123456789abcdef0123456789abcdef", out var id2))
 {
     Console.WriteLine("Successfully parsed: " + id2);
-}
-
-// Parse from Base32
-var base32 = "6QR8H1RZWM8VDPJ38WSKDD5GR0";
-var id3 = UUID.ParseBase32(base32);</code></pre>
+}</code></pre>
                 </div>
                 <p>Examples of parsing UUIDs from different string formats.</p>
             </div>
@@ -136,11 +132,11 @@ string prefixed = $"ID_{uuid}";</code></pre>
 
 public class AppDbContext : DbContext
 {
-    public DbSet<User> Users { get; set; }
+    public DbSet&lt;User&gt; Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
+        modelBuilder.Entity&lt;User&gt;()
             .Property(e => e.Id)
             .HasConversion(
                 v => v.ToString(),
@@ -154,10 +150,10 @@ public class AppDbContext : DbContext
             <div class="example-card">
                 <h3>Dapper</h3>
                 <div class="code-block">
-                    <pre><code class="language-csharp">public async Task<User> GetUser(UUID id)
+                    <pre><code class="language-csharp">public async Task&lt;User&gt; GetUser(UUID id)
 {
     using var connection = new SqlConnection(connectionString);
-    return await connection.QuerySingleOrDefaultAsync<User>(
+    return await connection.QuerySingleOrDefaultAsync&lt;User&gt;(
         "SELECT * FROM Users WHERE Id = @Id",
         new { Id = id.ToString() }
     );
@@ -176,7 +172,7 @@ public class AppDbContext : DbContext
                     <pre><code class="language-csharp">public class UserController : ControllerBase
 {
     [HttpGet("{id}")]
-    public async Task<ActionResult<User>> GetUser(UUID id)
+    public async Task&lt;ActionResult&lt;User&gt;&gt; GetUser(UUID id)
     {
         var user = await _userService.GetUserAsync(id);
         if (user == null)
@@ -185,7 +181,7 @@ public class AppDbContext : DbContext
     }
 
     [HttpPost]
-    public async Task<ActionResult<User>> CreateUser(User user)
+    public async Task&lt;ActionResult&lt;User&gt;&gt; CreateUser(User user)
     {
         user.Id = new UUID(); // Generate new UUID
         await _userService.CreateUserAsync(user);

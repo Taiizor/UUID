@@ -1,4 +1,4 @@
-namespace UUID.Demo
+namespace UUIDDemo
 {
     class Program
     {
