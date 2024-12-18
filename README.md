@@ -170,7 +170,7 @@ To learn more about UUID, check out the [documentation](https://github.com/Taiiz
 
 UUID has an active and helpful community who are happy to help point you in the right direction or work through any issues you might encounter. You can get in touch via:
 
- * [Stack Overflow](http://stackoverflow.com/questions/tagged/UUID)
+ * [Stack Overflow](http://stackoverflow.com/questions/tagged/uuid)
  * [Discord](https://discord.gg/nxG977byXb) &mdash; this is the best place to start if you have a question
 
 We welcome bug reports and suggestions through our [issue tracker](https://github.com/Taiizor/UUID/issues) here on GitHub.
