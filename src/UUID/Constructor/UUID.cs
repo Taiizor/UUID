@@ -291,14 +291,15 @@ namespace System
         }
 
         /// <summary>
-        /// Explicit conversion from UUID to Guid.
+        /// Implicit conversion from UUID to Guid.
         /// </summary>
         /// <param name="uuid">The UUID to convert.</param>
         /// <returns>A Guid instance.</returns>
         /// <remarks>
-        /// This conversion is explicit to make it clear that you are converting between different UUID formats.
+        /// This conversion is implicit because UUID and Guid are equivalent formats,
+        /// and the conversion is always safe and lossless in both directions.
         /// </remarks>
-        public static explicit operator Guid(UUID uuid)
+        public static implicit operator Guid(UUID uuid)
         {
             return uuid.ToGuid();
         }
