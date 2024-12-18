@@ -118,6 +118,7 @@ public static bool TryFromBase64(string base64, out UUID result)</code></pre>
                 <pre><code class="language-csharp">// Convert to byte array
 public byte[] ToByteArray()
 public bool TryWriteBytes(byte[] destination)
+public bool TryWriteBytes(Span&lt;byte&gt; destination)
 
 // Convert from byte array
 public static UUID FromByteArray(byte[] bytes)
