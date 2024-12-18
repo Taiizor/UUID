@@ -71,7 +71,46 @@ namespace UUIDDemo
             Console.WriteLine($"UUID1 > UUID2: {id1 > id2}");
             Console.WriteLine($"UUID1 >= UUID2: {id1 >= id2}");
 
-            Console.WriteLine("\n7. Sorting and Thread Safety:");
+            Console.WriteLine("\n7. Array Extension Methods:");
+            // Generate array of UUIDs
+            UUID[] generatedArray = ArrayExtension.Generate(5);
+            Console.WriteLine("Generated array of 5 UUIDs:");
+            foreach (UUID uuid in generatedArray)
+            {
+                Console.WriteLine($"  {uuid}");
+            }
+
+            // Fill existing array
+            UUID[] existingArray = new UUID[3];
+            existingArray.Fill();
+            Console.WriteLine("\nFilled existing array of 3 UUIDs:");
+            foreach (UUID uuid in existingArray)
+            {
+                Console.WriteLine($"  {uuid}");
+            }
+
+            // TryGenerate with error handling
+            if (ArrayExtension.TryGenerate(4, out UUID[] tryGenerateArray))
+            {
+                Console.WriteLine("\nTryGenerate succeeded with 4 UUIDs:");
+                foreach (UUID uuid in tryGenerateArray)
+                {
+                    Console.WriteLine($"  {uuid}");
+                }
+            }
+
+            // TryFill with error handling
+            UUID[] arrayToFill = new UUID[3];
+            if (arrayToFill.TryFill())
+            {
+                Console.WriteLine("\nTryFill succeeded with 3 UUIDs:");
+                foreach (UUID uuid in arrayToFill)
+                {
+                    Console.WriteLine($"  {uuid}");
+                }
+            }
+
+            Console.WriteLine("\n8. Sorting and Thread Safety:");
             List<UUID> ids = new();
             for (int i = 0; i < 5; i++)
             {
@@ -92,7 +131,7 @@ namespace UUIDDemo
                 Console.WriteLine($"  {uuid} - Time: {uuid.Time:yyyy-MM-dd HH:mm:ss.fff}");
             }
 
-            Console.WriteLine("\n8. Thread-Safe UUID Generation:");
+            Console.WriteLine("\n9. Thread-Safe UUID Generation:");
             HashSet<UUID> set = new();
             List<Task> tasks = new();
 
@@ -117,7 +156,7 @@ namespace UUIDDemo
             await Task.WhenAll(tasks);
             Console.WriteLine($"Generated {set.Count} unique UUIDs across multiple threads");
 
-            Console.WriteLine("\n9.Comparing UUID and Guid initialization behaviors:\n");
+            Console.WriteLine("\n10. Comparing UUID and Guid initialization behaviors:\n");
 
             // UUID initialization - always creates a unique identifier
             UUID uuid1 = new();
