@@ -180,14 +180,95 @@ body {
 }
 
 .code-block {
-    background-color: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 2rem;
-    overflow-x: auto;
+    position: relative;
+    margin: 1.5em 0;
 }
 
 .code-block pre {
     margin: 0;
+    background: #1e1e1e !important;
+    border-radius: 8px;
+    padding: 1em;
+    overflow: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.code-block code {
+    text-shadow: none !important;
+    background: none !important;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    tab-size: 4;
+}
+
+.token.comment {
+    color: #6a9955 !important;
+}
+
+.token.keyword {
+    color: #569cd6 !important;
+}
+
+.token.string {
+    color: #ce9178 !important;
+}
+
+.token.function {
+    color: #dcdcaa !important;
+}
+
+.token.class-name {
+    color: #4ec9b0 !important;
+}
+
+.token.number {
+    color: #b5cea8 !important;
+}
+
+.token.operator {
+    color: #d4d4d4 !important;
+    background: none !important;
+}
+
+.token.punctuation {
+    color: #d4d4d4 !important;
+}
+
+.token.property {
+    color: #9cdcfe !important;
+}
+
+.token.variable {
+    color: #9cdcfe !important;
+}
+
+.copy-button {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    padding: 0.5em 1em;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: #d4d4d4;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+}
+
+.code-block:hover .copy-button {
+    opacity: 1;
+}
+
+.copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.copy-button:active {
+    transform: translateY(1px);
 }
 
 .benchmarks {
@@ -327,47 +408,6 @@ h2 {
 
 .api-table tr:hover {
     background-color: var(--bg-tertiary);
-}
-
-/* Code block enhancements */
-.code-wrapper {
-    position: relative;
-}
-
-.copy-button {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: var(--bg-tertiary);
-    border: none;
-    border-radius: 4px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.copy-button:hover {
-    background-color: var(--accent-primary);
-    color: var(--text-primary);
-}
-
-/* Mobile menu button */
-.menu-toggle {
-    display: none;
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background-color: var(--accent-primary);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Example and Performance page specific styles */
@@ -522,4 +562,22 @@ h2 {
         align-items: center;
         justify-content: center;
     }
+}
+
+/* Mobile menu button */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: var(--accent-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
