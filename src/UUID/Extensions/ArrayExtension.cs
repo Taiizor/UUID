@@ -1,11 +1,13 @@
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+
 using System.Security.Cryptography;
 
-namespace System
+namespace System.Extensions
 {
     /// <summary>
     /// Provides extension methods for efficient bulk operations on UUID arrays.
     /// </summary>
-    public static class UUIDArrayExtensions
+    public static class ArrayExtension
     {
         /// <summary>
         /// Fills an array with new UUIDs efficiently.
@@ -16,14 +18,18 @@ namespace System
         public static void Fill(UUID[] array)
         {
             if (array == null)
+            {
                 throw new ArgumentNullException(nameof(array));
+            }
 
             if (array.Length == 0)
+            {
                 return;
+            }
 
             // Calculate total bytes needed (16 bytes per UUID)
             int totalBytes = array.Length * 16;
-            
+
             // Generate all random bytes at once
             byte[] randomBytes = new byte[totalBytes];
             RandomNumberGenerator.Fill(randomBytes);
@@ -46,7 +52,9 @@ namespace System
         public static UUID[] Generate(int count)
         {
             if (count < 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(count), "Count cannot be negative.");
+            }
 
             UUID[] array = new UUID[count];
             Fill(array);
@@ -54,3 +62,4 @@ namespace System
         }
     }
 }
+#endif

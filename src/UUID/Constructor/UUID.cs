@@ -213,6 +213,7 @@ namespace System
             return true;
         }
 
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         /// <summary>
         /// Attempts to write the UUID to a span of bytes.
         /// </summary>
@@ -228,8 +229,9 @@ namespace System
             BitConverter.TryWriteBytes(destination[..8], _timestamp);
             BitConverter.TryWriteBytes(destination[8..], Random);
 
-			return true;
+            return true;
         }
+#endif
 
         /// <summary>
         /// Attempts to write the UUID to a string buffer.
