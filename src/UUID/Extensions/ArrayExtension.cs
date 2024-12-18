@@ -2,7 +2,7 @@
 
 using System.Security.Cryptography;
 
-namespace System.Extensions
+namespace System
 {
     /// <summary>
     /// Provides extension methods for efficient bulk operations on UUID arrays.

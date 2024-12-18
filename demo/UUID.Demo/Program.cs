@@ -1,5 +1,3 @@
-using System.Extensions;
-
 namespace UUIDDemo
 {
     class Program

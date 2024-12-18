@@ -88,13 +88,13 @@ namespace UUIDBenchmarks
         [Benchmark]
         public Guid Convert_ToGuid_Implicit()
         {
-            return _uuid;  // Implicit conversion
+            return _uuid;
         }
 
         [Benchmark]
         public UUID Convert_FromGuid_Implicit()
         {
-            return _guid;  // Implicit conversion
+            return _guid;
         }
 
         [Benchmark]
