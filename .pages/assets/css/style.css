@@ -36,6 +36,25 @@ body {
     margin-bottom: 2rem;
 }
 
+.sidebar-header a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-primary);
+    padding: 1rem;
+}
+
+.sidebar-header h1 {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.sidebar-header a:hover {
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
 .logo {
     width: 80px;
     height: 80px;
