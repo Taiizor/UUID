@@ -21,15 +21,15 @@ namespace System
         private const int SIZE = 16;
 
         /// <summary>
+        /// The timestamp component of the UUID.
+        /// </summary>
+        private readonly ulong _timestamp = timestamp;
+
+        /// <summary>
         /// Characters used in Base32 encoding.
         /// This set excludes I, L, O to avoid confusion with 1, 1, 0.
         /// </summary>
         private const string ENCODING_CHARS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
-
-        /// <summary>
-        /// The timestamp component of the UUID.
-        /// </summary>
-        private readonly ulong _timestamp = timestamp;
 
         /// <summary>
         /// Thread-local random number generator for secure random number generation.
@@ -159,7 +159,6 @@ namespace System
         /// <returns>A Base32 encoded string representation of the UUID.</returns>
         public string ToBase32()
         {
-            const string ENCODING_CHARS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
             char[] result = new char[26];
             ulong value = _timestamp;
 
