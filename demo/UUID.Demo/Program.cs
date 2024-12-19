@@ -216,7 +216,7 @@ namespace UUIDDemo
             // Guid proper initialization - requires explicit NewGuid call
             Guid newGuid1 = Guid.NewGuid();
             Guid newGuid2 = Guid.NewGuid();
-            
+
             Console.WriteLine("Guid with NewGuid():");
             Console.WriteLine($"First  Guid: {newGuid1}");
             Console.WriteLine($"Second Guid: {newGuid2}");
@@ -225,17 +225,17 @@ namespace UUIDDemo
 
             Console.WriteLine("\n13. Database-Specific UUID Generation:");
             Console.WriteLine("PostgreSQL Optimized (V7):");
-            
+
             UUID postgresUUID = UUID.NewDatabaseFriendly(DatabaseType.PostgreSQL);
-            
+
             Console.WriteLine($"UUID: {postgresUUID}");
             Console.WriteLine($"Version: {Decoder.GetVersionDescription(postgresUUID)}");
             Console.WriteLine($"Timestamp: {postgresUUID.Time}");
 
             Console.WriteLine("\nSQL Server Optimized (V8):");
-            
+
             UUID sqlServerUUID = UUID.NewDatabaseFriendly(DatabaseType.SQLServer);
-            
+
             Console.WriteLine($"UUID: {sqlServerUUID}");
             Console.WriteLine($"Version: {Decoder.GetVersionDescription(sqlServerUUID)}");
             Console.WriteLine($"Timestamp: {sqlServerUUID.Time}");
@@ -243,12 +243,12 @@ namespace UUIDDemo
             Console.WriteLine("\n14. Bulk UUID Generation Performance:");
             const int batchSize = 1000;
             Console.WriteLine($"Generating {batchSize} UUIDs in batch...");
-            
-            var startTime = DateTime.Now;
+
+            DateTime startTime = DateTime.Now;
             UUID[] uuids = new UUID[batchSize];
             uuids.TryFill();
-            var endTime = DateTime.Now;
-            
+            DateTime endTime = DateTime.Now;
+
             Console.WriteLine($"Generation completed in {(endTime - startTime).TotalMilliseconds:F2}ms");
             Console.WriteLine($"First UUID: {uuids[0]}");
             Console.WriteLine($"Last UUID: {uuids[batchSize - 1]}");
@@ -256,15 +256,14 @@ namespace UUIDDemo
             Console.WriteLine("\n15. Sequential UUID Analysis:");
             UUID[] sequentialBatch = Toolkit.CreateSequentialBatch(5);
             Console.WriteLine("Sequential UUIDs (optimized for database insertion):");
-            
-            foreach (var uuid in sequentialBatch)
+
+            foreach (UUID uuid in sequentialBatch)
             {
                 Console.WriteLine($"UUID: {uuid}");
                 Console.WriteLine($"Version: {Decoder.GetVersionDescription(uuid)}");
-                
-                ushort sequence;
-                
-                if (Decoder.TryGetSequence(uuid, out sequence))
+
+
+                if (Decoder.TryGetSequence(uuid, out ushort sequence))
                 {
                     Console.WriteLine($"Sequence: {sequence}");
                 }

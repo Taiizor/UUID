@@ -657,17 +657,26 @@ namespace System
         /// <param name="version">The UUID version (4, 5, 7, or 8)</param>
         /// <remarks>
         /// Modifies the input values to set:
-        /// - Version bits (4 bits) in the timestamp
-        /// - Variant bits (2 bits) in the random component
+        /// - Version bits (4 bits) in the most significant 4 bits of the 7th byte
+        /// - Variant bits (2 bits) in the most significant 2 bits of the 8th byte
         /// This ensures RFC 4122 compliance for the specified UUID version.
         /// </remarks>
         private static void SetVersionAndVariant(ref ulong timestamp, ref ulong random, int version)
         {
-            // Clear version bits and set new version
-            timestamp = (timestamp & 0xFFFF_FFFF_FFFF_0FFF) | ((ulong)version << 12);
+            // Validate version number
+            if (version is not (4 or 5 or 7 or 8))
+            {
+                throw new ArgumentException($"Invalid UUID version: {version}. Must be 4, 5, 7, or 8.", nameof(version));
+            }
 
-            // Set variant bits (RFC 4122)
-            random = (random & 0x3FFF_FFFF_FFFF_FFFF) | 0x8000_0000_0000_0000;
+            // Set version (4 bits) in the most significant 4 bits of the 7th byte (bits 48-51)
+            timestamp &= ~((ulong)0xF << 48);  // Clear version bits
+            timestamp |= (ulong)version << 48;  // Set version
+
+            // Set variant bits (2 bits) in the most significant 2 bits of the 8th byte (bits 62-63)
+            // RFC 4122 requires variant bits to be 0b10
+            random &= ~((ulong)0x3 << 62);  // Clear variant bits
+            random |= (ulong)0x2 << 62;  // Set variant to 0b10
         }
     }
 }

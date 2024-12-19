@@ -10,7 +10,7 @@ namespace UUIDTests
         public void PostgreSQL_Optimized_UUID_Should_Be_Version7()
         {
             // Arrange & Act
-            var uuid = UUID.NewDatabaseFriendly(DatabaseType.PostgreSQL);
+            UUID uuid = UUID.NewDatabaseFriendly(DatabaseType.PostgreSQL);
 
             // Assert
             Assert.Equal(7, uuid.Version);
@@ -21,7 +21,7 @@ namespace UUIDTests
         public void SQLServer_Optimized_UUID_Should_Be_Version8()
         {
             // Arrange & Act
-            var uuid = UUID.NewDatabaseFriendly(DatabaseType.SQLServer);
+            UUID uuid = UUID.NewDatabaseFriendly(DatabaseType.SQLServer);
 
             // Assert
             Assert.Equal(8, uuid.Version);
@@ -33,14 +33,14 @@ namespace UUIDTests
         {
             // Arrange
             const int batchSize = 100;
-            
+
             // Act
             UUID[] batch = Toolkit.CreateSequentialBatch(batchSize);
 
             // Assert
             for (int i = 1; i < batchSize; i++)
             {
-                Assert.True(batch[i].Time >= batch[i - 1].Time, 
+                Assert.True(batch[i].Time >= batch[i - 1].Time,
                     "UUIDs should maintain temporal order");
             }
         }
@@ -52,7 +52,7 @@ namespace UUIDTests
         public void Database_Friendly_UUIDs_Should_Have_Valid_Sequence(DatabaseType dbType)
         {
             // Arrange & Act
-            var uuid = UUID.NewDatabaseFriendly(dbType);
+            UUID uuid = UUID.NewDatabaseFriendly(dbType);
 
             // Assert
             Assert.True(Decoder.TryGetSequence(uuid, out ushort sequence),
@@ -65,14 +65,14 @@ namespace UUIDTests
         {
             // Arrange
             const int count = 1000;
-            var uuids = new UUID[count];
+            UUID[] uuids = new UUID[count];
 
             // Act
             bool success = uuids.TryFill();
 
             // Assert
             Assert.True(success, "Bulk generation should succeed");
-            var uniqueCount = uuids.Distinct().Count();
+            int uniqueCount = uuids.Distinct().Count();
             Assert.Equal(count, uniqueCount);
         }
 
@@ -81,7 +81,7 @@ namespace UUIDTests
         {
             // Arrange
             const int batchSize = 10;
-            
+
             // Act
             UUID[] postgresUUIDs = Toolkit.CreateSequentialBatch(batchSize, DatabaseType.PostgreSQL);
             UUID[] sqlServerUUIDs = Toolkit.CreateSequentialBatch(batchSize, DatabaseType.SQLServer);
