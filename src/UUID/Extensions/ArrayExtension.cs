@@ -7,7 +7,16 @@ namespace System
     /// <summary>
     /// Provides extension methods for efficient bulk operations on UUID arrays.
     /// These methods handle byte arrays in a way that maintains UUID structure and endianness.
+    /// Optimized for high-performance scenarios where multiple UUIDs need to be generated simultaneously.
     /// </summary>
+    /// <remarks>
+    /// Key features:
+    /// - Bulk UUID generation with minimal memory allocation
+    /// - Thread-safe operations
+    /// - Cryptographically secure random number generation
+    /// - Efficient memory usage through array pooling
+    /// - Exception-safe implementations with Try-pattern alternatives
+    /// </remarks>
     public static partial class ArrayExtension
     {
         /// <summary>

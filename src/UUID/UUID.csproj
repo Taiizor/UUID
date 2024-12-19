@@ -81,7 +81,6 @@
 
     <ItemGroup>
         <Folder Include="Properties\" />
-        <Folder Include="Versions\" />
     </ItemGroup>
 
 </Project>

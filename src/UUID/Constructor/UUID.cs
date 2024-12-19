@@ -5,6 +5,7 @@ namespace System
     /// <summary>
     /// UUID represents a modern and efficient unique identifier implementation,
     /// designed for high performance and enhanced security in distributed systems.
+    /// This implementation follows RFC 4122 standards while providing additional optimizations.
     /// </summary>
     /// <remarks>
     /// This implementation provides:
@@ -12,6 +13,8 @@ namespace System
     /// - Security: Uses cryptographically secure random numbers
     /// - Performance: Optimized for high-performance scenarios
     /// - Compatibility: Full integration with .NET ecosystem
+    /// - Database Friendly: Optimized for both PostgreSQL and SQL Server
+    /// - Thread Safety: All operations are thread-safe
     /// </remarks>
     public readonly partial struct UUID(ulong timestamp, ulong random) : IEquatable<UUID>, IComparable<UUID>, IComparable
     {
