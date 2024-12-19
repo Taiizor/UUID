@@ -31,6 +31,11 @@ namespace System
         private static long _lastTimestamp;
 
         /// <summary>
+        /// Gets the random component of the UUID.
+        /// </summary>
+        public ulong Random { get; } = random;
+
+        /// <summary>
         /// 
         /// </summary>
         private static readonly object _lock = new();
@@ -82,6 +87,22 @@ namespace System
             long unixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
             return (((ulong)unixMs & 0x0000_FFFF_FFFF_FFFF) << 16)
+                   | ((ulong)bytes[0] << 8)
+                   | bytes[1];
+        }
+
+        /// <summary>
+        /// Generates a timestamp sequence component for the UUID.
+        /// </summary>
+        /// <returns>A 64-bit unsigned integer containing the timestamp and additional random data.</returns>
+        private static ulong GenerateTimestampSequence()
+        {
+            (long timestamp, ushort sequence) = GetTimestampAndSequence();
+
+            byte[] bytes = new byte[2];
+            _rng.Value!.GetBytes(bytes);
+
+            return (((ulong)timestamp & 0x0000_FFFF_FFFF_FFFF) << 16)
                    | ((ulong)bytes[0] << 8)
                    | bytes[1];
         }
@@ -158,11 +179,6 @@ namespace System
         /// Gets the timestamp component of the UUID.
         /// </summary>
         public DateTimeOffset Time => DateTimeOffset.FromUnixTimeMilliseconds((long)(_timestamp >> 16));
-
-        /// <summary>
-        /// Gets the random component of the UUID.
-        /// </summary>
-        public ulong Random { get; } = random;
 
         /// <summary>
         /// Returns a string representation of the UUID.

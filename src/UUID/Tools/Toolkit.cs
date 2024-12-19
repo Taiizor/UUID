@@ -115,7 +115,7 @@ namespace System
             }
 
             UUID[] result = new UUID[count];
-            
+
             for (int i = 0; i < count; i++)
             {
                 result[i] = UUID.NewDatabaseFriendly(dbType);

@@ -154,7 +154,7 @@ namespace System
         /// </remarks>
         public static UUID NewV4()
         {
-            ulong timestamp = GenerateTimestamp();
+            ulong timestamp = GenerateTimestampSequence();
             ulong random = GenerateRandom();
 
             // Set version and variant
