@@ -10,6 +10,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\src\UUID\UUID.csproj" />
+        <ProjectReference Include="..\..\src\UUID.Serialization.Newtonsoft\UUID.Serialization.Newtonsoft.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="xunit" Version="2.9.2" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
@@ -17,11 +22,6 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\UUID\UUID.csproj" />
-        <ProjectReference Include="..\..\src\UUID.Serialization.Newtonsoft\UUID.Serialization.Newtonsoft.csproj" />
     </ItemGroup>
 
 </Project>
