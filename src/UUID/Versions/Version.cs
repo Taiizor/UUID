@@ -29,6 +29,35 @@ namespace System
         }
 
         /// <summary>
+        /// Creates a new Version 8 UUID (optimized for SQL Server).
+        /// </summary>
+        /// <returns>A new Version 8 UUID instance.</returns>
+        /// <remarks>
+        /// Version 8 UUID structure:
+        /// - First part: Random data
+        /// - Last 48 bits: Unix timestamp in milliseconds
+        /// - Last 16 bits of random: Sequence number
+        /// 
+        /// This format is optimized for SQL Server by:
+        /// - Placing timestamp at the end for better clustered index performance
+        /// - Using 16-bit sequence for higher sub-millisecond resolution
+        /// - Reducing page splits in clustered indexes
+        /// </remarks>
+        public static UUID NewV8()
+        {
+            (long unixMs, ushort sequence) = GetTimestampAndSequence();
+
+            // For SQL Server, we want the timestamp at the end for better indexing
+            ulong timestamp = GenerateRandom();
+            ulong random = ((ulong)unixMs << 16) | (ulong)(sequence & 0xFFFF);
+
+            // Set version and variant
+            SetVersionAndVariant(ref timestamp, ref random, 8);
+
+            return new UUID(timestamp, random);
+        }
+
+        /// <summary>
         /// Creates a new Version 7 UUID (optimized for PostgreSQL).
         /// </summary>
         /// <returns>A new Version 7 UUID instance.</returns>
@@ -58,35 +87,6 @@ namespace System
 
             // Set version and variant
             SetVersionAndVariant(ref timestamp, ref random, 7);
-
-            return new UUID(timestamp, random);
-        }
-
-        /// <summary>
-        /// Creates a new Version 8 UUID (optimized for SQL Server).
-        /// </summary>
-        /// <returns>A new Version 8 UUID instance.</returns>
-        /// <remarks>
-        /// Version 8 UUID structure:
-        /// - First part: Random data
-        /// - Last 48 bits: Unix timestamp in milliseconds
-        /// - Last 16 bits of random: Sequence number
-        /// 
-        /// This format is optimized for SQL Server by:
-        /// - Placing timestamp at the end for better clustered index performance
-        /// - Using 16-bit sequence for higher sub-millisecond resolution
-        /// - Reducing page splits in clustered indexes
-        /// </remarks>
-        public static UUID NewV8()
-        {
-            (long unixMs, ushort sequence) = GetTimestampAndSequence();
-
-            // For SQL Server, we want the timestamp at the end for better indexing
-            ulong timestamp = GenerateRandom();
-            ulong random = ((ulong)unixMs << 16) | (ulong)(sequence & 0xFFFF);
-
-            // Set version and variant
-            SetVersionAndVariant(ref timestamp, ref random, 8);
 
             return new UUID(timestamp, random);
         }
