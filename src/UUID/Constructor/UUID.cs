@@ -6,7 +6,7 @@ namespace System
     /// <summary>
     /// UUID represents a modern and efficient unique identifier implementation,
     /// designed for high performance and enhanced security in distributed systems.
-    /// This implementation follows RFC 4122 standards while providing additional optimizations.
+    /// This implementation follows RFC 4122 standards.
     /// </summary>
     /// <remarks>
     /// This implementation provides:
@@ -14,7 +14,6 @@ namespace System
     /// - Security: Uses cryptographically secure random numbers
     /// - Performance: Optimized for high-performance scenarios
     /// - Compatibility: Full integration with .NET ecosystem
-    /// - Database Friendly: Optimized for both PostgreSQL and SQL Server
     /// - Thread Safety: All operations are thread-safe
     /// </remarks>
     public readonly partial struct UUID(ulong timestamp, ulong random) : IEquatable<UUID>, IComparable<UUID>, IComparable
@@ -74,8 +73,7 @@ namespace System
         /// Creates a new UUID instance with current timestamp.
         /// </summary>
         /// <remarks>
-        /// By default, this constructor creates a Version 7 UUID which is:
-        /// - Optimized for PostgreSQL and general database usage
+        /// By default, this constructor creates a Version 7 UUID which:
         /// - Time-ordered for natural sorting
         /// - Contains high-precision timestamp
         /// - Includes random bits for uniqueness
@@ -631,8 +629,7 @@ namespace System
         /// The comparison is performed in two steps:
         /// 1. First, timestamps are compared
         /// 2. If timestamps are equal, random components are compared
-        /// This ensures a consistent and meaningful ordering of UUIDs,
-        /// particularly useful when UUIDs are used as database keys.
+        /// This ensures a consistent and meaningful ordering of UUIDs.
         /// </remarks>
         public static bool operator <(UUID left, UUID right)
         {
