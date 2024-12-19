@@ -21,9 +21,29 @@ namespace System
         private const int SIZE = 16;
 
         /// <summary>
+        /// 
+        /// </summary>
+        private static ushort _sequence;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static long _lastTimestamp;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static readonly object _lock = new();
+
+        /// <summary>
         /// The timestamp component of the UUID.
         /// </summary>
-        private readonly ulong _timestamp = timestamp;
+        internal readonly ulong _timestamp = timestamp;
+
+        /// <summary>
+        /// Gets the version number of this UUID.
+        /// </summary>
+        public int Version => (int)((_timestamp >> 48) & 0x0F);
 
         /// <summary>
         /// Characters used in Base32 encoding.
@@ -545,6 +565,61 @@ namespace System
         public static bool operator >=(UUID left, UUID right)
         {
             return left.CompareTo(right) >= 0;
+        }
+
+        /// <summary>
+        /// Generates a new timestamp and sequence number in a thread-safe manner.
+        /// </summary>
+        /// <returns>
+        /// A tuple containing:
+        /// - timestamp: Unix timestamp in milliseconds
+        /// - sequence: 16-bit counter for sub-millisecond ordering
+        /// </returns>
+        /// <remarks>
+        /// This method is thread-safe using a lock mechanism to ensure unique 
+        /// timestamp-sequence combinations across multiple threads. The sequence
+        /// number is incremented when multiple UUIDs are generated within the
+        /// same millisecond to maintain ordering.
+        /// </remarks>
+        private static (long timestamp, ushort sequence) GetTimestampAndSequence()
+        {
+            lock (_lock)
+            {
+                long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+                if (timestamp == _lastTimestamp)
+                {
+                    _sequence++;
+                }
+                else
+                {
+                    _sequence = 0;
+                    _lastTimestamp = timestamp;
+                }
+
+                return (timestamp, _sequence);
+            }
+        }
+
+        /// <summary>
+        /// Sets the version and variant bits in the UUID according to RFC 4122.
+        /// </summary>
+        /// <param name="timestamp">The timestamp value to modify</param>
+        /// <param name="random">The random value to modify</param>
+        /// <param name="version">The UUID version (4, 5, 7, or 8)</param>
+        /// <remarks>
+        /// Modifies the input values to set:
+        /// - Version bits (4 bits) in the timestamp
+        /// - Variant bits (2 bits) in the random component
+        /// This ensures RFC 4122 compliance for the specified UUID version.
+        /// </remarks>
+        private static void SetVersionAndVariant(ref ulong timestamp, ref ulong random, int version)
+        {
+            // Set version (4 bits)
+            timestamp = (timestamp & 0xFFFF_FFFF_FFFF_0FFF) | ((ulong)version << 12);
+
+            // Set variant (2 bits)
+            random = (random & 0x3FFF_FFFF_FFFF_FFFF) | 0x8000_0000_0000_0000;
         }
     }
 }
