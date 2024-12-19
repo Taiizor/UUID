@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -276,6 +278,95 @@ namespace UUIDTests
             Assert.False(UUID.TryFromByteArray(null, out _));
             Assert.False(UUID.TryFromByteArray(new byte[15], out _)); // Too short
             Assert.False(UUID.TryFromByteArray(new byte[17], out _)); // Too long
+        }
+
+        [Fact]
+        public async Task ToInt64_HandlesMultipleThreads()
+        {
+            // Arrange
+            const int threadCount = 10;
+            ConcurrentDictionary<long, bool> results = new();
+            Task[] tasks = new Task[threadCount];
+
+            // Act
+            for (int i = 0; i < threadCount; i++)
+            {
+                tasks[i] = Task.Run(() =>
+                {
+                    UUID uuid = UUID.New();
+                    long value = uuid.ToInt64();
+                    return results.TryAdd(value, true);
+                });
+            }
+            await Task.WhenAll(tasks);
+
+            // Assert
+            Assert.Equal(threadCount, results.Count);
+        }
+
+        [Fact]
+        public void ToInt64_SameUUID_ReturnsSameValue()
+        {
+            // Arrange
+            UUID uuid = UUID.New();
+
+            // Act
+            long value1 = uuid.ToInt64();
+            long value2 = uuid.ToInt64();
+            long value3 = (long)uuid; // Implicit operator
+
+            // Assert
+            Assert.Equal(value1, value2);
+            Assert.Equal(value2, value3);
+        }
+
+        [Fact]
+        public void ToInt64_DifferentUUIDs_ReturnsDifferentValues()
+        {
+            // Arrange
+            UUID uuid1 = UUID.New();
+            UUID uuid2 = UUID.New();
+
+            // Act
+            long value1 = uuid1.ToInt64();
+            long value2 = uuid2.ToInt64();
+
+            // Assert
+            Assert.NotEqual(value1, value2);
+        }
+
+        [Fact]
+        public void ToInt64_PreservesTimeOrdering()
+        {
+            // Arrange
+            UUID uuid1 = UUID.New();
+            Thread.Sleep(10); // Ensure different timestamp
+            UUID uuid2 = UUID.New();
+
+            // Act
+            long value1 = uuid1.ToInt64();
+            long value2 = uuid2.ToInt64();
+
+            // Assert
+            Assert.True(value2 > value1, "Later UUID should convert to larger long value");
+        }
+
+        [Theory]
+        [InlineData(0UL, 0UL)]  // Minimum values
+        [InlineData(ulong.MaxValue, ulong.MaxValue)]  // Maximum values
+        [InlineData(123456UL, 789012UL)]  // Random values
+        public void ToInt64_WithSpecificValues_IsConsistent(ulong timestamp, ulong random)
+        {
+            // Arrange
+            UUID uuid = new(timestamp, random);
+
+            // Act
+            long value1 = uuid.ToInt64();
+            long value2 = uuid.ToInt64();
+
+            // Assert
+            Assert.Equal(value1, value2);
+            Assert.True(value1 >= 0, "Converted long value should be non-negative");
         }
     }
 }

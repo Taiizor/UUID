@@ -10,6 +10,8 @@ namespace UUIDBenchmarks
     [SimpleJob(RuntimeMoniker.Net90, launchCount: 1, warmupCount: 2, iterationCount: 3)]
     public class UUIDBenchmarks
     {
+        private readonly long[] _longResults = new long[1000];
+        private readonly UUID[] _uuids = new UUID[1000];
         private readonly byte[] _buffer = new byte[16];
         private readonly Guid _guid = Guid.NewGuid();
         private readonly UUID _uuid2 = UUID.New();
@@ -19,6 +21,15 @@ namespace UUIDBenchmarks
         public UUIDBenchmarks()
         {
             _uuidString = _uuid.ToString();
+        }
+
+        [GlobalSetup]
+        public void Setup()
+        {
+            for (int i = 0; i < _uuids.Length; i++)
+            {
+                _uuids[i] = UUID.New();
+            }
         }
 
         [Benchmark(Baseline = true)]
@@ -122,6 +133,27 @@ namespace UUIDBenchmarks
         public bool Compare_GreaterThan()
         {
             return _uuid > _uuid2;
+        }
+
+        [Benchmark]
+        public long ToInt64_SingleUUID()
+        {
+            return _uuid.ToInt64();
+        }
+
+        [Benchmark]
+        public long ImplicitToInt64_SingleUUID()
+        {
+            return (long)_uuid;
+        }
+
+        [Benchmark]
+        public void ToInt64_MultipleUUIDs()
+        {
+            for (int i = 0; i < _uuids.Length; i++)
+            {
+                _longResults[i] = _uuids[i].ToInt64();
+            }
         }
     }
 }
