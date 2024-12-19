@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UUID.Serialization.Newtonso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UUID.Serialization.System.Benchmarks", "benchmark\UUID.Serialization.System.Benchmarks\UUID.Serialization.System.Benchmarks.csproj", "{8F0B6B6A-7336-DE7A-5B79-AD1C38F60139}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UUID.Compare.Benchmarks", "benchmark\UUID.Compare.Benchmarks\UUID.Compare.Benchmarks.csproj", "{7836A9A9-ABF1-F1F9-DF37-F3F7115C4048}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{8F0B6B6A-7336-DE7A-5B79-AD1C38F60139}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F0B6B6A-7336-DE7A-5B79-AD1C38F60139}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F0B6B6A-7336-DE7A-5B79-AD1C38F60139}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7836A9A9-ABF1-F1F9-DF37-F3F7115C4048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7836A9A9-ABF1-F1F9-DF37-F3F7115C4048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7836A9A9-ABF1-F1F9-DF37-F3F7115C4048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7836A9A9-ABF1-F1F9-DF37-F3F7115C4048}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +118,7 @@ Global
 		{BB2ADD76-012C-E72D-3408-4798106AF345} = {04361DC9-3E9F-481A-9489-068DE8688332}
 		{B3458EF5-6BDF-A94E-1E6B-B9FD6FF363BD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{8F0B6B6A-7336-DE7A-5B79-AD1C38F60139} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{7836A9A9-ABF1-F1F9-DF37-F3F7115C4048} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5DA4A105-4BC7-4943-9328-F7274E75FCB3}
