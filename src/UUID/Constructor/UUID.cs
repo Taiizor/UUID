@@ -48,6 +48,18 @@ namespace System
         /// <summary>
         /// Gets the version number of this UUID.
         /// </summary>
+        /// <returns>
+        /// Version number (4, 5, 7, or 8) indicating the UUID format:
+        /// - 4: Random UUID
+        /// - 5: Name-based UUID using SHA-1
+        /// - 7: Time-ordered UUID (PostgreSQL optimized)
+        /// - 8: Time-ordered UUID (SQL Server optimized)
+        /// </returns>
+        /// <remarks>
+        /// The version number is stored in bits 48-51 of the timestamp field
+        /// and indicates how the UUID was generated. This affects how the
+        /// UUID should be interpreted and compared.
+        /// </remarks>
         public int Version => (int)((_timestamp >> 48) & 0x0F);
 
         /// <summary>
@@ -64,6 +76,19 @@ namespace System
         /// <summary>
         /// Creates a new UUID instance with current timestamp.
         /// </summary>
+        /// <remarks>
+        /// By default, this constructor creates a Version 7 UUID which is:
+        /// - Optimized for PostgreSQL and general database usage
+        /// - Time-ordered for natural sorting
+        /// - Contains high-precision timestamp
+        /// - Includes random bits for uniqueness
+        /// 
+        /// For specific version UUIDs, use the static factory methods:
+        /// - NewV4() for random UUIDs
+        /// - NewV5() for name-based UUIDs
+        /// - NewV7() for PostgreSQL-optimized UUIDs
+        /// - NewV8() for SQL Server-optimized UUIDs
+        /// </remarks>
         public UUID() : this(GenerateTimestamp(), GenerateRandom()) { }
 
         /// <summary>
@@ -79,6 +104,13 @@ namespace System
         /// Generates a timestamp component for the UUID.
         /// </summary>
         /// <returns>A 64-bit unsigned integer containing the timestamp and additional random data.</returns>
+        /// <remarks>
+        /// The timestamp format varies by UUID version:
+        /// - V7: First 48 bits contain Unix timestamp in milliseconds
+        /// - V8: Timestamp is stored in the last 48 bits
+        /// Random data is added to ensure uniqueness within the same millisecond.
+        /// Thread safety is handled by the _lock object when necessary.
+        /// </remarks>
         private static ulong GenerateTimestamp()
         {
             byte[] bytes = new byte[2];
