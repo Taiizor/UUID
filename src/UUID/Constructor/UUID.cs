@@ -21,46 +21,14 @@ namespace System
         private const int SIZE = 16;
 
         /// <summary>
-        /// Sequence counter used to handle multiple UUID generations within the same millisecond.
-        /// </summary>
-        private static ushort _sequence;
-
-        /// <summary>
-        /// Stores the last timestamp used for UUID generation to ensure monotonicity.
-        /// </summary>
-        private static long _lastTimestamp;
-
-        /// <summary>
         /// Gets the random component of the UUID.
         /// </summary>
         public ulong Random { get; } = random;
 
         /// <summary>
-        /// Synchronization object for thread-safe UUID generation.
-        /// </summary>
-        private static readonly object _lock = new();
-
-        /// <summary>
         /// The timestamp component of the UUID.
         /// </summary>
         internal readonly ulong _timestamp = timestamp;
-
-        /// <summary>
-        /// Gets the version number of this UUID.
-        /// </summary>
-        /// <returns>
-        /// Version number (4, 5, 7, or 8) indicating the UUID format:
-        /// - 4: Random UUID
-        /// - 5: Name-based UUID using SHA-1
-        /// - 7: Time-ordered UUID (PostgreSQL optimized)
-        /// - 8: Time-ordered UUID (SQL Server optimized)
-        /// </returns>
-        /// <remarks>
-        /// The version number is stored in bits 48-51 of the timestamp field
-        /// and indicates how the UUID was generated. This affects how the
-        /// UUID should be interpreted and compared.
-        /// </remarks>
-        public int Version => (int)((_timestamp >> 48) & 0x0F);
 
         /// <summary>
         /// Characters used in Base32 encoding.
@@ -119,22 +87,6 @@ namespace System
             long unixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
             return (((ulong)unixMs & 0x0000_FFFF_FFFF_FFFF) << 16)
-                   | ((ulong)bytes[0] << 8)
-                   | bytes[1];
-        }
-
-        /// <summary>
-        /// Generates a timestamp sequence component for the UUID.
-        /// </summary>
-        /// <returns>A 64-bit unsigned integer containing the timestamp and additional random data.</returns>
-        private static ulong GenerateTimestampSequence()
-        {
-            (long timestamp, ushort sequence) = GetTimestampAndSequence();
-
-            byte[] bytes = new byte[2];
-            _rng.Value!.GetBytes(bytes);
-
-            return (((ulong)timestamp & 0x0000_FFFF_FFFF_FFFF) << 16)
                    | ((ulong)bytes[0] << 8)
                    | bytes[1];
         }
@@ -613,70 +565,6 @@ namespace System
         public static bool operator >=(UUID left, UUID right)
         {
             return left.CompareTo(right) >= 0;
-        }
-
-        /// <summary>
-        /// Generates a new timestamp and sequence number in a thread-safe manner.
-        /// </summary>
-        /// <returns>
-        /// A tuple containing:
-        /// - timestamp: Unix timestamp in milliseconds
-        /// - sequence: 16-bit counter for sub-millisecond ordering
-        /// </returns>
-        /// <remarks>
-        /// This method is thread-safe using a lock mechanism to ensure unique 
-        /// timestamp-sequence combinations across multiple threads. The sequence
-        /// number is incremented when multiple UUIDs are generated within the
-        /// same millisecond to maintain ordering.
-        /// </remarks>
-        private static (long timestamp, ushort sequence) GetTimestampAndSequence()
-        {
-            lock (_lock)
-            {
-                long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-                if (timestamp == _lastTimestamp)
-                {
-                    _sequence++;
-                }
-                else
-                {
-                    _sequence = 0;
-                    _lastTimestamp = timestamp;
-                }
-
-                return (timestamp, _sequence);
-            }
-        }
-
-        /// <summary>
-        /// Sets the version and variant bits in the UUID according to RFC 4122.
-        /// </summary>
-        /// <param name="timestamp">The timestamp value to modify</param>
-        /// <param name="random">The random value to modify</param>
-        /// <param name="version">The UUID version (4, 5, 7, or 8)</param>
-        /// <remarks>
-        /// Modifies the input values to set:
-        /// - Version bits (4 bits) in the most significant 4 bits of the 7th byte
-        /// - Variant bits (2 bits) in the most significant 2 bits of the 8th byte
-        /// This ensures RFC 4122 compliance for the specified UUID version.
-        /// </remarks>
-        private static void SetVersionAndVariant(ref ulong timestamp, ref ulong random, int version)
-        {
-            // Validate version number
-            if (version is not (4 or 5 or 7 or 8))
-            {
-                throw new ArgumentException($"Invalid UUID version: {version}. Must be 4, 5, 7, or 8.", nameof(version));
-            }
-
-            // Set version (4 bits) in the most significant 4 bits of the 7th byte (bits 48-51)
-            timestamp &= ~((ulong)0xF << 48);  // Clear version bits
-            timestamp |= (ulong)version << 48;  // Set version
-
-            // Set variant bits (2 bits) in the most significant 2 bits of the 8th byte (bits 62-63)
-            // RFC 4122 requires variant bits to be 0b10
-            random &= ~((ulong)0x3 << 62);  // Clear variant bits
-            random |= (ulong)0x2 << 62;  // Set variant to 0b10
         }
     }
 }
