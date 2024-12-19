@@ -262,7 +262,6 @@ namespace UUIDDemo
                 Console.WriteLine($"UUID: {uuid}");
                 Console.WriteLine($"Version: {Decoder.GetVersionDescription(uuid)}");
 
-
                 if (Decoder.TryGetSequence(uuid, out ushort sequence))
                 {
                     Console.WriteLine($"Sequence: {sequence}");
