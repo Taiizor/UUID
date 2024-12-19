@@ -74,6 +74,11 @@
                     <h3>Memory Efficient</h3>
                     <p>Zero-allocation options for high-throughput scenarios</p>
                 </div>
+                <div class="feature-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Bulk UUID Generation</h3>
+                    <p>Efficiently generate large arrays of UUIDs with minimal overhead</p>
+                </div>
             </div>
         </section>
 
@@ -90,7 +95,21 @@ var id = new UUID();
 string str = id.ToString();
 
 // Parse from string
-UUID parsed = UUID.Parse("0123456789abcdef0123456789abcdef");</code></pre>
+UUID parsed = UUID.Parse("0123456789abcdef0123456789abcdef");
+
+// Bulk UUID Generation
+UUID[] uuids = new UUID[1000];
+uuids.Fill();  // Efficiently fills array with new UUIDs
+
+// Generate with error handling
+if (UUID.TryGenerate(1000, out UUID[]? result))
+{
+    // Use the generated UUIDs
+    foreach (var uuid in result)
+    {
+        Console.WriteLine(uuid);
+    }
+}</code></pre>
             </div>
         </section>
 

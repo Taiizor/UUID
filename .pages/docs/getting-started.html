@@ -108,6 +108,39 @@ if (UUID.TryFromBase64(base64, out UUID parsedFromBase64))
             </div>
         </section>
 
+        <section id="bulk-operations">
+            <h2>Bulk Operations</h2>
+            <p>For high-performance scenarios where you need to generate multiple UUIDs efficiently:</p>
+
+            <div class="code-block">
+                <pre><code class="language-csharp">// Fill an existing array with UUIDs
+UUID[] uuids = new UUID[1000];
+uuids.Fill();  // Thread-safe, efficient bulk generation
+
+// Generate a new array of UUIDs
+UUID[] generated = ArrayExtension.Generate(1000);
+
+// With error handling
+if (ArrayExtension.TryGenerate(1000, out UUID[]? result))
+{
+    foreach (var uuid in result)
+    {
+        // Process each UUID
+        Console.WriteLine(uuid);
+    }
+}</code></pre>
+            </div>
+
+            <div class="info-box">
+                <h3>Performance Tips</h3>
+                <ul>
+                    <li>Use <code>Fill()</code> for existing arrays to avoid allocation overhead</li>
+                    <li>Use <code>TryGenerate()</code> for safe bulk generation with error handling</li>
+                    <li>All bulk operations are thread-safe and optimized for concurrent use</li>
+                </ul>
+            </div>
+        </section>
+
         <section id="byte-operations">
             <h2>Byte Array Operations</h2>
             <p>UUID provides methods for converting to and from byte arrays:</p>
