@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <Nullable>enable</Nullable>
@@ -18,6 +18,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Ulid" Version="1.3.4" />
+        <PackageReference Include="IdGen" Version="3.0.7" />
+        <PackageReference Include="cuid.net" Version="6.0.0" />
         <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
     </ItemGroup>
 

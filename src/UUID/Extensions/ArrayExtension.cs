@@ -1,5 +1,3 @@
-#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-
 using System.Security.Cryptography;
 
 namespace System
@@ -56,9 +54,26 @@ namespace System
 
             try
             {
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                // Generate all random bytes at once
+                Span<byte> randomBytes = new byte[totalBytes];
+                RandomNumberGenerator.Fill(randomBytes);
+
+                // Fill array with UUIDs
+                for (int i = 0, offset = 0; i < array.Length; i++, offset += 16)
+                {
+                    ulong timestamp = BitConverter.ToUInt64(randomBytes.Slice(offset, 8));
+                    ulong random = BitConverter.ToUInt64(randomBytes.Slice(offset + 8, 8));
+                    
+                    array[i] = new UUID(timestamp, random);
+                }
+#else
                 // Generate all random bytes at once
                 byte[] randomBytes = new byte[totalBytes];
-                RandomNumberGenerator.Fill(randomBytes);
+                using (var rng = RandomNumberGenerator.Create())
+                {
+                    rng.GetBytes(randomBytes);
+                }
 
                 // Fill array with UUIDs
                 for (int i = 0, offset = 0; i < array.Length; i++, offset += 16)
@@ -68,6 +83,7 @@ namespace System
 
                     array[i] = new UUID(timestamp, random);
                 }
+#endif
 
                 return true;
             }
@@ -268,5 +284,3 @@ namespace System
         }
     }
 }
-
-#endif

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Security.Cryptography;
 
 namespace System
@@ -42,7 +43,21 @@ namespace System
         /// <summary>
         /// Thread-local random number generator for secure random number generation.
         /// </summary>
-        private static readonly ThreadLocal<RandomNumberGenerator> _rng = new(RandomNumberGenerator.Create);
+        private static readonly ThreadLocal<Random> _rng = new(() =>
+        {
+#if NET6_0_OR_GREATER
+            return new Random(BitConverter.ToInt32(RandomNumberGenerator.GetBytes(4)));
+#else
+            byte[] bytes = new byte[4];
+
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(bytes);
+            }
+
+            return new Random(BitConverter.ToInt32(bytes, 0));
+#endif
+        });
 
         /// <summary>
         /// Creates a new UUID instance with current timestamp.
@@ -53,12 +68,6 @@ namespace System
         /// - Time-ordered for natural sorting
         /// - Contains high-precision timestamp
         /// - Includes random bits for uniqueness
-        /// 
-        /// For specific version UUIDs, use the static factory methods:
-        /// - NewV4() for random UUIDs
-        /// - NewV5() for name-based UUIDs
-        /// - NewV7() for PostgreSQL-optimized UUIDs
-        /// - NewV8() for SQL Server-optimized UUIDs
         /// </remarks>
         public UUID() : this(GenerateTimestamp(), GenerateRandom()) { }
 
@@ -84,14 +93,10 @@ namespace System
         /// </remarks>
         private static ulong GenerateTimestamp()
         {
-            byte[] bytes = new byte[2];
-            _rng.Value!.GetBytes(bytes);
-
+            ushort random = (ushort)_rng.Value!.Next(ushort.MaxValue);
             long unixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-            return (((ulong)unixMs & 0x0000_FFFF_FFFF_FFFF) << 16)
-                   | ((ulong)bytes[0] << 8)
-                   | bytes[1];
+            return (((ulong)unixMs & 0x0000_FFFF_FFFF_FFFF) << 16) | random;
         }
 
         /// <summary>
@@ -100,10 +105,7 @@ namespace System
         /// <returns>A 64-bit random unsigned integer.</returns>
         private static ulong GenerateRandom()
         {
-            byte[] bytes = new byte[8];
-            _rng.Value!.GetBytes(bytes);
-
-            return BitConverter.ToUInt64(bytes, 0);
+            return ((ulong)_rng.Value!.Next() << 32) | (uint)_rng.Value!.Next();
         }
 
         /// <summary>
@@ -140,26 +142,37 @@ namespace System
         public static bool TryParse(string? input, out UUID result)
         {
             result = default;
-
-            // Early return if input is null or not the correct length
-            if (input == null || input.Length != 32)
+            
+            if (string.IsNullOrEmpty(input) || input.Length != 32)
             {
                 return false;
             }
 
-            try
-            {
-                ulong timestamp = Convert.ToUInt64(input.Substring(0, 16), 16);
-                ulong random = Convert.ToUInt64(input.Substring(16), 16);
+#if NET6_0_OR_GREATER
+            ReadOnlySpan<char> span = input.AsSpan();
 
-                result = new UUID(timestamp, random);
-
-                return true;
-            }
-            catch
+            if (!ulong.TryParse(span.Slice(0, 16), NumberStyles.HexNumber, null, out ulong timestamp))
             {
                 return false;
             }
+            if (!ulong.TryParse(span.Slice(16), NumberStyles.HexNumber, null, out ulong random))
+            {
+                return false;
+            }
+#else
+            if (!ulong.TryParse(input.Substring(0, 16), NumberStyles.HexNumber, null, out ulong timestamp))
+            {
+                return false;
+            }
+            if (!ulong.TryParse(input.Substring(16), NumberStyles.HexNumber, null, out ulong random))
+            {
+                return false;
+            }
+#endif
+
+            result = new UUID(timestamp, random);
+
+            return true;
         }
 
         /// <summary>
@@ -173,7 +186,7 @@ namespace System
         /// <returns>A string representation of the UUID.</returns>
         public override string ToString()
         {
-            return $"{_timestamp:x16}{random:x16}";
+            return $"{_timestamp:X16}{Random:X16}";
         }
 
         /// <summary>
@@ -329,29 +342,11 @@ namespace System
         }
 
         /// <summary>
-        /// Attempts to write the UUID to a byte array.
-        /// </summary>
-        /// <param name="destination">The destination byte array.</param>
-        /// <returns>true if the UUID was written successfully; otherwise, false.</returns>
-        public bool TryWriteBytes(byte[] destination)
-        {
-            if (destination == null || destination.Length < SIZE)
-            {
-                return false;
-            }
-
-            BitConverter.GetBytes(_timestamp).CopyTo(destination, 0);
-            BitConverter.GetBytes(random).CopyTo(destination, 8);
-
-            return true;
-        }
-
-#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        /// <summary>
         /// Attempts to write the UUID to a span of bytes.
         /// </summary>
         /// <param name="destination">The destination span to write to.</param>
         /// <returns>True if the UUID was successfully written, false if the destination is too small.</returns>
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         public bool TryWriteBytes(Span<byte> destination)
         {
             if (destination.Length < 16)
@@ -361,6 +356,22 @@ namespace System
 
             BitConverter.TryWriteBytes(destination[..8], _timestamp);
             BitConverter.TryWriteBytes(destination[8..], random);
+
+            return true;
+        }
+#else
+        public bool TryWriteBytes(byte[] destination)
+        {
+            if (destination == null || destination.Length < 16)
+            {
+                return false;
+            }
+
+            byte[] timestampBytes = BitConverter.GetBytes(_timestamp);
+            byte[] randomBytes = BitConverter.GetBytes(random);
+            
+            Array.Copy(timestampBytes, 0, destination, 0, 8);
+            Array.Copy(randomBytes, 0, destination, 8, 8);
 
             return true;
         }
