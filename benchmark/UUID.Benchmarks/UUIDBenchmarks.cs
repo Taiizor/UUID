@@ -1,10 +1,13 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Order;
 
 namespace UUIDBenchmarks
 {
+    [RankColumn]
     [MemoryDiagnoser]
-    [SimpleJob(RuntimeMoniker.Net90, launchCount: 1, warmupCount: 3, iterationCount: 5)]
+    [Orderer(SummaryOrderPolicy.FastestToSlowest)]
+    [SimpleJob(RuntimeMoniker.Net90, launchCount: 1, warmupCount: 2, iterationCount: 3)]
     public class UUIDBenchmarks
     {
         private readonly byte[] _buffer = new byte[16];
