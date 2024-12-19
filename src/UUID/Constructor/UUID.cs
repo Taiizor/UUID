@@ -22,11 +22,22 @@ namespace System
         /// <summary>
         /// The size of the UUID in bytes.
         /// </summary>
+        /// <remarks>
+        /// This constant represents the fixed size of a UUID, which is 16 bytes (128 bits).
+        /// This follows the standard UUID specification as defined in RFC 4122.
+        /// </remarks>
         private const int SIZE = 16;
 
         /// <summary>
         /// Gets the random component of the UUID.
         /// </summary>
+        /// <remarks>
+        /// The random component ensures uniqueness even when UUIDs are generated 
+        /// within the same timestamp. It consists of 64 bits of cryptographically 
+        /// secure random data, providing a very low probability of collisions.
+        /// This is especially important in distributed systems where multiple UUIDs 
+        /// might be generated simultaneously.
+        /// </remarks>
         public ulong Random { get; } = random;
 
         /// <summary>
@@ -115,6 +126,16 @@ namespace System
         /// <returns>A new UUID instance.</returns>
         /// <exception cref="ArgumentNullException">Thrown when input is null.</exception>
         /// <exception cref="FormatException">Thrown when input is not in the correct format.</exception>
+        /// <example>
+        /// <code>
+        /// // Parse a UUID from its string representation
+        /// var uuidString = "0123456789ABCDEF0123456789ABCDEF";
+        /// var uuid = UUID.Parse(uuidString);
+        /// 
+        /// // The parsed UUID can then be used in comparisons or conversions
+        /// var guid = uuid.ToGuid();
+        /// </code>
+        /// </example>
         public static UUID Parse(string input)
         {
             if (input == null)
@@ -142,7 +163,7 @@ namespace System
         public static bool TryParse(string? input, out UUID result)
         {
             result = default;
-            
+
             if (string.IsNullOrEmpty(input) || input.Length != 32)
             {
                 return false;
@@ -333,6 +354,19 @@ namespace System
         /// Converts the UUID to a byte array.
         /// </summary>
         /// <returns>A byte array representation of the UUID.</returns>
+        /// <remarks>
+        /// This operation allocates a new byte array. For better performance in high-throughput scenarios,
+        /// consider using TryWriteBytes instead when working with existing byte arrays or spans.
+        /// The returned array is always 16 bytes long, with the first 8 bytes containing the timestamp
+        /// and the last 8 bytes containing the random component.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// var uuid = UUID.New();
+        /// byte[] bytes = uuid.ToByteArray();
+        /// // bytes can now be used for serialization or network transmission
+        /// </code>
+        /// </example>
         public byte[] ToByteArray()
         {
             byte[] bytes = new byte[SIZE];
@@ -369,7 +403,7 @@ namespace System
 
             byte[] timestampBytes = BitConverter.GetBytes(_timestamp);
             byte[] randomBytes = BitConverter.GetBytes(random);
-            
+
             Array.Copy(timestampBytes, 0, destination, 0, 8);
             Array.Copy(randomBytes, 0, destination, 8, 8);
 
@@ -593,6 +627,13 @@ namespace System
         /// <summary>
         /// Determines whether one UUID is less than another UUID.
         /// </summary>
+        /// <remarks>
+        /// The comparison is performed in two steps:
+        /// 1. First, timestamps are compared
+        /// 2. If timestamps are equal, random components are compared
+        /// This ensures a consistent and meaningful ordering of UUIDs,
+        /// particularly useful when UUIDs are used as database keys.
+        /// </remarks>
         public static bool operator <(UUID left, UUID right)
         {
             return left.CompareTo(right) < 0;

@@ -64,13 +64,13 @@ namespace System
                 {
                     ulong timestamp = BitConverter.ToUInt64(randomBytes.Slice(offset, 8));
                     ulong random = BitConverter.ToUInt64(randomBytes.Slice(offset + 8, 8));
-                    
+
                     array[i] = new UUID(timestamp, random);
                 }
 #else
                 // Generate all random bytes at once
                 byte[] randomBytes = new byte[totalBytes];
-                using (var rng = RandomNumberGenerator.Create())
+                using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
                 {
                     rng.GetBytes(randomBytes);
                 }
