@@ -21,12 +21,12 @@ namespace System
         private const int SIZE = 16;
 
         /// <summary>
-        /// 
+        /// Sequence counter used to handle multiple UUID generations within the same millisecond.
         /// </summary>
         private static ushort _sequence;
 
         /// <summary>
-        /// 
+        /// Stores the last timestamp used for UUID generation to ensure monotonicity.
         /// </summary>
         private static long _lastTimestamp;
 
@@ -36,7 +36,7 @@ namespace System
         public ulong Random { get; } = random;
 
         /// <summary>
-        /// 
+        /// Synchronization object for thread-safe UUID generation.
         /// </summary>
         private static readonly object _lock = new();
 
