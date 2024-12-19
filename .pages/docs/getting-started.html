@@ -84,6 +84,10 @@ UUID parsed = UUID.Parse("0123456789abcdef0123456789abcdef");</code></pre>
 string standard = uuid.ToString();
 // "0123456789abcdef0123456789abcdef"
 
+// Int64 format
+long base32 = uuid.ToInt64();
+// "40992764608247672"
+
 // Base32 format (URL-safe)
 string base32 = uuid.ToBase32();
 // "028T5CY4TQKFF028T5CY4TQKFF"

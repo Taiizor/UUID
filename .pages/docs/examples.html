@@ -55,8 +55,9 @@ var id = new UUID();
 
 // Different string formats
 Console.WriteLine(id.ToString()); // Standard format
-Console.WriteLine(id.ToBase32()); // Base32 format
 Console.WriteLine(id.ToBase64()); // Base64 format
+Console.WriteLine(id.ToBase32()); // Base32 format
+Console.WriteLine(id.Int64()); // Int64 format
 
 // Get raw bytes
 byte[] bytes = id.ToByteArray();</code></pre>
@@ -135,12 +136,14 @@ var id = new UUID();
 
 // Convert to different formats
 string standard = id.ToString();
-string base32 = id.ToBase32();
 string base64 = id.ToBase64();
+string base32 = id.ToBase32();
+long int64 = id.ToInt64();
 
 Console.WriteLine($"Standard: {standard}");
-Console.WriteLine($"Base32: {base32}");
 Console.WriteLine($"Base64: {base64}");
+Console.WriteLine($"Base32: {base32}");
+Console.WriteLine($"Int64: {int64}");
 
 // Convert back from Base64
 UUID fromBase64 = UUID.FromBase64(base64);

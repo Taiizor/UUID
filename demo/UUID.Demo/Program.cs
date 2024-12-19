@@ -23,6 +23,7 @@ namespace UUIDDemo
             Console.WriteLine($"Random component: {id.Random:x16}");
 
             Console.WriteLine("\n3. Different Format Conversions:");
+            Console.WriteLine($"Int64 format: {id.ToInt64()}");
             Console.WriteLine($"Base32 format: {id.ToBase32()}");
             Console.WriteLine($"Base64 format: {id.ToBase64()}");
 
