@@ -223,24 +223,7 @@ namespace UUIDDemo
             Console.WriteLine($"Are they equal? {newGuid1 == newGuid2}");
             Console.WriteLine($"Is first empty? {newGuid1 == default}");
 
-            Console.WriteLine("\n13. Database-Specific UUID Generation:");
-            Console.WriteLine("PostgreSQL Optimized (V7):");
-
-            UUID postgresUUID = UUID.NewDatabaseOptimized(DatabaseType.PostgreSQL);
-
-            Console.WriteLine($"UUID: {postgresUUID}");
-            Console.WriteLine($"Version: {Decoder.GetVersionDescription(postgresUUID)}");
-            Console.WriteLine($"Timestamp: {postgresUUID.Time}");
-
-            Console.WriteLine("\nSQL Server Optimized (V8):");
-
-            UUID sqlServerUUID = UUID.NewDatabaseOptimized(DatabaseType.SQLServer);
-
-            Console.WriteLine($"UUID: {sqlServerUUID}");
-            Console.WriteLine($"Version: {Decoder.GetVersionDescription(sqlServerUUID)}");
-            Console.WriteLine($"Timestamp: {sqlServerUUID.Time}");
-
-            Console.WriteLine("\n14. Bulk UUID Generation Performance:");
+            Console.WriteLine("\n13. Bulk UUID Generation Performance:");
             const int batchSize = 1000;
             Console.WriteLine($"Generating {batchSize} UUIDs in batch...");
 
@@ -252,23 +235,6 @@ namespace UUIDDemo
             Console.WriteLine($"Generation completed in {(endTime - startTime).TotalMilliseconds:F2}ms");
             Console.WriteLine($"First UUID: {uuids[0]}");
             Console.WriteLine($"Last UUID: {uuids[batchSize - 1]}");
-
-            Console.WriteLine("\n15. Sequential UUID Analysis:");
-            UUID[] sequentialBatch = Toolkit.CreateSequentialBatch(5);
-            Console.WriteLine("Sequential UUIDs (optimized for database insertion):");
-
-            foreach (UUID uuid in sequentialBatch)
-            {
-                Console.WriteLine($"UUID: {uuid}");
-                Console.WriteLine($"Version: {Decoder.GetVersionDescription(uuid)}");
-
-                if (Decoder.TryGetSequence(uuid, out ushort sequence))
-                {
-                    Console.WriteLine($"Sequence: {sequence}");
-                }
-
-                Console.WriteLine();
-            }
         }
     }
 }
