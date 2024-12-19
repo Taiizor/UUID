@@ -218,7 +218,7 @@ namespace System
         /// <returns>A string representation of the UUID.</returns>
         public override string ToString()
         {
-            return $"{_timestamp:x16}{Random:x16}";
+            return $"{_timestamp:x16}{random:x16}";
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace System
 
                 if (i == 13)
                 {
-                    value = Random;
+                    value = random;
                 }
             }
 
@@ -345,7 +345,7 @@ namespace System
             }
 
             BitConverter.GetBytes(_timestamp).CopyTo(destination, 0);
-            BitConverter.GetBytes(Random).CopyTo(destination, 8);
+            BitConverter.GetBytes(random).CopyTo(destination, 8);
 
             return true;
         }
@@ -364,7 +364,7 @@ namespace System
             }
 
             BitConverter.TryWriteBytes(destination[..8], _timestamp);
-            BitConverter.TryWriteBytes(destination[8..], Random);
+            BitConverter.TryWriteBytes(destination[8..], random);
 
             return true;
         }
@@ -499,7 +499,7 @@ namespace System
         /// <returns>true if the specified UUID is equal to the current UUID; otherwise, false.</returns>
         public bool Equals(UUID other)
         {
-            return _timestamp == other._timestamp && Random == other.Random;
+            return _timestamp == other._timestamp && random == other.Random;
         }
 
         /// <summary>
@@ -520,7 +520,7 @@ namespace System
         {
             unchecked
             {
-                return (_timestamp.GetHashCode() * 397) ^ Random.GetHashCode();
+                return (_timestamp.GetHashCode() * 397) ^ random.GetHashCode();
             }
         }
 
@@ -538,7 +538,7 @@ namespace System
         {
             int result = _timestamp.CompareTo(other._timestamp);
 
-            return result != 0 ? result : Random.CompareTo(other.Random);
+            return result != 0 ? result : random.CompareTo(other.Random);
         }
 
         /// <summary>
