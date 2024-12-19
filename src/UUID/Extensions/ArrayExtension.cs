@@ -9,10 +9,10 @@ namespace System
     /// </summary>
     /// <remarks>
     /// Key features:
-    /// - Bulk UUID generation with minimal memory allocation
     /// - Thread-safe operations
-    /// - Cryptographically secure random number generation
     /// - Efficient memory usage through array pooling
+    /// - Cryptographically secure random number generation
+    /// - Bulk UUID generation with minimal memory allocation
     /// - Exception-safe implementations with Try-pattern alternatives
     /// </remarks>
     public static partial class ArrayExtension
