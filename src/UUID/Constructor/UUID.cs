@@ -177,6 +177,47 @@ namespace System
         }
 
         /// <summary>
+        /// Converts this UUID to a long value with high precision.
+        /// This conversion preserves the timestamp component and combines it with a hash of the random component
+        /// to maintain uniqueness while fitting within the constraints of a long value.
+        /// Note: This is a one-way conversion as some information is necessarily lost in the process.
+        /// </summary>
+        /// <returns>A long value representing this UUID with maximum possible precision.</returns>
+        /// <remarks>
+        /// The conversion process:
+        /// - Uses the millisecond timestamp (48 bits)
+        /// - Combines it with a 15-bit hash derived from the full random component
+        /// - Ensures consistent results for the same UUID
+        /// - Minimizes collision probability for different UUIDs
+        /// </remarks>
+        public long ToInt64()
+        {
+            // Use the timestamp as the base (48 bits)
+            long result = (long)(_timestamp >> 16); // Get the milliseconds part
+
+            // Generate a 15-bit hash from the full random component
+            ulong fullRandom = random;
+            int hash = unchecked((int)(((fullRandom >> 32) & 0xFFFFFFFF) ^ (fullRandom & 0xFFFFFFFF)));
+
+            hash = Math.Abs(hash) & 0x7FFF; // Ensure positive and take 15 bits
+
+            // Combine timestamp with the hash
+            result = (result << 15) | hash;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Implicitly converts a UUID to a long value using the ToInt64() method.
+        /// </summary>
+        /// <param name="uuid">The UUID to convert.</param>
+        /// <returns>A long value representing the UUID.</returns>
+        public static implicit operator long(UUID uuid)
+        {
+            return uuid.ToInt64();
+        }
+
+        /// <summary>
         /// Returns a Base32 encoded string representation of the UUID.
         /// </summary>
         /// <returns>A Base32 encoded string representation of the UUID.</returns>
