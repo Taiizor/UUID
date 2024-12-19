@@ -118,7 +118,7 @@ namespace System
 
             for (int i = 0; i < count; i++)
             {
-                result[i] = UUID.NewDatabaseFriendly(dbType);
+                result[i] = UUID.NewDatabaseOptimized(dbType);
             }
 
             return result;

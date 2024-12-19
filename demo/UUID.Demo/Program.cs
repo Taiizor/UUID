@@ -226,7 +226,7 @@ namespace UUIDDemo
             Console.WriteLine("\n13. Database-Specific UUID Generation:");
             Console.WriteLine("PostgreSQL Optimized (V7):");
 
-            UUID postgresUUID = UUID.NewDatabaseFriendly(DatabaseType.PostgreSQL);
+            UUID postgresUUID = UUID.NewDatabaseOptimized(DatabaseType.PostgreSQL);
 
             Console.WriteLine($"UUID: {postgresUUID}");
             Console.WriteLine($"Version: {Decoder.GetVersionDescription(postgresUUID)}");
@@ -234,7 +234,7 @@ namespace UUIDDemo
 
             Console.WriteLine("\nSQL Server Optimized (V8):");
 
-            UUID sqlServerUUID = UUID.NewDatabaseFriendly(DatabaseType.SQLServer);
+            UUID sqlServerUUID = UUID.NewDatabaseOptimized(DatabaseType.SQLServer);
 
             Console.WriteLine($"UUID: {sqlServerUUID}");
             Console.WriteLine($"Version: {Decoder.GetVersionDescription(sqlServerUUID)}");

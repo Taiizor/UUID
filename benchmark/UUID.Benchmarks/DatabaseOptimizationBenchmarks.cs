@@ -25,13 +25,13 @@ namespace UUIDBenchmarks
         [Benchmark]
         public UUID GeneratePostgreSQLOptimized()
         {
-            return UUID.NewDatabaseFriendly(DatabaseType.PostgreSQL);
+            return UUID.NewDatabaseOptimized(DatabaseType.PostgreSQL);
         }
 
         [Benchmark]
         public UUID GenerateSQLServerOptimized()
         {
-            return UUID.NewDatabaseFriendly(DatabaseType.SQLServer);
+            return UUID.NewDatabaseOptimized(DatabaseType.SQLServer);
         }
 
         [Benchmark]

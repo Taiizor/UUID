@@ -6,7 +6,7 @@ namespace System
     public readonly partial struct UUID
     {
         /// <summary>
-        /// Creates a new database-friendly UUID optimized for the specified database type.
+        /// Creates a new database UUID optimized for the specified database type.
         /// </summary>
         /// <param name="dbType">The type of database where the UUID will be stored.</param>
         /// <returns>A new UUID instance optimized for the specified database.</returns>
@@ -17,7 +17,7 @@ namespace System
         /// - SQLite: Uses Version 7 (same as PostgreSQL)
         /// - Other databases: Uses Version 4 (random) as default
         /// </remarks>
-        public static UUID NewDatabaseFriendly(DatabaseType dbType)
+        public static UUID NewDatabaseOptimized(DatabaseType dbType)
         {
             return dbType switch
             {

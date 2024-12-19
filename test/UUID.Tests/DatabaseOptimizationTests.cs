@@ -10,7 +10,7 @@ namespace UUIDTests
         public void PostgreSQL_Optimized_UUID_Should_Be_Version7()
         {
             // Arrange & Act
-            UUID uuid = UUID.NewDatabaseFriendly(DatabaseType.PostgreSQL);
+            UUID uuid = UUID.NewDatabaseOptimized(DatabaseType.PostgreSQL);
 
             // Assert
             Assert.Equal(7, uuid.Version);
@@ -21,7 +21,7 @@ namespace UUIDTests
         public void SQLServer_Optimized_UUID_Should_Be_Version8()
         {
             // Arrange & Act
-            UUID uuid = UUID.NewDatabaseFriendly(DatabaseType.SQLServer);
+            UUID uuid = UUID.NewDatabaseOptimized(DatabaseType.SQLServer);
 
             // Assert
             Assert.Equal(8, uuid.Version);
@@ -52,7 +52,7 @@ namespace UUIDTests
         public void Database_Friendly_UUIDs_Should_Have_Valid_Sequence(DatabaseType dbType)
         {
             // Arrange & Act
-            UUID uuid = UUID.NewDatabaseFriendly(dbType);
+            UUID uuid = UUID.NewDatabaseOptimized(dbType);
 
             // Assert
             Assert.True(Decoder.TryGetSequence(uuid, out ushort sequence),
