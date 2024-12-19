@@ -663,10 +663,10 @@ namespace System
         /// </remarks>
         private static void SetVersionAndVariant(ref ulong timestamp, ref ulong random, int version)
         {
-            // Set version (4 bits)
+            // Clear version bits and set new version
             timestamp = (timestamp & 0xFFFF_FFFF_FFFF_0FFF) | ((ulong)version << 12);
 
-            // Set variant (2 bits)
+            // Set variant bits (RFC 4122)
             random = (random & 0x3FFF_FFFF_FFFF_FFFF) | 0x8000_0000_0000_0000;
         }
     }
