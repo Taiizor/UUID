@@ -251,7 +251,52 @@ namespace UUIDDemo
                 Console.WriteLine($"  {uuid} - Time: {uuid.Time:yyyy-MM-dd HH:mm:ss.fff}");
             }
 
-            Console.WriteLine("\n14. Thread-Safe UUID Generation:");
+            Console.WriteLine("\n14. UUIDv7 Comparison Methods:");
+
+            // IsOrderedAfter demo
+            UUID earlier = UUID.New();
+            Thread.Sleep(10); // 10ms wait
+            UUID later = UUID.New();
+
+            Console.WriteLine("IsOrderedAfter Demo:");
+            Console.WriteLine($"Earlier UUID: {earlier}");
+            Console.WriteLine($"Later UUID:   {later}");
+            Console.WriteLine($"Is later ordered after earlier? {later.IsOrderedAfter(earlier)}");
+            Console.WriteLine($"Is earlier ordered after later? {earlier.IsOrderedAfter(later)}");
+
+            // CompareTimestamps demo
+            Console.WriteLine("\nCompareTimestamps Demo:");
+            int comparison = UUID.CompareTimestamps(earlier, later);
+            Console.WriteLine($"Comparing timestamps (earlier vs later): {comparison}");
+            Console.WriteLine($"Comparing timestamps (later vs earlier): {UUID.CompareTimestamps(later, earlier)}");
+            Console.WriteLine($"Comparing timestamps (same UUID): {UUID.CompareTimestamps(earlier, earlier)}");
+
+            // AreMonotonicallyOrdered demo
+            Console.WriteLine("\nAreMonotonicallyOrdered Demo:");
+            UUID[] orderedArray = new UUID[5];
+            for (int i = 0; i < orderedArray.Length; i++)
+            {
+                orderedArray[i] = UUID.New();
+                Thread.Sleep(1); // 1ms wait
+            }
+
+            Console.WriteLine("Ordered UUID array:");
+            foreach (UUID uuid in orderedArray)
+            {
+                Console.WriteLine($"  {uuid} - Time: {uuid.Time:HH:mm:ss.fff}");
+            }
+            Console.WriteLine($"Is array monotonically ordered? {UUID.AreMonotonicallyOrdered(orderedArray)}");
+
+            // Sırayı boz ve tekrar kontrol et
+            (orderedArray[1], orderedArray[3]) = (orderedArray[3], orderedArray[1]); // Swap elements
+            Console.WriteLine("\nAfter swapping elements:");
+            foreach (UUID uuid in orderedArray)
+            {
+                Console.WriteLine($"  {uuid} - Time: {uuid.Time:HH:mm:ss.fff}");
+            }
+            Console.WriteLine($"Is array still monotonically ordered? {UUID.AreMonotonicallyOrdered(orderedArray)}");
+
+            Console.WriteLine("\n15. Thread-Safe UUID Generation:");
             HashSet<UUID> set = new();
             List<Task> tasks = new();
 
@@ -276,7 +321,7 @@ namespace UUIDDemo
             await Task.WhenAll(tasks);
             Console.WriteLine($"Generated {set.Count} unique UUIDs across multiple threads");
 
-            Console.WriteLine("\n15. Comparing UUID and Guid initialization behaviors:\n");
+            Console.WriteLine("\n16. Comparing UUID and Guid initialization behaviors:\n");
 
             // UUID initialization - always creates a unique identifier
             UUID uuid3 = new();
@@ -312,7 +357,7 @@ namespace UUIDDemo
             Console.WriteLine($"Are they equal? {newGuid1 == newGuid2}");
             Console.WriteLine($"Is first empty? {newGuid1 == default}");
 
-            Console.WriteLine("\n16. Bulk UUID Generation Performance:");
+            Console.WriteLine("\n17. Bulk UUID Generation Performance:");
             const int batchSize = 1000;
             Console.WriteLine($"Generating {batchSize} UUIDs in batch...");
 

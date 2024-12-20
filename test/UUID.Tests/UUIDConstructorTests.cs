@@ -446,8 +446,8 @@ namespace UUIDTests
             // Arrange
             const int threadCount = 10;
             const int uuidsPerThread = 1000;
-            ConcurrentBag<UUID> allUuids = new ConcurrentBag<UUID>();
-            List<Task> tasks = new List<Task>();
+            ConcurrentBag<UUID> allUuids = new();
+            List<Task> tasks = new();
 
             // Act
             for (int i = 0; i < threadCount; i++)
