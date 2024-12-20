@@ -68,12 +68,17 @@
                     <tr>
                         <td>Version</td>
                         <td>byte</td>
-                        <td>Gets the UUID version number</td>
+                        <td>Gets the UUID version number (7 for UUIDv7)</td>
                     </tr>
                     <tr>
                         <td>Variant</td>
                         <td>byte</td>
-                        <td>Gets the UUID variant number</td>
+                        <td>Gets the UUID variant number (2 for RFC 4122)</td>
+                    </tr>
+                    <tr>
+                        <td>Time</td>
+                        <td>DateTimeOffset</td>
+                        <td>Gets the timestamp embedded in the UUID (UUIDv7 only)</td>
                     </tr>
                 </table>
             </div>

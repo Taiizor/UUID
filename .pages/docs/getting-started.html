@@ -69,7 +69,15 @@ var id = new UUID();
 string str = id.ToString();  // "0123456789abcdef0123456789abcdef"
 
 // Parse from string
-UUID parsed = UUID.Parse("0123456789abcdef0123456789abcdef");</code></pre>
+UUID parsed = UUID.Parse("0123456789abcdef0123456789abcdef");
+
+// Check UUID version and variant
+Console.WriteLine($"Version: {id.Version}"); // 7 (UUIDv7)
+Console.WriteLine($"Variant: {id.Variant}"); // 2 (RFC 4122)
+
+// Get timestamp from UUID
+Console.WriteLine($"Time: {id.Time:yyyy-MM-dd HH:mm:ss.fff}");
+</code></pre>
             </div>
         </section>
 
