@@ -90,13 +90,40 @@ namespace System
         }
 
         /// <summary>
+        /// Creates a new compact UUID that is 12 characters long.
+        /// This method provides a shorter, more compact identifier format while maintaining uniqueness.
+        /// </summary>
+        /// <returns>A new UUID instance optimized for compact representation (12 characters).</returns>
+        /// <example>
+        /// <code>
+        /// // Generate a compact 12-character UUID
+        /// var uuid = UUID.NewCompact();
+        /// // Output example: 867349715132
+        /// </code>
+        /// </example>
+        public static UUID NewCompact()
+        {
+            UUID uuid = new();
+            return new UUID((ulong)(uuid.ToInt64() >> 15), (ulong)(uuid.ToInt64() & 0x7FFF));
+        }
+
+        /// <summary>
+        /// Creates a new compact UUID using the specified timestamp.
+        /// Useful when you need to generate a compact UUID with a specific timestamp.
+        /// </summary>
+        /// <param name="timestamp">The timestamp to use (Unix milliseconds).</param>
+        /// <returns>A new UUID instance with the specified timestamp in compact format.</returns>
+        public static UUID NewCompactWithTime(long timestamp)
+        {
+            UUID uuid = new((ulong)(timestamp << 16), GenerateRandom());
+            return new UUID((ulong)(uuid.ToInt64() >> 15), (ulong)(uuid.ToInt64() & 0x7FFF));
+        }
+
+        /// <summary>
         /// Generates a timestamp component for the UUID.
         /// </summary>
         /// <returns>A 64-bit unsigned integer containing the timestamp and additional random data.</returns>
         /// <remarks>
-        /// The timestamp format varies by UUID version:
-        /// - V7: First 48 bits contain Unix timestamp in milliseconds
-        /// - V8: Timestamp is stored in the last 48 bits
         /// Random data is added to ensure uniqueness within the same millisecond.
         /// Thread safety is handled by the _lock object when necessary.
         /// </remarks>
@@ -170,11 +197,11 @@ namespace System
 #if NET6_0_OR_GREATER
             ReadOnlySpan<char> span = input.AsSpan();
 
-            if (!ulong.TryParse(span.Slice(0, 16), NumberStyles.HexNumber, null, out ulong timestamp))
+            if (!ulong.TryParse(span[..16], NumberStyles.HexNumber, null, out ulong timestamp))
             {
                 return false;
             }
-            if (!ulong.TryParse(span.Slice(16), NumberStyles.HexNumber, null, out ulong random))
+            if (!ulong.TryParse(span[16..], NumberStyles.HexNumber, null, out ulong random))
             {
                 return false;
             }
