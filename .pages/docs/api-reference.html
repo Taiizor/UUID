@@ -145,18 +145,27 @@ public static UUID FromGuid(Guid guid)</code></pre>
 
             <h3>Comparison Methods</h3>
             <div class="code-block">
-                <pre><code class="language-csharp">public bool Equals(UUID other)
+                <pre><code class="language-csharp">// Standard equality methods
+public bool Equals(UUID other)
 public override bool Equals(object obj)
 public override int GetHashCode()
-public int CompareTo(UUID other)
-public int CompareTo(object? obj)
 
+// Comparison methods (implements IComparable)
+public int CompareTo(UUID other)
+public int CompareTo(object obj)
+
+// Comparison operators
 public static bool operator ==(UUID left, UUID right)
 public static bool operator !=(UUID left, UUID right)
 public static bool operator &lt;(UUID left, UUID right)
 public static bool operator &gt;(UUID left, UUID right)
 public static bool operator &lt;=(UUID left, UUID right)
-public static bool operator &gt;=(UUID left, UUID right)</code></pre>
+public static bool operator &gt;=(UUID left, UUID right)
+
+// UUIDv7 specific comparisons
+public bool IsOrderedAfter(UUID other)
+public static int CompareTimestamps(UUID a, UUID b)
+public static bool AreMonotonicallyOrdered(UUID[] uuids)</code></pre>
             </div>
         </section>
 

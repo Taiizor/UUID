@@ -194,6 +194,30 @@ namespace System
         }
 
         /// <summary>
+        /// Compares the timestamps between two UUIDs.
+        /// </summary>
+        /// <param name="a">First UUID to compare.</param>
+        /// <param name="b">Second UUID to compare.</param>
+        /// <returns>
+        /// A negative value if a is earlier than b;
+        /// zero if they have the same timestamp;
+        /// a positive value if a is later than b.
+        /// </returns>
+        public static int CompareTimestamps(UUID a, UUID b)
+        {
+            return a._timestamp.CompareTo(b._timestamp);
+        }
+
+        /// <summary>
+        /// Gets the monotonic counter value for this UUID.
+        /// </summary>
+        /// <returns>The counter value used for ordering within the same millisecond.</returns>
+        public ushort GetMonotonicCounter()
+        {
+            return (ushort)(Random & 0xFFF); // Extract last 12 bits
+        }
+
+        /// <summary>
         /// Gets a monotonically increasing counter for UUIDs generated within the same millisecond.
         /// </summary>
         /// <param name="timestamp">The current timestamp in milliseconds</param>
@@ -222,6 +246,33 @@ namespace System
         }
 
         /// <summary>
+        /// Checks if an array of UUIDs is monotonically ordered.
+        /// </summary>
+        /// <param name="uuids">Array of UUIDs to check.</param>
+        /// <returns>True if the UUIDs are in monotonic order.</returns>
+        /// <remarks>
+        /// This method verifies that each UUID in the array is ordered after
+        /// its predecessor, ensuring strict temporal ordering.
+        /// </remarks>
+        public static bool AreMonotonicallyOrdered(UUID[] uuids)
+        {
+            if (uuids == null || uuids.Length < 2)
+            {
+                return true;
+            }
+
+            for (int i = 1; i < uuids.Length; i++)
+            {
+                if (!uuids[i].IsOrderedAfter(uuids[i - 1]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Generates a cryptographically secure random component for the UUID.
         /// </summary>
         /// <returns>A 64-bit unsigned integer containing random data.</returns>
@@ -237,6 +288,25 @@ namespace System
             random = (random & 0x3FFF_FFFF_FFFF_FFFF) | ((ulong)VARIANT << 62);
 
             return random;
+        }
+
+        /// <summary>
+        /// Checks if this UUID is ordered after another UUID.
+        /// </summary>
+        /// <param name="other">The UUID to compare with.</param>
+        /// <returns>True if this UUID is ordered after the other UUID.</returns>
+        /// <remarks>
+        /// This method compares UUIDs based on their timestamp and counter values.
+        /// It is useful for maintaining temporal ordering of UUIDs.
+        /// </remarks>
+        public bool IsOrderedAfter(UUID other)
+        {
+            if (_timestamp != other._timestamp)
+            {
+                return _timestamp > other._timestamp;
+            }
+
+            return GetMonotonicCounter() > other.GetMonotonicCounter();
         }
 
         /// <summary>
