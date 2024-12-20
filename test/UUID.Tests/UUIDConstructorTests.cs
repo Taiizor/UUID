@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -367,6 +369,129 @@ namespace UUIDTests
             // Assert
             Assert.Equal(value1, value2);
             Assert.True(value1 >= 0, "Converted long value should be non-negative");
+        }
+
+        [Fact]
+        public void TestUUIDVersion()
+        {
+            // Arrange & Act
+            UUID uuid = UUID.New();
+
+            // Assert
+            Assert.Equal(0x07, uuid.Version); // UUIDv7
+        }
+
+        [Fact]
+        public void TestUUIDVariant()
+        {
+            // Arrange & Act
+            UUID uuid = UUID.New();
+
+            // Assert
+            Assert.Equal(0x02, uuid.Variant); // RFC 4122
+        }
+
+        [Fact]
+        public void TestMonotonicOrderingInSameMillisecond()
+        {
+            // Arrange
+            const int count = 1000;
+            List<UUID> uuids = new();
+
+            // Act - Generate UUIDs as fast as possible to get many in the same millisecond
+            for (int i = 0; i < count; i++)
+            {
+                uuids.Add(UUID.New());
+            }
+
+            // Assert
+            for (int i = 1; i < uuids.Count; i++)
+            {
+                Assert.True(uuids[i] > uuids[i - 1],
+                    "UUIDs should maintain monotonic ordering even within the same millisecond");
+            }
+        }
+
+        [Fact]
+        public void TestUUIDFormatStructure()
+        {
+            // Arrange
+            UUID uuid = UUID.New();
+            string uuidStr = uuid.ToString();
+
+            // Act & Assert
+            // Check timestamp portion (first 48 bits = 12 hex chars)
+            string timestampHex = uuidStr[..12];
+            Assert.Equal(12, timestampHex.Length);
+            Assert.True(long.TryParse(timestampHex, NumberStyles.HexNumber, null, out _));
+
+            // Check version (13th character should be 7)
+            Assert.Equal('7', uuidStr[12]);
+
+            // Check counter portion (next 12 bits = 3 hex chars)
+            string counterHex = uuidStr.Substring(13, 3);
+            Assert.Equal(3, counterHex.Length);
+            Assert.True(int.TryParse(counterHex, NumberStyles.HexNumber, null, out int counter));
+            Assert.True(counter <= 0xFFF);
+
+            // Check remaining random bits
+            string randomHex = uuidStr[16..];
+            Assert.Equal(16, randomHex.Length);
+            Assert.True(long.TryParse(randomHex, NumberStyles.HexNumber, null, out _));
+        }
+
+        [Fact]
+        public void TestThreadSafetyWithMonotonicCounter()
+        {
+            // Arrange
+            const int threadCount = 10;
+            const int uuidsPerThread = 1000;
+            ConcurrentBag<UUID> allUuids = new ConcurrentBag<UUID>();
+            List<Task> tasks = new List<Task>();
+
+            // Act
+            for (int i = 0; i < threadCount; i++)
+            {
+                tasks.Add(Task.Run(() =>
+                {
+                    for (int j = 0; j < uuidsPerThread; j++)
+                    {
+                        allUuids.Add(UUID.New());
+                    }
+                }));
+            }
+            Task.WaitAll(tasks.ToArray());
+
+            // Assert
+            List<UUID> sortedUuids = allUuids.OrderBy(u => u).ToList();
+
+            // Check for uniqueness
+            Assert.Equal(threadCount * uuidsPerThread, sortedUuids.Distinct().Count());
+
+            // Check for monotonic ordering
+            for (int i = 1; i < sortedUuids.Count; i++)
+            {
+                Assert.True(sortedUuids[i] > sortedUuids[i - 1],
+                    "UUIDs should maintain monotonic ordering across threads");
+            }
+        }
+
+        [Fact]
+        public void TestTimeAccuracy()
+        {
+            // Arrange
+            DateTimeOffset before = DateTimeOffset.UtcNow;
+            Thread.Sleep(1); // Ensure we're in a new millisecond
+
+            // Act
+            UUID uuid = UUID.New();
+
+            Thread.Sleep(1); // Ensure we're in a new millisecond
+            DateTimeOffset after = DateTimeOffset.UtcNow;
+
+            // Assert
+            Assert.True(uuid.Time >= before);
+            Assert.True(uuid.Time <= after);
         }
     }
 }

@@ -6,14 +6,15 @@ namespace System
     /// <summary>
     /// UUID represents a modern and efficient unique identifier implementation,
     /// designed for high performance and enhanced security in distributed systems.
-    /// This implementation follows UUIDv7 principles (draft-ietf-uuidrev-rfc4122bis).
+    /// This implementation follows UUIDv7 standard (draft-ietf-uuidrev-rfc4122bis).
     /// </summary>
     /// <remarks>
     /// This implementation provides:
-    /// - Time-based ordering: Identifiers are sortable by creation time (48-bit timestamp)
-    /// - Security: Uses cryptographically secure random numbers
-    /// - Performance: Optimized for high-performance scenarios
-    /// - Compatibility: Full integration with .NET ecosystem
+    /// - Time-based ordering: 48-bit Unix timestamp (milliseconds)
+    /// - Monotonic counter: 12-bit sequence counter for same-millisecond ordering
+    /// - Version bits: 4 bits indicating UUIDv7
+    /// - Variant bits: 2 bits as per RFC 4122
+    /// - Random bits: Remaining bits for uniqueness
     /// - Thread Safety: All operations are thread-safe
     /// </remarks>
     public readonly partial struct UUID(ulong timestamp, ulong random) : IEquatable<UUID>, IComparable<UUID>, IComparable
@@ -26,6 +27,49 @@ namespace System
         /// This follows the standard UUID specification as defined in RFC 4122.
         /// </remarks>
         private const int SIZE = 16;
+
+        /// <summary>
+        /// Thread-safe counter for monotonic sequence within same millisecond.
+        /// Used to ensure unique and ordered UUIDs when multiple are generated 
+        /// in the same millisecond.
+        /// </summary>
+        private static int _counter;
+
+        /// <summary>
+        /// Gets the variant number of this UUID.
+        /// </summary>
+        /// <remarks>
+        /// Returns 2 for RFC 4122 variant UUIDs.
+        /// This is used to indicate the layout of bits in the UUID.
+        /// </remarks>
+        public byte Variant => VARIANT;
+
+        /// <summary>
+        /// Gets the version number of this UUID.
+        /// </summary>
+        /// <remarks>
+        /// Returns 7 for UUIDv7 (time-ordered with additional random bits).
+        /// The version number indicates how the UUID was generated.
+        /// </remarks>
+        public byte Version => VERSION;
+
+        /// <summary>
+        /// RFC 4122 variant identifier (2).
+        /// Used to indicate the layout of bits in the UUID.
+        /// </summary>
+        private const byte VARIANT = 0x02;
+
+        /// <summary>
+        /// UUID version identifier (7).
+        /// Indicates this is a Version 7 UUID (time-ordered).
+        /// </summary>
+        private const byte VERSION = 0x07;
+
+        /// <summary>
+        /// Stores the timestamp of the last generated UUID.
+        /// Used for maintaining monotonic ordering within the same millisecond.
+        /// </summary>
+        private static long _lastTimestamp;
 
         /// <summary>
         /// Gets the random component of the UUID.
@@ -41,6 +85,12 @@ namespace System
         /// The timestamp component of the UUID.
         /// </summary>
         internal readonly ulong _timestamp = timestamp;
+
+        /// <summary>
+        /// Lock object for thread-safe counter operations.
+        /// Ensures monotonic ordering of UUIDs generated within the same millisecond.
+        /// </summary>
+        private static readonly object _counterLock = new();
 
         /// <summary>
         /// Characters used in Base32 encoding.
@@ -132,10 +182,43 @@ namespace System
         /// </remarks>
         private static ulong GenerateTimestamp()
         {
-            ushort random = (ushort)_rng.Value!.Next(ushort.MaxValue);
             long unixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            int counter = GetMonotonicCounter(unixMs);
 
-            return (((ulong)unixMs & 0x0000_FFFF_FFFF_FFFF) << 16) | random;
+            // Format: 48 bits timestamp + 4 bits version + 12 bits counter
+            ulong timestamp = ((ulong)unixMs & 0x0000_FFFF_FFFF_FFFF) << 16;
+            timestamp |= (ulong)VERSION << 12;
+            timestamp |= (uint)counter;
+
+            return timestamp;
+        }
+
+        /// <summary>
+        /// Gets a monotonically increasing counter for UUIDs generated within the same millisecond.
+        /// </summary>
+        /// <param name="timestamp">The current timestamp in milliseconds</param>
+        /// <returns>A 12-bit counter value that ensures monotonic ordering</returns>
+        /// <remarks>
+        /// This method ensures that UUIDs generated within the same millisecond
+        /// maintain a strict ordering through the use of a 12-bit counter.
+        /// The counter resets when moving to a new millisecond.
+        /// </remarks>
+        private static int GetMonotonicCounter(long timestamp)
+        {
+            lock (_counterLock)
+            {
+                if (timestamp > _lastTimestamp)
+                {
+                    _counter = 0;
+                    _lastTimestamp = timestamp;
+                }
+                else if (timestamp == _lastTimestamp)
+                {
+                    _counter = (_counter + 1) & 0xFFF; // 12-bit counter
+                }
+
+                return _counter;
+            }
         }
 
         /// <summary>
@@ -148,7 +231,12 @@ namespace System
         /// </remarks>
         private static ulong GenerateRandom()
         {
-            return ((ulong)_rng.Value!.Next() << 32) | (uint)_rng.Value!.Next();
+            ulong random = ((ulong)_rng.Value!.Next() << 32) | (uint)_rng.Value!.Next();
+
+            // Set the variant bits
+            random = (random & 0x3FFF_FFFF_FFFF_FFFF) | ((ulong)VARIANT << 62);
+
+            return random;
         }
 
         /// <summary>
@@ -313,6 +401,7 @@ namespace System
         public string ToBase64()
         {
             byte[] bytes = new byte[SIZE];
+
             TryWriteBytes(bytes);
 
             return Convert.ToBase64String(bytes);
