@@ -49,7 +49,7 @@ namespace UUIDDemo
 
             Console.WriteLine("\n5. Compact UUID Operations:");
             Console.WriteLine("Creating compact UUIDs (12 characters):");
-            
+
             // Temel kompakt UUID
             UUID compact = UUID.NewCompact();
             Console.WriteLine($"Compact UUID: {compact.ToInt64()}");

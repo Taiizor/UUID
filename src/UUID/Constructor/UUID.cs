@@ -6,11 +6,11 @@ namespace System
     /// <summary>
     /// UUID represents a modern and efficient unique identifier implementation,
     /// designed for high performance and enhanced security in distributed systems.
-    /// This implementation follows RFC 4122 standards.
+    /// This implementation follows UUIDv7 principles (draft-ietf-uuidrev-rfc4122bis).
     /// </summary>
     /// <remarks>
     /// This implementation provides:
-    /// - Monotonicity: Identifiers are sortable by creation time
+    /// - Time-based ordering: Identifiers are sortable by creation time (48-bit timestamp)
     /// - Security: Uses cryptographically secure random numbers
     /// - Performance: Optimized for high-performance scenarios
     /// - Compatibility: Full integration with .NET ecosystem
@@ -33,9 +33,7 @@ namespace System
         /// <remarks>
         /// The random component ensures uniqueness even when UUIDs are generated 
         /// within the same timestamp. It consists of 64 bits of cryptographically 
-        /// secure random data, providing a very low probability of collisions.
-        /// This is especially important in distributed systems where multiple UUIDs 
-        /// might be generated simultaneously.
+        /// secure random data.
         /// </remarks>
         public ulong Random { get; } = random;
 
@@ -46,8 +44,11 @@ namespace System
 
         /// <summary>
         /// Characters used in Base32 encoding.
-        /// This set excludes I, L, O to avoid confusion with 1, 1, 0.
         /// </summary>
+        /// <remarks>
+        /// This set excludes I, L, O to avoid confusion with 1, 1, 0.
+        /// Used for generating human-readable representations of UUIDs.
+        /// </remarks>
         private const string ENCODING_CHARS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace System
         /// Creates a new UUID instance with current timestamp.
         /// </summary>
         /// <remarks>
-        /// By default, this constructor creates a Version 7 UUID which:
+        /// This constructor creates a UUID which is:
         /// - Time-ordered for natural sorting
         /// - Contains high-precision timestamp
         /// - Includes random bits for uniqueness
@@ -90,17 +91,16 @@ namespace System
         }
 
         /// <summary>
-        /// Creates a new compact UUID that is 12 characters long.
-        /// This method provides a shorter, more compact identifier format while maintaining uniqueness.
+        /// Generates a compact UUID with a 12-character representation.
         /// </summary>
-        /// <returns>A new UUID instance optimized for compact representation (12 characters).</returns>
-        /// <example>
-        /// <code>
-        /// // Generate a compact 12-character UUID
-        /// var uuid = UUID.NewCompact();
-        /// // Output example: 867349715132
-        /// </code>
-        /// </example>
+        /// <returns>A new UUID instance optimized for compact representation.</returns>
+        /// <remarks>
+        /// The compact UUID:
+        /// - Uses current timestamp for time-ordering
+        /// - Maintains uniqueness through random bits
+        /// - Can be represented in 12 characters
+        /// - Is fully compatible with standard UUID operations
+        /// </remarks>
         public static UUID NewCompact()
         {
             UUID uuid = new();
@@ -108,11 +108,14 @@ namespace System
         }
 
         /// <summary>
-        /// Creates a new compact UUID using the specified timestamp.
-        /// Useful when you need to generate a compact UUID with a specific timestamp.
+        /// Generates a compact UUID with a specified timestamp.
         /// </summary>
-        /// <param name="timestamp">The timestamp to use (Unix milliseconds).</param>
-        /// <returns>A new UUID instance with the specified timestamp in compact format.</returns>
+        /// <param name="timestamp">Unix timestamp in milliseconds</param>
+        /// <returns>A new UUID instance with the specified timestamp.</returns>
+        /// <remarks>
+        /// Useful for creating time-based sequences or testing scenarios.
+        /// The timestamp is preserved in the final UUID representation.
+        /// </remarks>
         public static UUID NewCompactWithTime(long timestamp)
         {
             UUID uuid = new((ulong)(timestamp << 16), GenerateRandom());
@@ -122,10 +125,10 @@ namespace System
         /// <summary>
         /// Generates a timestamp component for the UUID.
         /// </summary>
-        /// <returns>A 64-bit unsigned integer containing the timestamp and additional random data.</returns>
+        /// <returns>A 64-bit unsigned integer containing the timestamp.</returns>
         /// <remarks>
-        /// Random data is added to ensure uniqueness within the same millisecond.
-        /// Thread safety is handled by the _lock object when necessary.
+        /// The timestamp is based on the current UTC time in milliseconds.
+        /// Thread safety is handled internally.
         /// </remarks>
         private static ulong GenerateTimestamp()
         {
@@ -136,9 +139,13 @@ namespace System
         }
 
         /// <summary>
-        /// Generates a random component for the UUID.
+        /// Generates a cryptographically secure random component for the UUID.
         /// </summary>
-        /// <returns>A 64-bit random unsigned integer.</returns>
+        /// <returns>A 64-bit unsigned integer containing random data.</returns>
+        /// <remarks>
+        /// Uses a thread-local cryptographic random number generator
+        /// to ensure both security and performance.
+        /// </remarks>
         private static ulong GenerateRandom()
         {
             return ((ulong)_rng.Value!.Next() << 32) | (uint)_rng.Value!.Next();

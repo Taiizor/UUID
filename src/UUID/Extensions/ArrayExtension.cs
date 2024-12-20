@@ -240,10 +240,12 @@ namespace System
 
             // Use constant-time comparison to prevent timing attacks
             int result = 0;
+
             for (int i = 0; i < first.Length; i++)
             {
                 result |= first[i] ^ second[i];
             }
+
             return result == 0;
         }
 
