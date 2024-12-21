@@ -19,6 +19,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: .pages/package-lock.json
 
       - name: Install Dependencies 📦
         run: |
@@ -28,6 +30,7 @@ jobs:
       - name: Build 🔧
         run: |
           npm run build
+          ls -la dist
         working-directory: .pages
 
       - name: Deploy to GitHub Pages 🚀
@@ -36,3 +39,4 @@ jobs:
           folder: .pages/dist
           branch: gh-pages
           token: ${{ secrets.GITHUB_TOKEN }}
+          clean: true
