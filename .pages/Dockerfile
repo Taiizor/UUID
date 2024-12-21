@@ -22,8 +22,8 @@ FROM nginx:stable-alpine as production-stage
 # Build dosyalarını nginx'e kopyalama
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
-# 80 portunu dışarı açma
-EXPOSE 80
+# 4398 portunu dışarı açma
+EXPOSE 4398
 
 # Nginx'i başlatma
 CMD ["nginx", "-g", "daemon off;"]

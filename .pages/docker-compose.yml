@@ -4,7 +4,7 @@ services:
       context: .
       target: build-stage
     ports:
-      - "8080:8080"
+      - "4398:4398"
     volumes:
       - .:/app
       - /app/node_modules
