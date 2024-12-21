@@ -20,7 +20,7 @@ jobs:
 
       - name: Install Dependencies 📦
         run: |
-          npm ci
+          npm install
         working-directory: .pages
 
       - name: Build 🔧
