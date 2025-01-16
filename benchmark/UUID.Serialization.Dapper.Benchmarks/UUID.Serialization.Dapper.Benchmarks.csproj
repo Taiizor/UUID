@@ -21,7 +21,7 @@
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.1.44" />
         <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.0-preview3.24332.3" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.0" />
     </ItemGroup>
 
 </Project>
