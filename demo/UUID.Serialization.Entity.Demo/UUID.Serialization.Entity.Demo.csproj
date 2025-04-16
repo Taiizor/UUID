@@ -12,7 +12,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.4.25215.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.4.25215.1">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.4.25215.101">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
