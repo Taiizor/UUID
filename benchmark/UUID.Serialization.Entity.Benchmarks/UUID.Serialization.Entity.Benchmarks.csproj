@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <Nullable>enable</Nullable>
@@ -20,7 +20,7 @@
 
     <ItemGroup>
         <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0-preview.4.25215.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0-preview.5.25228.104" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.4.25215.1" />
     </ItemGroup>
 
