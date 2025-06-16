@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.6.25314.101" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.6.25314.101">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.6.25315.103" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.6.25315.103">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
