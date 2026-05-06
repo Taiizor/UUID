@@ -12,7 +12,7 @@
 
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.1.66" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="11.0.0-preview.1.26104.118" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="11.0.0-preview.3.26207.106" />
     </ItemGroup>
 
     <ItemGroup>
