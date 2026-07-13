@@ -22,7 +22,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.0-preview1.26124.5" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.0-preview2.26190.5" />
     </ItemGroup>
 
 </Project>
