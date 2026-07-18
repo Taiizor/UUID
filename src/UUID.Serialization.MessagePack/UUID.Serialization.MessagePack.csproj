@@ -21,8 +21,7 @@
         <Summary>High-performance MessagePack serialization support for UUID library with efficient binary format.</Summary>
         <Description>Provides MessagePack serialization support for the UUID library, enabling high-performance binary serialization and deserialization of UUID values. Features include compact binary representation, thread-safe implementation, comprehensive error handling, and seamless integration with MessagePack's type resolution system. Optimized for both performance and memory efficiency across different .NET platforms.</Description>
         <PackageReadmeFile>README.MD</PackageReadmeFile>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageLicenseExpression></PackageLicenseExpression>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes>All changes are detailed at https://github.com/Taiizor/UUID/wiki/Changelog.</PackageReleaseNotes>
         <PackageTags>uuid guid id msgpack messagepack binary formatter serialization converter dotnet</PackageTags>
@@ -64,10 +63,6 @@
 
     <ItemGroup>
         <None Include="README.MD">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-        <None Include="..\..\LICENSE">
             <Pack>True</Pack>
             <PackagePath></PackagePath>
         </None>

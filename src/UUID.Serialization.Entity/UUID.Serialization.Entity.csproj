@@ -21,8 +21,7 @@
         <Summary>Entity Framework Core value converters and extensions for UUID types.</Summary>
         <Description>Provides Entity Framework Core integration for the UUID library, enabling efficient database storage and mapping of UUID values. Features include binary (16 bytes), string (32 characters), and base64 (24 characters) storage formats, global configuration options, and per-property customization through value converters.</Description>
         <PackageReadmeFile>README.MD</PackageReadmeFile>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageLicenseExpression></PackageLicenseExpression>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes>All changes are detailed at https://github.com/Taiizor/UUID/wiki/Changelog.</PackageReleaseNotes>
         <PackageTags>uuid guid id entity framework core efcore serialization converter dotnet</PackageTags>
@@ -68,10 +67,6 @@
 
     <ItemGroup>
         <None Include="README.MD">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-        <None Include="..\..\LICENSE">
             <Pack>True</Pack>
             <PackagePath></PackagePath>
         </None>
