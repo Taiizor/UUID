@@ -18,7 +18,7 @@
         <PackageReference Include="xunit.v3" Version="4.0.0-pre.108" />
         <PackageReference Include="MessagePack" Version="3.1.8" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0-pre.4">
+        <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0-pre.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
