@@ -1,0 +1,40 @@
+<Solution>
+  <Folder Name="/benchmark/">
+    <Project Path="benchmark/UUID.Benchmarks/UUID.Benchmarks.csproj" />
+    <Project Path="benchmark/UUID.Compare.Benchmarks/UUID.Compare.Benchmarks.csproj" />
+    <Project Path="benchmark/UUID.Serialization.Dapper.Benchmarks/UUID.Serialization.Dapper.Benchmarks.csproj" />
+    <Project Path="benchmark/UUID.Serialization.Entity.Benchmarks/UUID.Serialization.Entity.Benchmarks.csproj" />
+    <Project Path="benchmark/UUID.Serialization.MessagePack.Benchmarks/UUID.Serialization.MessagePack.Benchmarks.csproj" />
+    <Project Path="benchmark/UUID.Serialization.Newtonsoft.Benchmarks/UUID.Serialization.Newtonsoft.Benchmarks.csproj" />
+    <Project Path="benchmark/UUID.Serialization.System.Benchmarks/UUID.Serialization.System.Benchmarks.csproj" />
+  </Folder>
+  <Folder Name="/demo/">
+    <Project Path="demo/UUID.Demo/UUID.Demo.csproj" />
+    <Project Path="demo/UUID.Serialization.Dapper.Demo/UUID.Serialization.Dapper.Demo.csproj" />
+    <Project Path="demo/UUID.Serialization.Entity.Demo/UUID.Serialization.Entity.Demo.csproj" />
+    <Project Path="demo/UUID.Serialization.MessagePack.Demo/UUID.Serialization.MessagePack.Demo.csproj" />
+    <Project Path="demo/UUID.Serialization.Newtonsoft.Demo/UUID.Serialization.Newtonsoft.Demo.csproj" />
+    <Project Path="demo/UUID.Serialization.System.Demo/UUID.Serialization.System.Demo.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="global.json" />
+    <File Path="NuGet.Config" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/UUID.Serialization.Dapper/UUID.Serialization.Dapper.csproj" />
+    <Project Path="src/UUID.Serialization.Entity/UUID.Serialization.Entity.csproj" />
+    <Project Path="src/UUID.Serialization.MessagePack/UUID.Serialization.MessagePack.csproj" />
+    <Project Path="src/UUID.Serialization.Newtonsoft/UUID.Serialization.Newtonsoft.csproj" />
+    <Project Path="src/UUID.Serialization.System/UUID.Serialization.System.csproj" />
+    <Project Path="src/UUID/UUID.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/UUID.Serialization.Dapper.Tests/UUID.Serialization.Dapper.Tests.csproj" />
+    <Project Path="test/UUID.Serialization.Entity.Tests/UUID.Serialization.Entity.Tests.csproj" />
+    <Project Path="test/UUID.Serialization.MessagePack.Tests/UUID.Serialization.MessagePack.Tests.csproj" />
+    <Project Path="test/UUID.Serialization.Newtonsoft.Tests/UUID.Serialization.Newtonsoft.Tests.csproj" />
+    <Project Path="test/UUID.Serialization.System.Tests/UUID.Serialization.System.Tests.csproj" />
+    <Project Path="test/UUID.Tests/UUID.Tests.csproj" />
+  </Folder>
+</Solution>

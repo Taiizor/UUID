@@ -39,7 +39,7 @@ jobs:
             Release
         ]
         solution: [
-            UUID.sln
+            UUID.slnx
         ]
 
     steps:

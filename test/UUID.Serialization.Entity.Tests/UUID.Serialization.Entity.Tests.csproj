@@ -15,14 +15,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="xunit.v3" Version="4.0.0-pre.108" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0-pre.4">
+        <PackageReference Include="xunit.v3" Version="4.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="11.0.0-rc.2.26455.110" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="11.0.0-rc.2.26455.110" />
     </ItemGroup>
 
 </Project>
