@@ -6,7 +6,7 @@
         <LangVersion>preview</LangVersion>
         <AnalysisLevel>preview</AnalysisLevel>
         <ImplicitUsings>enable</ImplicitUsings>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net11.0</TargetFramework>
         <RootNamespace>UUIDSerializationSystemDemo</RootNamespace>
     </PropertyGroup>
 
