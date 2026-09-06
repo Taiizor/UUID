@@ -84,7 +84,7 @@ UUID works on .NET Framework, .NET Standard, .NET Core and .NET.
    <tbody>
       <tr>
          <td>.NET and .NET Core</td>
-         <td>2.0, 2.1, 2.2, 3.0, 3.1, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0</td>
+         <td>2.0, 2.1, 2.2, 3.0, 3.1, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0</td>
       </tr>
       <tr>
          <td>.NET Framework</td>
