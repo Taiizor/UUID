@@ -98,7 +98,7 @@ The converter provides detailed error messages for common scenarios:
 ## Requirements
 
 - UUID library
-- Newtonsoft.Json 13.0.3 or later
+- Newtonsoft.Json 13.0.5-beta1 or later
 - Supports .NET 6.0+, .NET Standard 2.0+, and .NET Framework 4.8+
 
 ## Contributing

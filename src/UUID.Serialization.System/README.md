@@ -78,7 +78,7 @@ The converter provides detailed error messages for common scenarios:
 ## Requirements
 
 - UUID library
-- System.Text.Json 9.0.5 or later
+- System.Text.Json 11.0.0-rc.2.26455.110 or later
 - Supports .NET 6.0+, .NET Standard 2.0+, and .NET Framework 4.8+
 
 ## Contributing

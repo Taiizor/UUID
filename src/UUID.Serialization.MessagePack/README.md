@@ -84,7 +84,7 @@ The formatter provides detailed error messages for common scenarios:
 ## Requirements
 
 - UUID library
-- MessagePack 3.1.4 or later
+- MessagePack 3.1.8 or later
 - Supports .NET 6.0+, .NET Standard 2.0+, and .NET Framework 4.8+
 
 ## Contributing

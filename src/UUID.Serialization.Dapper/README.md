@@ -81,7 +81,7 @@ var users = connection.Query<UserModel>("SELECT * FROM Users");
 ## Requirements
 
 - UUID library
-- Dapper 2.1.66 or later
+- Dapper 2.1.79 or later
 - Supports .NET 6.0+, .NET Standard 2.0+, and .NET Framework 4.8+
 
 ## Contributing
