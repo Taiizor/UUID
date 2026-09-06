@@ -40,7 +40,7 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute Unit Tests
-      run: dotnet test ${{ matrix.solution }} -c ${{ matrix.configuration }} /nowarn:CS0067,CS0108,CS0109,CS0114,CS0169,CS0414,CS0649,CA1416,NU5104,NETSDK1138,SYSLIB0003
+      run: dotnet test ${{ matrix.solution }} -c ${{ matrix.configuration }} -p:NoWarn="CS0067%3BCS0108%3BCS0109%3BCS0114%3BCS0169%3BCS0414%3BCS0649%3BCA1416%3BNU5104%3BNETSDK1138%3BSYSLIB0003"
       env:
         NUGET_CONFIG_PATH: ./NuGet.Config
 
