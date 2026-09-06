@@ -8,22 +8,22 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^3.49.0",
-    "vue": "^3.5.34",
-    "vue-router": "^5.0.7",
+    "core-js": "^3.50.0",
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.1",
     "prismjs": "^1.30.0",
-    "@fortawesome/fontawesome-free": "^7.2.0",
+    "@fortawesome/fontawesome-free": "^7.3.1",
     "@vueuse/head": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/eslint-parser": "^7.28.6",
+    "@babel/core": "^8.0.1",
+    "@babel/eslint-parser": "^8.0.1",
     "@vue/cli-plugin-babel": "~5.0.9",
     "@vue/cli-plugin-eslint": "~5.0.9",
     "@vue/cli-plugin-router": "~5.0.9",
     "@vue/cli-service": "~5.0.9",
-    "eslint": "^10.4.0",
-    "eslint-plugin-vue": "^10.9.1",
+    "eslint": "^10.10.0",
+    "eslint-plugin-vue": "^10.11.0",
     "babel-eslint": "^10.1.0"
   },
   "browserslist": [
