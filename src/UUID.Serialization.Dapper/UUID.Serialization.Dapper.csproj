@@ -21,8 +21,7 @@
         <Summary>High-performance Dapper type handlers for UUID library with efficient database integration.</Summary>
         <Description>Provides Dapper type handlers for the UUID library, enabling seamless integration with database operations. Features include binary and string storage options, thread-safe implementation, comprehensive error handling, and efficient database type mapping. Optimized for both performance and flexibility across different .NET platforms and database systems.</Description>
         <PackageReadmeFile>README.MD</PackageReadmeFile>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageLicenseExpression></PackageLicenseExpression>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes>All changes are detailed at https://github.com/Taiizor/UUID/wiki/Changelog.</PackageReleaseNotes>
         <PackageTags>uuid guid id dapper database orm handler typehandler serialization converter dotnet</PackageTags>
@@ -64,10 +63,6 @@
 
     <ItemGroup>
         <None Include="README.MD">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-        <None Include="..\..\LICENSE">
             <Pack>True</Pack>
             <PackagePath></PackagePath>
         </None>

@@ -21,8 +21,7 @@
         <Summary>System.Text.Json serialization support for UUID library.</Summary>
         <Description>Provides System.Text.Json serialization support for the UUID library, enabling seamless JSON serialization and deserialization of UUID values. Features include efficient string conversion, comprehensive error handling, and full compatibility with System.Text.Json serialization patterns.</Description>
         <PackageReadmeFile>README.MD</PackageReadmeFile>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageLicenseExpression></PackageLicenseExpression>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes>All changes are detailed at https://github.com/Taiizor/UUID/wiki/Changelog.</PackageReleaseNotes>
         <PackageTags>uuid guid id json system.text.json serialization converter dotnet</PackageTags>
@@ -64,10 +63,6 @@
 
     <ItemGroup>
         <None Include="README.MD">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-        <None Include="..\..\LICENSE">
             <Pack>True</Pack>
             <PackagePath></PackagePath>
         </None>
