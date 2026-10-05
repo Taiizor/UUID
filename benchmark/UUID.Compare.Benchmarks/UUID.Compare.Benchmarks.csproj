@@ -20,8 +20,8 @@
     <ItemGroup>
         <PackageReference Include="Ulid" Version="1.4.1" />
         <PackageReference Include="IdGen" Version="3.0.7" />
-        <PackageReference Include="cuid.net" Version="7.0.0" />
-        <PackageReference Include="BenchmarkDotNet" Version="0.16.0-preview.1" />
+        <PackageReference Include="cuid.net" Version="7.1.0" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.16.0-preview.2" />
     </ItemGroup>
 
 </Project>
