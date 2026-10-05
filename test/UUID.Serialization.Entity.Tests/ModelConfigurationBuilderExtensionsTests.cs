@@ -20,11 +20,9 @@ namespace UUIDSerializationEntityTests
         public async Task UseUUIDAsBinary_Should_Configure_All_UUID_Properties()
         {
             // Arrange
-            DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
-                .UseSqlite(_connection)
-                .Options;
+            DbContextOptions<TestDbContext> options = TestDbContext.CreateOptions(_connection);
 
-            await using TestDbContext context = new(options);
+            await using TestDbContext context = new(options, onConfigureConventions: builder => builder.UseUUIDAsBinary());
             await context.Database.EnsureCreatedAsync();
 
             // Act
@@ -59,11 +57,9 @@ namespace UUIDSerializationEntityTests
         public async Task UseUUIDAsString_Should_Configure_All_UUID_Properties()
         {
             // Arrange
-            DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
-                .UseSqlite(_connection)
-                .Options;
+            DbContextOptions<TestDbContext> options = TestDbContext.CreateOptions(_connection);
 
-            await using TestDbContext context = new(options);
+            await using TestDbContext context = new(options, onConfigureConventions: builder => builder.UseUUIDAsString());
             await context.Database.EnsureCreatedAsync();
 
             // Act
@@ -98,11 +94,9 @@ namespace UUIDSerializationEntityTests
         public async Task UseUUIDAsBase64_Should_Configure_All_UUID_Properties()
         {
             // Arrange
-            DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
-                .UseSqlite(_connection)
-                .Options;
+            DbContextOptions<TestDbContext> options = TestDbContext.CreateOptions(_connection);
 
-            await using TestDbContext context = new(options);
+            await using TestDbContext context = new(options, onConfigureConventions: builder => builder.UseUUIDAsBase64());
             await context.Database.EnsureCreatedAsync();
 
             // Act
@@ -140,24 +134,12 @@ namespace UUIDSerializationEntityTests
             command.Parameters.AddWithValue("@Id", id);
 
             object? result = await command.ExecuteScalarAsync();
-            if (result is byte[] bytes)
+            if (result is string text)
             {
-                string stackTrace = Environment.StackTrace;
-                if (stackTrace.Contains("UseUUIDAsBase64"))
-                {
-                    return Convert.ToBase64String(bytes);
-                }
-                else if (stackTrace.Contains("UseUUIDAsString"))
-                {
-                    UUID uuid = UUID.FromByteArray(bytes);
-                    return uuid.ToString();
-                }
-                else
-                {
-                    return BitConverter.ToString(bytes).Replace("-", "");
-                }
+                return text;
             }
-            return result?.ToString() ?? string.Empty;
+
+            throw new InvalidOperationException($"Expected TEXT (string) for column '{columnName}' but got '{result?.GetType().FullName ?? "null"}'.");
         }
 
         private async Task<byte[]> GetRawBytesFromDatabase(string columnName, int id)
@@ -166,7 +148,13 @@ namespace UUIDSerializationEntityTests
             command.CommandText = $"SELECT {columnName} FROM TestEntities WHERE Id = @Id";
             command.Parameters.AddWithValue("@Id", id);
 
-            return (byte[])await command.ExecuteScalarAsync();
+            object? result = await command.ExecuteScalarAsync();
+            if (result is byte[] bytes)
+            {
+                return bytes;
+            }
+
+            throw new InvalidOperationException($"Expected BLOB (byte[]) for column '{columnName}' but got '{result?.GetType().FullName ?? "null"}'.");
         }
 
         public void Dispose()

@@ -16,11 +16,17 @@ namespace UUIDSerializationEntityTests
             _connection = new SqliteConnection("DataSource=:memory:");
             _connection.Open();
 
-            DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
-                .UseSqlite(_connection)
-                .Options;
+            DbContextOptions<TestDbContext> options = TestDbContext.CreateOptions(_connection);
 
-            _context = new TestDbContext(options);
+            _context = new TestDbContext(options, onModelCreating: builder =>
+            {
+                builder.Entity<TestEntity>(entity =>
+                {
+                    entity.Property(e => e.ByteUUID).UseUUIDAsBinary<TestEntity>();
+                    entity.Property(e => e.StringUUID).UseUUIDAsString<TestEntity>();
+                    entity.Property(e => e.Base64UUID).UseUUIDAsBase64<TestEntity>();
+                });
+            });
             _context.Database.EnsureCreated();
         }
 
@@ -265,23 +271,12 @@ namespace UUIDSerializationEntityTests
             command.Parameters.AddWithValue("@Id", id);
 
             object? result = await command.ExecuteScalarAsync();
-            if (result is byte[] bytes)
+            if (result is string text)
             {
-                if (columnName.Contains("Base64"))
-                {
-                    return Convert.ToBase64String(bytes);
-                }
-                else if (columnName.Contains("String"))
-                {
-                    UUID uuid = UUID.FromByteArray(bytes);
-                    return uuid.ToString();
-                }
-                else
-                {
-                    return BitConverter.ToString(bytes).Replace("-", "");
-                }
+                return text;
             }
-            return result?.ToString() ?? string.Empty;
+
+            throw new InvalidOperationException($"Expected TEXT (string) for column '{columnName}' but got '{result?.GetType().FullName ?? "null"}'.");
         }
 
         private async Task<byte[]> GetRawBytesFromDatabase(string columnName, int id)
@@ -295,7 +290,8 @@ namespace UUIDSerializationEntityTests
             {
                 return bytes;
             }
-            return Array.Empty<byte>();
+
+            throw new InvalidOperationException($"Expected BLOB (byte[]) for column '{columnName}' but got '{result?.GetType().FullName ?? "null"}'.");
         }
 
         public void Dispose()

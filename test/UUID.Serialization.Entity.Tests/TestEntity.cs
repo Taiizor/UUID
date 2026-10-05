@@ -9,7 +9,7 @@ namespace UUIDSerializationEntityTests
         [Key]
         public int Id { get; set; }
 
-        [Column(TypeName = "TEXT")]
+        [Column(TypeName = "BLOB")]
         public UUID ByteUUID { get; set; }
 
         [Column(TypeName = "TEXT")]
