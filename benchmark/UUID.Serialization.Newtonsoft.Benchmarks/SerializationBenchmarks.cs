@@ -8,7 +8,7 @@ namespace UUIDSerializationNewtonsoftBenchmarks
     [RankColumn]
     [MemoryDiagnoser]
     [Orderer(SummaryOrderPolicy.FastestToSlowest)]
-    [SimpleJob(RuntimeMoniker.HostProcess, launchCount: 1, warmupCount: 2, iterationCount: 3)]
+    [SimpleJob(RuntimeMoniker.Net11_0, launchCount: 1, warmupCount: 2, iterationCount: 3)]
     public class SerializationBenchmarks
     {
         private readonly JsonSerializerSettings _settings;

@@ -7,7 +7,7 @@ namespace UUIDBenchmarks
     [RankColumn]
     [MemoryDiagnoser]
     [Orderer(SummaryOrderPolicy.FastestToSlowest)]
-    [SimpleJob(RuntimeMoniker.HostProcess, launchCount: 1, warmupCount: 2, iterationCount: 3)]
+    [SimpleJob(RuntimeMoniker.Net11_0, launchCount: 1, warmupCount: 2, iterationCount: 3)]
     public class UUIDBenchmarks
     {
         private readonly long[] _longResults = new long[1000];
